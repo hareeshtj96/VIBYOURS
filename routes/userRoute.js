@@ -1,8 +1,17 @@
 const express = require('express');
-const user_route = express();
 
 const session = require('express-session');
 
+const userController = require("../controller/userController");
+
+
+
+const user_route = express();
+
+
+
+
+user_route.use(express.urlencoded({ extended:true}));
 
 user_route.set('view engine','ejs')
 user_route.set('views','./views/user');
@@ -29,7 +38,7 @@ user_route.get('/',(req,res)=>{
 
 
 
-const userController = require("../controller/userController");
+
 
 user_route.get('/register',userController.loadRegister);
 
@@ -43,7 +52,17 @@ user_route.get('/login',userController.loadLogin);
 
 user_route.post('/login',userController.verifyLogin);
 
+user_route.get('/forgotOTP',userController.loadforgotPassword);
+
+user_route.post('/forgotOTP',userController.forgotPassword);
+
+user_route.get('/resetPassword',userController.loadPasswordReset);
+
+user_route.post('/resetPassword',userController.passwordReset);
+
 user_route.get('/dashboard',userController.loadDashboard);
+
+user_route.get('/home',userController.userLogout);
 
 
 module.exports = user_route;

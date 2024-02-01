@@ -475,13 +475,14 @@
                                         <div class="heading_s1">
                                             <h3 class="mb-30">Login</h3>
                                         </div>
-                                        <form method="post">
+                                        <form method="post" onsubmit="return validateForm(event)">
                                             <div class="form-group">
-                                                <input type="text" required="" name="email" placeholder="Your Email">
+                                                <input type="email" id="email" name="email" placeholder="Your Email" onblur="validateEmail()">
+                                                <p id="emailError" class="error"></p>
                                             </div>
                                             <div class="form-group">
-                                                <input required="" type="password" name="password"
-                                                    placeholder="Password">
+                                                <input type="password" id="password"  name="password" placeholder="Password" onblur="validatePassword()">
+                                                <p id="passwordError" class="error"></p>
                                             </div>
                                             <div class="login_footer form-group">
                                                 <div class="chek-form">
@@ -492,7 +493,7 @@
                                                             for="exampleCheckbox1"><span>Remember me</span></label>
                                                     </div>
                                                 </div>
-                                                <a class="text-muted" href="#">Forgot password?</a>
+                                                <a class="text-muted" href="forgotOTP">Forgot password?</a>
                                             </div>
                                             <div class="form-group">
                                                 <button type="submit" class="btn btn-fill-out btn-block hover-up"
@@ -524,6 +525,68 @@
                             <script src="assets/js/plugins/jquery.theia.sticky.js"></script>
                             <!-- Template  JS -->
                             <script src="./assets/js/main.js?v=3.4"></script>
+
+                            <script>
+                                function validateEmail() {
+                                    var emailInput = document.getElementById('email').value.trim()
+                                    var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                                    var emailError = document.getElementById('emailError');
+                        
+                                    if (!emailPattern.test(emailInput)) {
+                                        emailError.innerHTML = 'Invalid email format. Please enter a valid email address.';
+                        
+                                    } else if (emailInput == "") {
+                                        emailError.innerHTML = 'it is required';
+                                    } else {
+                                        emailError.innerHTML = '';
+                        
+                                    }
+                                }
+                        
+                                function validatePassword() {
+                                    var passwordInput = document.getElementById('password').value.trim()
+                                    var passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
+                                    var passwordError = document.getElementById('passwordError');
+                        
+                                    if (!passwordPattern.test(passwordInput)) {
+                                        passwordError.innerHTML = 'Invalid password format.';
+                        
+                                    } else {
+                                        passwordError.innerHTML = '';
+                        
+                                    }
+                                }
+                        
+                        
+                                
+                        
+                                function validateForm(event) {
+                        
+                                    
+                                    validateEmail();
+                                    validatePassword();
+                                    
+                        
+                                    if (passwordError.innerHTML || emailError.innerHTML) {
+                                        event.preventDefault();
+                                        
+                        
+                                    }
+                                    // else {
+                                    //     // Prevent form submission
+                                    // }
+                        
+                                }
+                        
+                            </script>
+                        
+                            <style>
+                                .error {
+                                    color: red;
+                                    font-size: 14px;
+                                    margin-top: 5px;
+                                }
+                            </style>
 </body>
 
 </html>

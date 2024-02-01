@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-mongoose.connect("mongodb://127.0.0.1:27017/vibyours_ecommerce")
+mongoose.connect("mongodb://127.0.0.1:27017/vibyours_ecommerce");
+
 
 const express = require("express");
 
@@ -17,6 +18,10 @@ app.use("/assets",express.static(path.join(__dirname,"public/assets")))
 const userRoute = require('./routes/userRoute')
 app.use('/',userRoute);
 
+
 app.listen(7000, function(){
     console.log(`server is running at port 7000`)
 });
+
+
+

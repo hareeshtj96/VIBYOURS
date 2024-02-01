@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -26,7 +27,10 @@ const userSchema = new mongoose.Schema({
     is_verified: {
         type: Number,
         default: 0
-    }
+    },
+
+    passwordResetToken: String,
+    passwordResetTokenExpires: Date,
 });
 
 module.exports = mongoose.model('User',userSchema);
