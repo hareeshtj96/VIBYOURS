@@ -46,7 +46,7 @@
                     <div class="col-xl-3 col-lg-4">
                         <div class="header-info header-info-right">
                             <ul>
-                                <li>
+                                <!-- <li>
                                     <a class="language-dropdown-active" href="#"> <i class="fi-rs-world"></i> English <i
                                             class="fi-rs-angle-small-down"></i></a>
                                     <ul class="language-dropdown">
@@ -55,7 +55,7 @@
                                         <li><a href="#"><img src="assets/imgs/theme/flag-dt.png" alt="">Deutsch</a></li>
                                         <li><a href="#"><img src="assets/imgs/theme/flag-ru.png" alt="">Pусский</a></li>
                                     </ul>
-                                </li>
+                                </li> -->
                                 <li><i class="fi-rs-user"></i><a href="login">Log In</a></li>
                                 <li><i class="fi-rs-user"></i><a href="register">Sign Up</a></li>
                             </ul>
@@ -74,16 +74,16 @@
                         class="main-menu main-menu-grow main-menu-padding-1 main-menu-lh-1 main-menu-mrg-1 hm3-menu-padding d-none d-lg-block hover-boder">
                         <nav>
                             <ul>
-                                <li><a class="active" href="index.html">Home <i class="fi-rs-angle-down"></i></a>
-                                    <ul class="sub-menu">
+                                <li><a class="active" href="index.html">Home</a>
+                                    <!-- <ul class="sub-menu">
                                         <li><a href="index.html">Home 1</a></li>
                                         <li><a href="index-2.html">Home 2</a></li>
                                         <li><a href="index-3.html">Home 3</a></li>
                                         <li><a href="index-4.html">Home 4</a></li>
-                                    </ul>
+                                    </ul> -->
                                 </li>
                                 <li><a href="shop-grid-right.html">Shop <i class="fi-rs-angle-down"></i></a>
-                                    <ul class="sub-menu">
+                                    <!-- <ul class="sub-menu">
                                         <li><a href="shop-grid-right.html">Shop Grid – Right Sidebar</a></li>
                                         <li><a href="shop-grid-left.html">Shop Grid – Left Sidebar</a></li>
                                         <li><a href="shop-list-right.html">Shop List – Right Sidebar</a></li>
@@ -101,9 +101,9 @@
                                         <li><a href="shop-cart.html">Shop – Cart</a></li>
                                         <li><a href="shop-checkout.html">Shop – Checkout</a></li>
                                         <li><a href="shop-compare.html">Shop – Compare</a></li>
-                                    </ul>
+                                    </ul> -->
                                 </li>
-                                <li class="position-static"><a href="#">Mega <i class="fi-rs-angle-down"></i></a>
+                                <!-- <li class="position-static"><a href="#">Mega <i class="fi-rs-angle-down"></i></a>
                                     <ul class="mega-menu">
                                         <li class="sub-mega-menu sub-mega-menu-width-22">
                                             <a class="menu-title" href="#">Women's Fashion</a>
@@ -160,8 +160,8 @@
                                             </div>
                                         </li>
                                     </ul>
-                                </li>
-                                <li><a href="blog-category-grid.html">Blog <i class="fi-rs-angle-down"></i></a>
+                                </li> -->
+                                <!-- <li><a href="blog-category-grid.html">Blog <i class="fi-rs-angle-down"></i></a>
                                     <ul class="sub-menu">
                                         <li><a href="blog-category-grid.html">Blog Category Grid</a></li>
                                         <li><a href="blog-category-list.html">Blog Category List</a></li>
@@ -175,7 +175,7 @@
                                             </ul>
                                         </li>
                                     </ul>
-                                </li>
+                                </li> -->
                                 <li><a href="#">Pages <i class="fi-rs-angle-down"></i></a>
                                     <ul class="sub-menu">
                                         <li><a href="page-about.html">About Us</a></li>
@@ -468,21 +468,25 @@
                 <div class="row">
                     <div class="col-lg-10 m-auto">
                         <div class="row">
-                            <div class="col-lg-5">
+                            <div class="col-lg-5 mx-auto">
                                 <div
                                     class="login_wrap widget-taber-content p-30 background-white border-radius-10 mb-md-5 mb-lg-0 mb-sm-5">
                                     <div class="padding_eight_all bg-white">
                                         <div class="heading_s1">
                                             <h3 class="mb-30">One Time Password</h3>
                                         </div>
-                                         <form method="post">
+                                        <form method="post">
                                             <form method="post" action="" style="display: none;" id="otpForm">
                                                 <div class="form-group">
                                                     <input type="text" required="" name="otp" placeholder="Enter OTP">
                                                 </div>
                                                 <div class="form-group">
-                                                    <button type="submit" class="btn btn-fill-out btn-block hover-up" name="verify-otp">Verify OTP</button>
+                                                    <button type="submit" class="btn btn-fill-out btn-block hover-up"
+                                                        name="verify-otp">Verify OTP</button>
                                                 </div>
+                                                <button id="resendLink" class="btn btn-fill-out btn-block hover-up"
+                                                    onclick="resendOTP()">Resend OTP</button>
+                                                <p id="timer"></p>
                                             </form>
                                         </form>
                                     </div>
@@ -510,6 +514,63 @@
                             <script src="assets/js/plugins/jquery.theia.sticky.js"></script>
                             <!-- Template  JS -->
                             <script src="./assets/js/main.js?v=3.4"></script>
+
+                            <script>
+
+
+                                let timer;
+                                let countdown = 30; //duration in seconds
+
+                                document.addEventListener('DOMContentLoaded', () => {
+                                    // Disable Resend OTP button on page load
+                                    document.getElementById('resendLink').disabled = true;
+
+                                    // Start the countdown
+                                    timer = setInterval(updateTimer, 1000);
+                                }) ;
+
+                                function resendOTP() {
+                                    document.getElementById('resendLink').disabled = true;
+
+                                    // starting the countdown
+                                    timer = setInterval(updateTimer, 1000);
+
+                                    fetch('/resendOTP', { method: 'POST' })
+                                        .then(response => {
+                                            if (response.ok) {
+                                                console.log('OPT resent successfully');
+
+                                                document.getElementById('resendLink').disabled = false;
+                                            } else {
+                                                console.error('Failed to resend OTP via backend')
+                                            }
+                                        })
+                                        .catch(error => console.error(error.message))
+                                }
+
+                                function updateTimer() {
+                                    const timerElement = document.getElementById('timer');
+
+                                    if (countdown > 0) {
+                                        timerElement.textContent = `resendOTP in ${countdown} seconds`;
+                                        countdown--;
+                                    } else {
+                                        //enable the resent otp when countdown reaches zero
+                                        document.getElementById('resendLink').disabled = false;
+                                        timerElement.textContent = '';
+
+                                        //reset countdown for next attempt
+                                        countdown = 30;
+
+                                        //stop timer
+                                        clearInterval(timer);
+                                    }
+                                }
+
+
+
+                            </script>
+
 </body>
 
 </html>

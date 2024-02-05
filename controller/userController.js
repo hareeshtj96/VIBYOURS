@@ -37,6 +37,7 @@ const insertUser = async (req, res) => {
 
     try {
 
+        const otpTimeout = 30*1000;
         const otp = generateOTP();
         console.log('Generated OTP in insertUser:', otp);
 
@@ -63,6 +64,7 @@ const insertUser = async (req, res) => {
         const emailSent = await sendOTPEmail(req.body.email, otp);
         if (emailSent) {
             res.redirect('/otp');
+            
 
         }
         // else {
@@ -74,9 +76,40 @@ const insertUser = async (req, res) => {
     }
 }
 
+//resend otp
+const resendOTP = async(req,res) => {
+    try {
+        const newOTP = generateOTP();
+        console.log("generated new otp:", newOTP);
+
+        req.session.registrationData.otp = newOTP;
+        req.session.registrationData.otpTimeout = 30 * 1000;
+
+        //Resend OTP via email
+        const emailResent = await sendOTPEmail(req.session.registrationData.email, newOTP)
+        if(emailResent) {
+            res.redirect('/otp')
+        } else {
+            res.render('error', { message: "Failed to resent OTP via email"})
+        }
+    } catch(error) {
+        console.log(error.message);
+        res.render('error', { message: "An error occurred while resending OTP." });
+    }
+}
+
+
+
 const loadOtp = async (req, res) => {
     try {
-        res.render('OTP')
+
+        const currentTime = new Date().getTime();
+        const startTime = currentTime - req.session.registrationData.otpTimeout;
+        const remainingTime = req.session.registrationData.otpTimeout - (currentTime - startTime);
+
+        // Render OTP page with remaining time
+        res.render('OTP', { remainingTime });
+        
     } catch (error) {
         console.log(error.message);
     }
@@ -110,6 +143,7 @@ const getOTP = async (req, res) => {
         res.render('error', { message: "An error occurred during OTP verification." });
     }
 };
+
 
 
 
@@ -155,7 +189,7 @@ const verifyLogin = async (req, res) => {
 //forgot password page loading
 const loadforgotPassword = async (req, res) => {
     try {
-        res.render('forgotOTP')
+        res.render('forgotPassword')
         console.log("it is working")
     } catch (error) {
         console.log(error.message)
@@ -294,6 +328,7 @@ module.exports = {
     loadLogin,
     loadOtp,
     getOTP,
+    resendOTP,
     verifyLogin,
     loadforgotPassword,
     forgotPassword,

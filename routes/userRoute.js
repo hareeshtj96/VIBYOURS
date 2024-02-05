@@ -48,13 +48,15 @@ user_route.get('/otp',userController.loadOtp);
 
 user_route.post('/otp',userController.getOTP);
 
+user_route.post('/resendotp',userController.resendOTP);
+
 user_route.get('/login',userController.loadLogin);
 
 user_route.post('/login',userController.verifyLogin);
 
-user_route.get('/forgotOTP',userController.loadforgotPassword);
+user_route.get('/forgotPassword',userController.loadforgotPassword);
 
-user_route.post('/forgotOTP',userController.forgotPassword);
+user_route.post('/forgotPassword',userController.forgotPassword);
 
 user_route.get('/resetPassword',userController.loadPasswordReset);
 
