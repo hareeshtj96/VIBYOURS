@@ -21,14 +21,44 @@ admin_route.use(bodyParser.urlencoded({extended:true}));
 
 
 const adminController =  require("../controller/adminController");
+const productController = require("../controller/productController");
 
 admin_route.get('/',adminController.loadLogin);
 
 admin_route.post('/',adminController.verfiyLogin);
 
-admin_route.get('/adminDashboard',adminController.loadDashboard);
+admin_route.get('/adminHome',adminController.loadHome);
 
 admin_route.get('/logout',adminController.logout);
+
+admin_route.get('/adminDashboard',adminController.adminDashboard);
+
+admin_route.get('/new-user',adminController.newUserLoad);
+
+admin_route.post('/new-user',adminController.addUser);
+
+admin_route.get('/edit-user',adminController.editUserLoad);
+
+admin_route.post('/edit-user',adminController.updateUsers);
+
+admin_route.get('/delete-user',adminController.deleteUser);
+
+admin_route.get('/addProduct',productController.loadProduct);
+
+admin_route.post('/addProduct',productController.verifyProduct);
+
+admin_route.get('/viewProduct',productController.loadProductGrid);
+
+admin_route.get('/editProduct', productController.editProduct);
+
+admin_route.post('/editProduct',productController.updateProduct);
+
+admin_route.get('/deleteProduct/:productId', productController.deleteProduct);
+
+
+admin_route.get('*',function(req,res) {
+    res.redirect('/admin');
+})
 
 
 module.exports = admin_route;

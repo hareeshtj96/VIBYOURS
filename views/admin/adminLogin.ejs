@@ -81,6 +81,21 @@
             <div class="card mx-auto card-login">
                 <div class="card-body">
                     <h4 class="card-title mb-4">Sign in</h4>
+                    <%   if(typeof message != "undefined" && message) { %>
+
+                        <div class="mt-5 mb-3">
+                
+                          <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                
+                            <strong><%=  message  %></strong>
+                
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                
+                          </div>
+                
+                        </div> 
+                
+                      <% }    %>
 
                     <form method="post"  onsubmit="return validateForm(event)">
                         <div id="errorMessage" class="error"></div>
@@ -113,7 +128,7 @@
                         </div> <!-- form-group// -->
                     </form>
 
-                    <p class="text-center small text-muted mb-15">or sign up with</p>
+                    <!-- <p class="text-center small text-muted mb-15">or sign up with</p>
                     <div class="d-grid gap-3 mb-4">
                         <a href="#" class="btn w-100 btn-light font-sm">
                             <svg aria-hidden="true" class="icon-svg" width="20" height="20" viewBox="0 0 20 20">
@@ -137,7 +152,7 @@
                                     fill="#4167B2"></path>
                             </svg> Sign in using Facebook
                         </a>
-                    </div>
+                    </div> -->
                     <p class="text-center mb-4">Don't have account? <a href="#">Sign up</a></p>
                 </div>
             </div>
@@ -151,11 +166,11 @@
             <p class="font-xs mb-30">All rights reserved</p>
         </footer>
     </main>
-    <script src="adminAssets/assets/js/vendors/jquery-3.6.0.min.js"></script>
-    <script src="adminAssets/assets/js/vendors/bootstrap.bundle.min.js"></script>
-    <script src="adminAssets/assets/js/vendors/jquery.fullscreen.min.js"></script>
+    <script src="/adminAssets/assets/js/vendors/jquery-3.6.0.min.js"></script>
+    <script src="/adminAssets/assets/js/vendors/bootstrap.bundle.min.js"></script>
+    <script src="/adminAssets/assets/js/vendors/jquery.fullscreen.min.js"></script>
     <!-- Main Script -->
-    <script src="adminAssets/assets/js/main.js" type="text/javascript"></script>
+    <script src="/adminAssets/assets/js/main.js" type="text/javascript"></script>
 
 
     <script>

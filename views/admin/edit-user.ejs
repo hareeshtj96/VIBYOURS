@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>VIBYOURS</title>
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta property="og:title" content="">
+        <meta property="og:type" content="">
+        <meta property="og:url" content="">
+        <meta property="og:image" content="">
+        <!-- Favicon -->
+        <link rel="shortcut icon" type="image/x-icon" href="/adminAssets/assets/imgs/theme/favicon.svg">
+        <!-- Template CSS -->
+        <link href="/adminAssets/assets/css/main.css" rel="stylesheet" type="text/css" />
+    </head>
+    
+<body>
+    <div class="content-main">
+        <div class="card mx-auto card-login">
+        <div class="title">
+            <h2 class="font-weight-bold">Edit User</h2>
+        </div>
+        <form name="editUserForm" action="" method="post" onsubmit="return validateForm()">
+            <input type="text"  name="name" placeholder="Enter Name" value="<%= user.name %>" required  onkeydown="return/[a-zA-Z_ ]/i.test(event.key)">
+            <br><br>
+            <input type="email"  name="email" placeholder="Enter Email" value="<%= user.email %>" required>
+            <br><br>
+            <input type="text"  name="mobile" placeholder="Enter Mobile" value="<%= user.mobile %>"required onkeydown="return/[0-9\b]/i.test(event.key) || event.keyCode === 8">
+            <br><br>
+            <label>Verified</label>
+            <input type="radio" name="verify" value="1" <% if(user.is_verified == 1){%> checked <%} %> >
+            <label>Unverified</label>
+            <input type="radio" name="verify" value="0" <% if(user.is_verified == 0){%> checked <%} %> >
+            <br><br>
+            <label>Active</label>
+            <input type="radio" name="status" value="0" <% if(user.is_blocked == 0){%> checked <%} %> >
+            <br><br>
+            <label>Blocked</label>
+            <input type="radio" name="status" value="1" <% if(user.is_blocked == 1){%> checked <%} %> >
+            <br><br>
+            <input type="hidden" name="id" value="<%= user._id %>">
+            <input type="submit"  value="Update User">
+            <br><br>
+
+            <a href="/admin/adminDashboard">Go dashboard</a>
+        </form>
+    </div>
+    </div>
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+            margin:0;
+            padding:0
+        }
+
+        .content-main {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card-login {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin:0
+        }
+
+        .title {
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        label {
+            margin-right: 10px;
+        }
+
+        input[type="radio"] {
+            margin-right: 5px;
+        }
+
+        input[type="submit"] {
+            background-color: #1eed6a;
+            color: #ffffff;
+            cursor: pointer;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007bff;
+        }
+    </style>
+
+    
+
+<script>
+    function validateForm() {
+        // Trimming spaces
+        var nameInput = document.forms["editUserForm"]["name"];
+        nameInput.value = nameInput.value.trim();
+
+        var emailInput = document.forms["editUserForm"]["email"];
+        var trimmedEmail = emailInput.value.trim();
+        emailInput.value = trimmedEmail;
+
+        var mobileInput = document.forms["editUserForm"]["mobile"];
+        var trimmedMobile = mobileInput.value.trim();
+        mobileInput.value = trimmedMobile;
+
+        // Check if any field is just spaces
+        if (nameInput.value === "" || emailInput.value === "" || mobileInput.value === "") {
+            alert("Please fill out all fields.");
+            return false;
+        }
+
+         // Check email format using a regular expression
+         var emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z]{2,}$/;
+        if (!emailRegex.test(trimmedEmail)) {
+            alert("Please enter a valid email address.");
+            return false;
+        }
+
+
+        // Check mobile number length
+        if (trimmedMobile.length !== 10) {
+            alert("Mobile number should be exactly 10 digits.");
+            return false;
+        }
+
+        return true;
+    }
+</script>
+        
+
+</body>
+</html>

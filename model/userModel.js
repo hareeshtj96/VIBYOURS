@@ -29,6 +29,11 @@ const userSchema = new mongoose.Schema({
         default: 0
     },
 
+    is_blocked: {
+        type: Number,
+        default: 0
+    },
+
     passwordResetToken: String,
     passwordResetTokenExpires: Date,
 });

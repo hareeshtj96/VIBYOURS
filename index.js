@@ -16,7 +16,7 @@ const path = require('path')
 app.use("/static",express.static(path.join(__dirname,"public")))
 app.use("/assets",express.static(path.join(__dirname,"public/assets")))
 app.use("/adminAssets",express.static(path.join(__dirname,"/public/adminAssets")))
-
+app.use("/uploads",express.static(path.join(__dirname,"/public/uploads")))
 
 //user Route
 const userRoute = require('./routes/userRoute')

@@ -36,8 +36,6 @@ const loadRegister = async (req, res) => {
 const insertUser = async (req, res) => {
 
     try {
-
-        const otpTimeout = 30*1000;
         const otp = generateOTP();
         console.log('Generated OTP in insertUser:', otp);
 
@@ -57,7 +55,8 @@ const insertUser = async (req, res) => {
             mobile: req.body.mobile,
             password: req.body.password,
             otp: otp,
-            is_admin: 0
+            is_admin: 0,
+            is_blocked:0,
         };
 
         //send OTP via email
@@ -67,9 +66,7 @@ const insertUser = async (req, res) => {
             
 
         }
-        // else {
-        //     res.render('error', {message: "Failed to sent OTP via email"});
-        // }  
+          
     } catch (error) {
         console.log(error.message);
         res.render('error', { message: "An error occurred during registration." });
@@ -83,7 +80,7 @@ const resendOTP = async(req,res) => {
         console.log("generated new otp:", newOTP);
 
         req.session.registrationData.otp = newOTP;
-        req.session.registrationData.otpTimeout = 30 * 1000;
+        req.session.registrationData.otpTimeout = 60 * 1000;
 
         //Resend OTP via email
         const emailResent = await sendOTPEmail(req.session.registrationData.email, newOTP)
@@ -129,6 +126,7 @@ const getOTP = async (req, res) => {
                 mobile: req.session.registrationData.mobile,
                 password: spassword,
                 is_admin: 0,
+                is_blocked:0,
             });
             user.is_verified = 1;
             const userData = await user.save();
@@ -170,8 +168,14 @@ const verifyLogin = async (req, res) => {
             const passwordMatch = await bcrypt.compare(password, userData.password);
 
             if (passwordMatch) {
-                req.session.user_id = userData._id;
-                res.redirect('/dashboard');
+                if(userData.is_blocked){
+                    res.render('login', {message: 'Your account is blocked'})
+                } else {
+                    req.session.user_id = userData._id;
+                    res.redirect('/dashboard');
+
+                }
+               
             } else {
                 res.render('login', { message: "Incorrect email and password" })
             }
