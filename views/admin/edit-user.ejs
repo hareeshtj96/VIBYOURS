@@ -23,11 +23,11 @@
             <h2 class="font-weight-bold">Edit User</h2>
         </div>
         <form name="editUserForm" action="" method="post" onsubmit="return validateForm()">
-            <input type="text"  name="name" placeholder="Enter Name" value="<%= user.name %>" required  onkeydown="return/[a-zA-Z_ ]/i.test(event.key)">
+            <input type="text"  name="name" placeholder="Enter Name" value="<%= user.name %>" readonly  onkeydown="return/[a-zA-Z_ ]/i.test(event.key)">
             <br><br>
-            <input type="email"  name="email" placeholder="Enter Email" value="<%= user.email %>" required>
+            <input type="email"  name="email" placeholder="Enter Email" value="<%= user.email %>" readonly>
             <br><br>
-            <input type="text"  name="mobile" placeholder="Enter Mobile" value="<%= user.mobile %>"required onkeydown="return/[0-9\b]/i.test(event.key) || event.keyCode === 8">
+            <input type="text"  name="mobile" placeholder="Enter Mobile" value="<%= user.mobile %>" readonly onkeydown="return/[0-9\b]/i.test(event.key) || event.keyCode === 8">
             <br><br>
             <label>Verified</label>
             <input type="radio" name="verify" value="1" <% if(user.is_verified == 1){%> checked <%} %> >

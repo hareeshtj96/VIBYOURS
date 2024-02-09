@@ -44,6 +44,7 @@
                     <div class="submenu">
                         <!-- <a href="page-products-list.html">Product List</a> -->
                         <a href="viewProduct">Product grid</a>
+                        <a href="category">Categories</a>
 
                     </div>
                 </li>
@@ -250,9 +251,17 @@
                             <div class="col">
                                 <div class="card card-product-grid">
                                     <a href="#" class="img-wrap">
-                                        <img src="/uploads/<%= addProduct[i].images %>"
+                                        <img src="/uploads/<%= addProduct[i].images[0] %>"
                                             alt="<%= addProduct[i].producttitle %>"
                                             style="width: 195px; height: 250px;">
+                                    </a>
+                                    <br>
+                                    <a href="#" class="img-wrap">
+                                        <% for( let j = 1; j < Math.min(addProduct[i].images.length,4); j++ ) { %>
+                                            <img src="/uploads/<%= addProduct[i].images[j] %>"
+                                            alt="<%= addProduct[i].producttitle %>"
+                                            style="width: 50px; height: 50px;">
+                                        <% } %>
                                     </a>
                                     <div class="info-wrap">
                                         <a href="#" class="title text-truncate">

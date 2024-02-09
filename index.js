@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 mongoose.connect("mongodb://127.0.0.1:27017/vibyours_ecommerce");
 
-
 const express = require("express");
 const session = require('express-session');
 

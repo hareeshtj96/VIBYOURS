@@ -2,8 +2,10 @@ const User = require('../model/userModel');
 const generateOTP = require('../utils/otpUtils')
 const sendOTPEmail = require('../utils/emailUtils');
 const forgotOTPEmail = require('../utils/forgotOTP');
-// const jwt = require('jsonwebtoken');
-// const crypto = require('crypto');
+
+const addProduct = require("../model/productModel");
+const addCategory = require("../model/categoryModel");
+
 
 
 const bcrypt = require('bcrypt');
@@ -56,17 +58,17 @@ const insertUser = async (req, res) => {
             password: req.body.password,
             otp: otp,
             is_admin: 0,
-            is_blocked:0,
+            is_blocked: 0,
         };
 
         //send OTP via email
         const emailSent = await sendOTPEmail(req.body.email, otp);
         if (emailSent) {
             res.redirect('/otp');
-            
+
 
         }
-          
+
     } catch (error) {
         console.log(error.message);
         res.render('error', { message: "An error occurred during registration." });
@@ -74,7 +76,7 @@ const insertUser = async (req, res) => {
 }
 
 //resend otp
-const resendOTP = async(req,res) => {
+const resendOTP = async (req, res) => {
     try {
         const newOTP = generateOTP();
         console.log("generated new otp:", newOTP);
@@ -84,12 +86,12 @@ const resendOTP = async(req,res) => {
 
         //Resend OTP via email
         const emailResent = await sendOTPEmail(req.session.registrationData.email, newOTP)
-        if(emailResent) {
+        if (emailResent) {
             res.redirect('/otp')
         } else {
-            res.render('error', { message: "Failed to resent OTP via email"})
+            res.render('error', { message: "Failed to resent OTP via email" })
         }
-    } catch(error) {
+    } catch (error) {
         console.log(error.message);
         res.render('error', { message: "An error occurred while resending OTP." });
     }
@@ -106,7 +108,7 @@ const loadOtp = async (req, res) => {
 
         // Render OTP page with remaining time
         res.render('OTP', { remainingTime });
-        
+
     } catch (error) {
         console.log(error.message);
     }
@@ -126,7 +128,7 @@ const getOTP = async (req, res) => {
                 mobile: req.session.registrationData.mobile,
                 password: spassword,
                 is_admin: 0,
-                is_blocked:0,
+                is_blocked: 0,
             });
             user.is_verified = 1;
             const userData = await user.save();
@@ -168,14 +170,14 @@ const verifyLogin = async (req, res) => {
             const passwordMatch = await bcrypt.compare(password, userData.password);
 
             if (passwordMatch) {
-                if(userData.is_blocked){
-                    res.render('login', {message: 'Your account is blocked'})
+                if (userData.is_blocked) {
+                    res.render('login', { message: 'Your account is blocked' })
                 } else {
                     req.session.user_id = userData._id;
                     res.redirect('/dashboard');
 
                 }
-               
+
             } else {
                 res.render('login', { message: "Incorrect email and password" })
             }
@@ -201,22 +203,22 @@ const loadforgotPassword = async (req, res) => {
 }
 
 // forgot password handling
-const forgotPassword = async(req,res) => {
+const forgotPassword = async (req, res) => {
     console.log("forgotPassword is working");
     try {
         const email = req.body.email;
 
-        const user = await User.findOne({email});
+        const user = await User.findOne({ email });
 
-        if(!user){
-            return res.status(404).json({message:'Email not found'});
+        if (!user) {
+            return res.status(404).json({ message: 'Email not found' });
         }
 
         const otp = generateOTP();
 
         req.session.forgotPass = {
             email: req.body.email,
-            otp :otp
+            otp: otp
         }
 
         const emailSent = await forgotOTPEmail(req.body.email, otp);
@@ -228,10 +230,10 @@ const forgotPassword = async(req,res) => {
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: 'Internal Server Error' });
-        
+
     }
 
-    
+
 };
 
 //password reset page loading
@@ -245,7 +247,7 @@ const loadPasswordReset = async (req, res) => {
 }
 
 // //password reset
-const passwordReset = async(req,res) => {
+const passwordReset = async (req, res) => {
     console.log("password reset working...")
     try {
 
@@ -256,25 +258,25 @@ const passwordReset = async(req,res) => {
         const newPassword = req.body.password;
 
         //hash the new password
-        const hashedPassword = await bcrypt.hash(newPassword,10);
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
         const confirmNewpassword = req.body.confirmNewpassword;
-        
-        if(newPassword!== confirmNewpassword) {
-            return res.status(400).json({message: 'Both passwords do not match'});
+
+        if (newPassword !== confirmNewpassword) {
+            return res.status(400).json({ message: 'Both passwords do not match' });
 
         }
 
-        if(enteredOTP===storedOTP){
+        if (enteredOTP === storedOTP) {
             console.log("successful otp verification")
 
             const user = await User.findOneAndUpdate(
-                {email: req.session.forgotPass.email},
-                {password: hashedPassword},
-                {new: true},
+                { email: req.session.forgotPass.email },
+                { password: hashedPassword },
+                { new: true },
             );
 
-            if(!user) {
-                return res.status(404).json({message: 'User not found'});
+            if (!user) {
+                return res.status(404).json({ message: 'User not found' });
             }
 
             console.log('Email to update:', req.session.forgotPass.email);
@@ -284,14 +286,14 @@ const passwordReset = async(req,res) => {
 
 
         } else {
-            return res.status(400).json({message: 'Invalid OTP'});
+            return res.status(400).json({ message: 'Invalid OTP' });
         }
 
-        
+
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: 'Internal Server Error' });
-        
+
     }
 }
 
@@ -323,8 +325,40 @@ const userLogout = async (req, res) => {
 
 
 
+//load individual product
+const listIndividualProduct = async(req,res)=> {
+    try {
+          
+        const id = req.query.id;
+        const userData = await User.findById(req.session.user_id)
+        const productData = await addProduct.findById({_id:id})
+        const categoryData = await addCategory.find()
+        if(productData){
+            res.render('productDetails', { user: userData, product: productData, category: categoryData })
+        }else {
+            res.redirect('/home');
+        }
+
+    } catch (error) {
+
+        console.log(error.message);
+    }
+}
 
 
+//loading home page
+const load_home = async (req, res) => {
+    try {
+        const userData = await User.findById(req.session.user_id)
+        const productData = await addProduct.find({}).limit(8);
+        const categoryData = await addCategory.find({})
+
+        res.render('home', { user: userData, product: productData, category: categoryData });
+    } catch (error) {
+        console.log(error.message);
+
+    }
+}
 
 module.exports = {
     loadRegister,
@@ -339,6 +373,8 @@ module.exports = {
     loadPasswordReset,
     passwordReset,
     loadDashboard,
-    userLogout
+    userLogout,
+    listIndividualProduct,
+    load_home
 
 };

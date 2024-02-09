@@ -36,7 +36,12 @@ const productSchema = new mongoose.Schema({
 
     images: [{
         type:String
-    }]
+    }],
+
+    is_listed: {
+        type: Number,
+        default: 1
+    },
     
 
 

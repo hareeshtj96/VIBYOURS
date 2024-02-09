@@ -25,7 +25,8 @@
                 <img src="/adminAssets/assets/imgs/theme/logo.svg" class="logo" alt="Evara Dashboard">
             </a>
             <div>
-                <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i> </button>
+                <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i>
+                </button>
             </div>
         </div>
         <nav>
@@ -36,13 +37,15 @@
                     </a>
                 </li>
                 <li class="menu-item has-submenu">
-                    <a class="menu-link" href="page-products-list.html"> <i class="icon material-icons md-shopping_bag"></i>
+                    <a class="menu-link" href="page-products-list.html"> <i
+                            class="icon material-icons md-shopping_bag"></i>
                         <span class="text">Products</span>
                     </a>
                     <div class="submenu">
                         <!-- <a href="page-products-list.html">Product List</a> -->
                         <a href="viewProduct">Product grid</a>
-                        
+                        <a href="category">Categories</a>
+
                     </div>
                 </li>
                 <li class="menu-item has-submenu">
@@ -72,9 +75,9 @@
                         <span class="text">Add product</span>
                     </a>
                     <div class="submenu">
-                        
+
                         <a href="addProduct">Add product</a>
-                        
+
                     </div>
                 </li>
                 <!-- <li class="menu-item has-submenu">
@@ -205,13 +208,14 @@
             </div>
         </header>
         <section class="content-main">
-            <form action="" method="post" enctype="multipart/form-data">
+            <form action="" method="post" enctype="multipart/form-data" onsubmit="return validateForm(event)">
                 <div class="row">
                     <div class="col-6">
                         <div class="content-header">
                             <h2 class="content-title">Add New Product</h2>
                             <div>
-                                <button type="button" class="btn btn-light rounded font-sm mr-5 text-body hover-up">Save to draft</button>
+                                <button type="button" class="btn btn-light rounded font-sm mr-5 text-body hover-up">Save
+                                    to draft</button>
                                 <button type="submit" class="btn btn-md rounded font-sm hover-up">Publish</button>
                             </div>
                         </div>
@@ -229,15 +233,21 @@
                                     <div class="col-md-9">
                                         <div class="mb-4">
                                             <label class="form-label">Product title</label>
-                                            <input type="text" placeholder="Type here" class="form-control" name="producttitle">
+                                            <input type="text" placeholder="Type here" class="form-control"
+                                                name="producttitle" required onblur="validateTitle()">
+                                            <p id="titleError" class="error"></p>
                                         </div>
                                         <div class="mb-4">
                                             <label class="form-label">Description</label>
-                                            <textarea placeholder="Type here" class="form-control" rows="4" name="description"></textarea>
+                                            <textarea placeholder="Type here" class="form-control" rows="4"
+                                                name="description" required onclick="validateDescription()"></textarea>
+                                            <p id="descriptionError" class="error"></p>
+
                                         </div>
                                         <div class="mb-4">
                                             <label class="form-label">Brand name</label>
-                                            <select class="form-select" name="brand">
+                                            <select class="form-select" name="brand" required onblur="validateBrand()">
+
                                                 <option value="Adidas">Adidas</option>
                                                 <option value="Nike">Nike</option>
                                                 <option value="Puma">Puma</option>
@@ -245,7 +255,7 @@
                                         </div>
                                         <div class="mb-4">
                                             <label class="form-label">Size</label>
-                                            <select class="form-select" name="size">
+                                            <select class="form-select" name="size" required onblur="validateSize()">
                                                 <option value="S">S</option>
                                                 <option value="M">M</option>
                                                 <option value="L">L</option>
@@ -255,7 +265,7 @@
                                     </div>
                                 </div>
                                 <hr class="mb-4 mt-0">
-            
+
                                 <!-- Pricing -->
                                 <div class="row">
                                     <div class="col-md-3">
@@ -264,12 +274,17 @@
                                     <div class="col-md-9">
                                         <div class="mb-4">
                                             <label class="form-label">Cost</label>
-                                            <input type="text" placeholder="Rs" class="form-control" name="price">
+                                            <input type="text" placeholder="Rs" class="form-control" value=""
+                                                name="price" required
+                                                onkeydown="return/[0-9\b]/i.test(event.key) || event.keyCode === 8"
+                                                onblur="validatePrice()">
+                                            <p id="priceError" class="error"></p>
+
                                         </div>
                                     </div>
                                 </div>
                                 <hr class="mb-4 mt-0">
-            
+
                                 <!-- Category -->
                                 <div class="row">
                                     <div class="col-md-3">
@@ -278,26 +293,30 @@
                                     <div class="col-md-9">
                                         <div class="mb-4">
                                             <label class="mb-2 form-check form-check-inline" style="width: 45%;">
-                                                <input class="form-check-input" value="clothes" checked="" name="category" type="radio">
+                                                <input class="form-check-input" value="clothes" checked=""
+                                                    name="category" type="radio" required onblur="validateCategory()">
                                                 <span class="form-check-label"> Clothes </span>
                                             </label>
                                             <label class="mb-2 form-check form-check-inline" style="width: 45%;">
-                                                <input class="form-check-input" value="bags" name="category" type="radio">
+                                                <input class="form-check-input" value="bags" name="category"
+                                                    type="radio" required onblur="validateCategory()">
                                                 <span class="form-check-label"> Bags </span>
                                             </label>
                                             <label class="mb-2 form-check form-check-inline" style="width: 45%;">
-                                                <input class="form-check-input" value="sunglasses" name="category" type="radio">
+                                                <input class="form-check-input" value="sunglasses" name="category"
+                                                    type="radio" required onblur="validateCategory()">
                                                 <span class="form-check-label"> Sun glasses </span>
                                             </label>
                                             <label class="mb-2 form-check form-check-inline" style="width: 45%;">
-                                                <input class="form-check-input" value="chains" name="category" type="radio">
+                                                <input class="form-check-input" value="chains" name="category"
+                                                    type="radio" required onblur="validateCategory()">
                                                 <span class="form-check-label"> Chains </span>
                                             </label>
                                         </div>
                                     </div>
                                 </div>
                                 <hr class="mb-4 mt-0">
-            
+
                                 <!-- Media -->
                                 <div class="row">
                                     <div class="col-md-3">
@@ -306,7 +325,9 @@
                                     <div class="col-md-9">
                                         <div class="mb-4">
                                             <label class="form-label">Images</label>
-                                            <input class="form-control" type="file" name="images" multiple>
+                                            <input class="form-control" type="file" name="images" multiple required
+                                                onblur="validateImages()">
+                                            <p id="imagesError" class="error"></p>
                                         </div>
                                     </div>
                                 </div>
@@ -314,8 +335,9 @@
                         </div>
                     </div>
                 </div>
+
             </form>
-            
+
         </section>
         <footer class="main-footer font-xs">
             <div class="row pb-30 pt-15">
@@ -339,6 +361,152 @@
     <script src="/adminAssets/assets/js/vendors/jquery.fullscreen.min.js"></script>
     <!-- Main Script -->
     <script src="/adminAssets/assets/js/main.js" type="text/javascript"></script>
+
+
+    <script>
+
+
+
+
+        function validateTitle() {
+            var titleInput = document.getElementsByName('producttitle')[0].value.trim();
+            var titleError = document.getElementById('titleError');
+
+            console.log('titleInput',titleInput);
+
+            if (titleInput == "") {
+                titleError.innerHTML = 'Product title is required';
+                //clearing message after 3 seconds
+                setTimeout(function () {
+                    titleError.innerHTML = '';
+                }, 3000)
+
+            } else {
+                titleError.innerHTML = '';
+            }
+        }
+
+        function validateDescription() {
+            var descriptionInput = document.getElementsByName('description').value.trim();
+            var descriptionError = document.getElementById('descriptionError');
+
+            console.log('Description Input:', descriptionInput)
+
+            if (descriptionInput == "") {
+                descriptionError.innerHTML = 'Description is required';
+                //clearing message after 3 seconds
+                setTimeout(function () {
+                    descriptionError.innerHTML = '';
+                }, 3000)
+            } else {
+                descriptionError.innerHTML = '';
+            }
+        }
+
+        function validatePrice() {
+            alert("from validateprice")
+            var priceInput = document.getElementsByName('price')[0].value.trim();
+            var priceError = document.getElementById('priceError');
+            var priceValue = parseFloat(priceInput);
+
+            if (priceInput == "") {
+                // alert("from validateprice if")
+                priceError.innerHTML = 'Price is required';
+
+                //clearing message after 3 seconds
+                setTimeout(function () {
+                    priceError.innerHTML = '';
+                }, 3000)
+                return false;
+
+            } else if (priceValue < 0) {
+                // alert("from validateprice elseif")
+                priceError.innerHTML = 'Price must be positive';
+                //clearing message after 3 seconds
+                setTimeout(function () {
+                    priceError.innerHTML = '';
+                }, 3000)
+                return false;
+
+            } else {
+                // alert("from validateprice else")
+                priceError.innerHTML = '';
+                return true;
+            }
+        }
+
+        function validateImages() {
+            var imagesInput = document.getElementsByName('images')[0];
+            var imagesError = document.getElementById('imagesError');
+
+
+            if (imagesInput == "") {
+                imagesError.innerHTML = 'this field is required';
+
+                //clearing message after 3 seconds
+                setTimeout(function () {
+                    imagesError.innerHTML = '';
+                }, 3000)
+            } else {
+                imagesError.innerHTML = '';
+            }
+
+        }
+
+
+
+        function validateForm(event) {
+
+            // alert("from validatepriceForm")
+            //Checking if any error message
+            const titleError = document.getElementById('titleError');
+            const descriptionError = document.getElementById('descriptionError');
+            const priceError = document.getElementById('priceError');
+            const imagesError = document.getElementById('imagesError');
+
+            var isTitleValid = validateTitle();
+            var isDescriptionValid = validateDescription();
+            var isPriceValid = validatePrice();
+            var isImagesValid = validateImages();
+
+
+
+            
+            }
+
+
+           
+        
+
+
+        function displayErrorMessage(message) {
+            const errorMessageElement = document.getElementById("errorMessage");
+            errorMessageElement.textContent = message;
+
+            // Display the error message for 5 seconds
+            setTimeout(function () {
+                errorMessageElement.textContent = "";
+            }, 3000);
+        }
+
+
+    </script>
+
+    <style>
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+    </style>
+
+
 </body>
 
 </html>

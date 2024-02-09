@@ -32,13 +32,16 @@ user_route.use(bodyParser.urlencoded({extended:true}))
 
 
 //route for home page
-user_route.get('/',(req,res)=>{
-    res.render('home');
-});
+// user_route.get('/',(req,res)=>{
+
+//     res.render('home');
+// });
 
 
 
 
+
+user_route.get('/',userController.load_home);
 
 user_route.get('/register',userController.loadRegister);
 
@@ -65,6 +68,8 @@ user_route.post('/resetPassword',userController.passwordReset);
 user_route.get('/dashboard',userController.loadDashboard);
 
 user_route.get('/home',userController.userLogout);
+
+user_route.get('/productDetails',userController.listIndividualProduct)
 
 
 module.exports = user_route;

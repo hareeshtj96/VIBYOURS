@@ -10,9 +10,23 @@ const storage = multer.diskStorage({
     },
 });
 
+// File filter function
+const fileFilter = (req, file, cb) => {
+    const allowedFileTypes = /jpeg|jpg|png|webp/;
+    const extname = allowedFileTypes.test(file.originalname.toLowerCase());
+    const mimetype = allowedFileTypes.test(file.mimetype);
+
+    if (extname && mimetype) {
+        return cb(null, true); 
+    } else {
+        return cb(new Error('Error: Only images of jpeg, jpg, png, and webp formats are allowed.'));
+    }
+};
+
 // Multer instance
 const upload = multer({
     storage: storage,
+    fileFilter: fileFilter,
 }).array('images', 5); // maximum of 5 images
 
 
@@ -36,7 +50,7 @@ const verifyProduct = async (req, res) => {
             return res.status(500).json({ error: err.message });
         }
 
-        const { producttitle, description, brand, size, price, category } = req.body;
+        const { producttitle, description, brand, size, price, category, is_listed } = req.body;
 
         try {
             // Verify if product exists with the same title
@@ -55,6 +69,7 @@ const verifyProduct = async (req, res) => {
                 price,
                 category,
                 images: req.files.map(file => file.filename),
+                is_listed:1
             });
 
             console.log(newProduct);
@@ -86,11 +101,47 @@ const loadProductGrid = async (req, res) => {
 const editProduct = async (req, res) => {
     try {
 
-        const id = req.query.id;
-        const productData = await addProduct.findById(id);
+
+        const productId = req.query.id;
+        const existingProduct = await addProduct.findById(productId);
+    
+        if (!existingProduct) {
+          return res.status(404).send("Product not found.");
+        }
+    
+        let existingImages = existingProduct.images || [];
+        const newImages = req.files ? req.files.map(file => file.filename) : [];
+    
+        
+        for (let i = 0; i < Math.min(newImages.length, existingImages.length); i++) {
+          existingImages[i] = newImages[i];
+        }
+    
+        if (newImages.length > existingImages.length) {
+          existingImages.push(...newImages.slice(existingImages.length));
+        }
+    
+        existingImages = existingImages.slice(0, 4);
+    
+        const updatedProduct = {
+            producttitle: req.body.producttitle,
+            description: req.body.description,
+            brand: req.body.brand,
+            size: req.body.size,
+            price: req.body.price,
+            category: req.body.category,
+            images: existingImages,
+            is_listed:1
+        };
+    
+        const productData = await addProduct.findByIdAndUpdate(productId, updatedProduct);
+    
+
+        // const id = req.query.id;
+        // const productData = await addProduct.findById(id);
 
 
-        if (productData) {
+        if (productId) {
             res.render('editProduct', { product: productData });
         } else {
             res.redirect('/admin/viewProduct');
@@ -103,7 +154,7 @@ const editProduct = async (req, res) => {
 };
 
 
-
+//update products
 const updateProduct = async (req, res) => {
     try {
 
@@ -141,6 +192,7 @@ const updateProduct = async (req, res) => {
                 price: req.body.price,
                 category: req.body.category,
                 images: allImages,
+                is_listed: 1,
 
             }
 
@@ -164,22 +216,22 @@ const deleteProduct = async (req, res) => {
     try {
         const productId = req.params.productId;
 
-        // Use findByIdAndDelete to find and delete the product by its ID
         const result = await addProduct.findByIdAndDelete(productId);
 
         if (result) {
-            // Product successfully deleted
+
             res.redirect('/admin/viewProduct');
         } else {
-            // Product not found
+            
             res.status(404).send('Product not found');
         }
     } catch (error) {
-        // Handle other errors
+       
         console.error(error);
         res.status(500).send('Internal Server Error');
     }
 };
+
 
 
 module.exports = {
