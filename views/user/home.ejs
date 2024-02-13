@@ -2825,4 +2825,12 @@
             </div>
         </section> -->
     </main>
+    <script>
+        // Check if the back button has been pressed
+        if (!!window.performance && window.performance.navigation.type === 2) {
+            console.log('Reloading');
+            // Force the page to reload
+            window.location.reload();
+        }
+    </script>
     <%- include("../partials/userfooters") %>

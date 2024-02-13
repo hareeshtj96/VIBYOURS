@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>VIBYOURS Dashboard</title>
+    <title>VIBYOURS</title>
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,7 +14,10 @@
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="/adminAssets/assets/imgs/theme/favicon.svg">
     <!-- Template CSS -->
-    <link href="/adminAssets/assets/css/main.css" rel="stylesheet">
+    <link href="/adminAssets/assets/css/main.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
 
 
     <style>
@@ -63,66 +66,59 @@
         }
     </style>
 
+    <body>
+        <div class="container mt-5">
+            <div class="title pb-5">
+                <h2 class="font-weight-bold">Welcome Admin</h2>
+            </div>
+            <table class="table table-bordered border-primary">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Mobile</th>
+                        <th>Actions</th>
+                        <!-- <th>Actions</th> -->
+                        <th>Users' status</th>
 
-
-
-
-</head>
-
-<body>
-    <div class="container mt-5">
-        <div class="title pb-5">
-            <h2 class="font-weight-bold">Welcome Admin</h2>
-        </div>
-        <table class="table table-bordered border-primary">
-            <thead class="thead-dark">
-                <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Mobile</th>
-                    <th>Actions</th>
-                    <!-- <th>Actions</th> -->
-                    <th>Users' status</th>
-
-                </tr>
-            </thead>
-            <tbody>
-                <% if(users.length> 0) {
-                    for(let i=0; i<users.length; i++) { %>
-                        <tr>
-                            <td>
-                                <%= users[i].name %>
-                            </td>
-                            <td>
-                                <%= users[i].email %>
-                            </td>
-                            <td>
-                                <%= users[i].mobile %>
-                            </td>
-                            <td><a href="/admin/edit-user?id=<%=users[i]._id %>">Edit</a></td>
-                          
-                            <td>
-                                <%= users[i].is_blocked? 'Blocked' : 'Active' %>
-                            </td>
-                        </tr>
-                        <% } } else { %>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if(users.length> 0) {
+                        for(let i=0; i<users.length; i++) { %>
                             <tr>
-                                <td colspan="5">Users Not Found</td>
-                            </tr>
-                            <% } %>
-            </tbody>
-        </table>
-        <br>
-        <div class="d-flex justify-content-between">
-            <button class="btn btn-success"><a href="/admin/adminHome" style="text-decoration: none; color: black;">Go
-                    to
-                    Home</a></button>
-            <button class="btn btn-success"><a href="/admin/new-user" style="text-decoration: none; color: black;">Add
-                    New
-                    User</a></button>
-        </div>
-    </div>
+                                <td>
+                                    <%= users[i].name %>
+                                </td>
+                                <td>
+                                    <%= users[i].email %>
+                                </td>
+                                <td>
+                                    <%= users[i].mobile %>
+                                </td>
+                                <td><a href="/admin/edit-user?id=<%=users[i]._id %>">Edit</a></td>
 
-</body>
+                                <td>
+                                    <%= users[i].is_blocked? 'Blocked' : 'Active' %>
+                                </td>
+                            </tr>
+                            <% } } else { %>
+                                <tr>
+                                    <td colspan="5">Users Not Found</td>
+                                </tr>
+                                <% } %>
+                </tbody>
+            </table>
+            <br>
+            <div class="d-flex justify-content-between">
+                <button class="btn btn-success"><a href="/admin/adminHome"
+                        style="text-decoration: none; color: black;">Go
+                        to
+                        Home</a></button>
+
+            </div>
+        </div>
+
+    </body>
 
 </html>

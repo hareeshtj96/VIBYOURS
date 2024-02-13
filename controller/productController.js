@@ -1,4 +1,5 @@
 const addProduct = require("../model/productModel");
+const addCategory = require("../model/categoryModel");
 const multer = require('multer');
 
 
@@ -17,7 +18,7 @@ const fileFilter = (req, file, cb) => {
     const mimetype = allowedFileTypes.test(file.mimetype);
 
     if (extname && mimetype) {
-        return cb(null, true); 
+        return cb(null, true);
     } else {
         return cb(new Error('Error: Only images of jpeg, jpg, png, and webp formats are allowed.'));
     }
@@ -32,14 +33,23 @@ const upload = multer({
 
 
 //loading product 
+// const loadProduct = async (req, res) => {
+//     try {
+//         res.render('addProduct');
+//     } catch (error) {
+//         console.log(error.message);
+//     }
+// }
+
+
 const loadProduct = async (req, res) => {
     try {
-        res.render('addProduct');
+        const categories = await addCategory.find({ is_blocked: 0 })
+        res.render('addProduct', { categories });
     } catch (error) {
         console.log(error.message);
     }
 }
-
 
 //verify products
 const verifyProduct = async (req, res) => {
@@ -69,7 +79,7 @@ const verifyProduct = async (req, res) => {
                 price,
                 category,
                 images: req.files.map(file => file.filename),
-                is_listed:1
+                is_listed: 1
             });
 
             console.log(newProduct);
@@ -104,25 +114,29 @@ const editProduct = async (req, res) => {
 
         const productId = req.query.id;
         const existingProduct = await addProduct.findById(productId);
-    
+
+        const categories = await addCategory.find({ is_blocked: 0 });
+
         if (!existingProduct) {
-          return res.status(404).send("Product not found.");
+            return res.status(404).send("Product not found.");
         }
-    
+
         let existingImages = existingProduct.images || [];
         const newImages = req.files ? req.files.map(file => file.filename) : [];
-    
-        
+
+
         for (let i = 0; i < Math.min(newImages.length, existingImages.length); i++) {
-          existingImages[i] = newImages[i];
+            existingImages[i] = newImages[i];
         }
-    
+
         if (newImages.length > existingImages.length) {
-          existingImages.push(...newImages.slice(existingImages.length));
+            existingImages.push(...newImages.slice(existingImages.length));
         }
-    
+
         existingImages = existingImages.slice(0, 4);
-    
+
+
+
         const updatedProduct = {
             producttitle: req.body.producttitle,
             description: req.body.description,
@@ -131,18 +145,18 @@ const editProduct = async (req, res) => {
             price: req.body.price,
             category: req.body.category,
             images: existingImages,
-            is_listed:1
+            is_listed: 1
         };
-    
-        const productData = await addProduct.findByIdAndUpdate(productId, updatedProduct);
-    
+
+        const productData = await addProduct.findByIdAndUpdate(productId, updatedProduct).populate('category');
+
 
         // const id = req.query.id;
         // const productData = await addProduct.findById(id);
 
 
         if (productId) {
-            res.render('editProduct', { product: productData });
+            res.render('editProduct', { product: productData, categories });
         } else {
             res.redirect('/admin/viewProduct');
         }
@@ -183,6 +197,9 @@ const updateProduct = async (req, res) => {
             const allImages = existingImages.concat(newImages)
 
 
+
+            const updatedCategory = req.body.category
+
             const updateData = {
 
                 producttitle: req.body.producttitle,
@@ -190,7 +207,7 @@ const updateProduct = async (req, res) => {
                 brand: req.body.brand,
                 size: req.body.size,
                 price: req.body.price,
-                category: req.body.category,
+                category: updatedCategory,
                 images: allImages,
                 is_listed: 1,
 
@@ -222,11 +239,11 @@ const deleteProduct = async (req, res) => {
 
             res.redirect('/admin/viewProduct');
         } else {
-            
+
             res.status(404).send('Product not found');
         }
     } catch (error) {
-       
+
         console.error(error);
         res.status(500).send('Internal Server Error');
     }

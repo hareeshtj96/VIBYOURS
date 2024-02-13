@@ -476,48 +476,56 @@
                                             <h3 class="mb-30">Login</h3>
                                         </div>
 
-                                        <%   if(typeof message != "undefined" && message) { %>
+                                        <% if(typeof message !="undefined" && message) { %>
 
                                             <div class="mt-5 mb-3">
-                                    
-                                              <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                                    
-                                                <strong><%=  message  %></strong>
-                                    
-                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                    
-                                              </div>
-                                    
-                                            </div> 
-                                    
-                                          <% }    %>
-                                    
 
-                                        <form method="post" onsubmit="return validateForm(event)">
-                                            <div class="form-group">
-                                                <input type="email" id="email" name="email" placeholder="Your Email" onblur="validateEmail()">
-                                                <p id="emailError" class="error"></p>
-                                            </div>
-                                            <div class="form-group">
-                                                <input type="password" id="password"  name="password" placeholder="Password" onblur="validatePassword()">
-                                                <p id="passwordError" class="error"></p>
-                                            </div>
-                                            <div class="login_footer form-group">
-                                                <div class="chek-form">
-                                                    <div class="custome-checkbox">
-                                                        <input class="form-check-input" type="checkbox" name="checkbox"
-                                                            id="exampleCheckbox1" value="">
-                                                        <label class="form-check-label"
-                                                            for="exampleCheckbox1"><span>Remember me</span></label>
-                                                    </div>
+                                                <div class="alert alert-warning alert-dismissible fade show"
+                                                    role="alert">
+
+                                                    <strong>
+                                                        <%= message %>
+                                                    </strong>
+
+                                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                        aria-label="Close"></button>
+
                                                 </div>
-                                                <a class="text-muted" href="forgotPassword">Forgot password?</a>
+
                                             </div>
-                                            <div class="form-group">
-                                                <button type="submit" class="btn btn-fill-out btn-block hover-up"
-                                                    name="login">Log in</button>
-                                            </div>
-                                        </form>
+
+                                            <% } %>
+
+
+                                                <form method="post" onsubmit="return validateForm(event)">
+                                                    <div class="form-group">
+                                                        <input type="email" id="email" name="email"
+                                                            placeholder="Your Email" onblur="validateEmail()">
+                                                        <p id="emailError" class="error"></p>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <input type="password" id="password" name="password"
+                                                            placeholder="Password" onblur="validatePassword()">
+                                                        <p id="passwordError" class="error"></p>
+                                                    </div>
+                                                    <div class="login_footer form-group">
+                                                        <div class="chek-form">
+                                                            <div class="custome-checkbox">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    name="checkbox" id="exampleCheckbox1" value="">
+                                                                <label class="form-check-label"
+                                                                    for="exampleCheckbox1"><span>Remember
+                                                                        me</span></label>
+                                                            </div>
+                                                        </div>
+                                                        <a class="text-muted" href="forgotPassword">Forgot password?</a>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <button type="submit"
+                                                            class="btn btn-fill-out btn-block hover-up" name="login">Log
+                                                            in</button>
+                                                    </div>
+                                                </form>
                                     </div>
                                 </div>
                             </div>
@@ -549,55 +557,63 @@
                                     var emailInput = document.getElementById('email').value.trim()
                                     var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z]{2,}$/;
                                     var emailError = document.getElementById('emailError');
-                        
+
                                     if (!emailPattern.test(emailInput)) {
                                         emailError.innerHTML = 'Invalid email format. Please enter a valid email address.';
-                        
+
                                     } else if (emailInput == "") {
                                         emailError.innerHTML = 'it is required';
                                     } else {
                                         emailError.innerHTML = '';
-                        
+
                                     }
                                 }
-                        
+
                                 function validatePassword() {
                                     var passwordInput = document.getElementById('password').value.trim()
                                     var passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
                                     var passwordError = document.getElementById('passwordError');
-                        
+
                                     if (!passwordPattern.test(passwordInput)) {
                                         passwordError.innerHTML = 'Invalid password format.';
-                        
+
                                     } else {
                                         passwordError.innerHTML = '';
-                        
+
                                     }
                                 }
-                        
-                        
-                                
-                        
+
+
+
+
                                 function validateForm(event) {
-                        
-                                    
+
+
                                     validateEmail();
                                     validatePassword();
-                                    
-                        
+
+
                                     if (passwordError.innerHTML || emailError.innerHTML) {
                                         event.preventDefault();
-                                        
-                        
+
+
                                     }
                                     // else {
                                     //     // Prevent form submission
                                     // }
-                        
+
                                 }
-                        
+
                             </script>
-                        
+
+                            <script>
+                                // Check if the back button has been pressed
+                                if (!!window.performance && window.performance.navigation.type === 2) {
+                                    console.log('Reloading');
+                                    // Force the page to reload
+                                    window.location.reload();
+                                }
+                            </script>
                             <style>
                                 .error {
                                     color: red;

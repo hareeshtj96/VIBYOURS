@@ -2,13 +2,11 @@ const User = require('../model/userModel');
 const generateOTP = require('../utils/otpUtils')
 const sendOTPEmail = require('../utils/emailUtils');
 const forgotOTPEmail = require('../utils/forgotOTP');
-
 const addProduct = require("../model/productModel");
 const addCategory = require("../model/categoryModel");
-
-
-
 const bcrypt = require('bcrypt');
+
+
 
 
 const securePassword = async (password) => {
@@ -172,9 +170,19 @@ const verifyLogin = async (req, res) => {
             if (passwordMatch) {
                 if (userData.is_blocked) {
                     res.render('login', { message: 'Your account is blocked' })
+
+                    req.session.destroy((err) => {
+                        if (err) {
+                            console.error('Error destroying session:', err);
+                        }
+                        res.redirect('/');
+                    });
+
                 } else {
                     req.session.user_id = userData._id;
+
                     res.redirect('/dashboard');
+
 
                 }
 
@@ -190,6 +198,8 @@ const verifyLogin = async (req, res) => {
         console.log(error.message)
     }
 }
+
+
 
 
 //forgot password page loading
@@ -314,7 +324,9 @@ const loadDashboard = async (req, res) => {
 //user logout
 const userLogout = async (req, res) => {
     try {
+
         req.session.destroy();
+
         res.redirect('/');
 
     } catch (error) {
@@ -325,17 +337,19 @@ const userLogout = async (req, res) => {
 
 
 
+
+
 //load individual product
-const listIndividualProduct = async(req,res)=> {
+const listIndividualProduct = async (req, res) => {
     try {
-          
+
         const id = req.query.id;
         const userData = await User.findById(req.session.user_id)
-        const productData = await addProduct.findById({_id:id})
+        const productData = await addProduct.findById({ _id: id })
         const categoryData = await addCategory.find()
-        if(productData){
+        if (productData) {
             res.render('productDetails', { user: userData, product: productData, category: categoryData })
-        }else {
+        } else {
             res.redirect('/home');
         }
 
@@ -360,6 +374,90 @@ const load_home = async (req, res) => {
     }
 }
 
+
+//load userProfile
+const userProfile = async (req, res) => {
+    try {
+        console.log(req.session.user_id);
+
+        const userId = req.session.user_id;
+
+        const userData = await User.findById(userId)
+        res.render('userProfile', { user: userData });
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).send('Internal Servor Error')
+    }
+}
+
+//updating userProfile
+const postAddress = async (req, res) => {
+    try {
+        const user = req.session.user
+
+        const userData = await User.findOne(user)
+
+        const {
+            name,
+            mobile,
+            pincode,
+            locality,
+            city,
+            state,
+            landmark,
+            addressType
+        } = req.body;
+
+        if (!userData) {
+            return res.status(404).send('User not found')
+        }
+
+        const userAddress = userData.address
+
+        console.log(userAddress);
+
+        if (!userAddress) {
+            console.log("hello hii")
+
+
+
+            userData.address = [{
+                name,
+                mobile,
+                pincode,
+                locality,
+                city,
+                state,
+                landmark,
+                addressType
+
+            }];
+        } else {
+            // console.log("hareesh its ")
+
+            userData.address.push({
+                name,
+                mobile,
+                pincode,
+                locality,
+                city,
+                state,
+                landmark,
+                addressType,
+
+            });
+
+        }
+        await userData.save();
+
+        res.redirect('/userProfile')
+
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).send('Internal Server Error');
+    }
+}
+
 module.exports = {
     loadRegister,
     insertUser,
@@ -375,6 +473,8 @@ module.exports = {
     loadDashboard,
     userLogout,
     listIndividualProduct,
-    load_home
+    load_home,
+    userProfile,
+    postAddress
 
 };

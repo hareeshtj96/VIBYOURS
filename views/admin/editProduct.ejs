@@ -25,7 +25,8 @@
                 <img src="/adminAssets/assets/imgs/theme/logo.svg" class="logo" alt="Evara Dashboard">
             </a>
             <div>
-                <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i> </button>
+                <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i>
+                </button>
             </div>
         </div>
         <nav>
@@ -36,14 +37,17 @@
                     </a>
                 </li>
                 <li class="menu-item has-submenu">
-                    <a class="menu-link" href="page-products-list.html"> <i class="icon material-icons md-shopping_bag"></i>
+                    <a class="menu-link" href="page-products-list.html"> <i
+                            class="icon material-icons md-shopping_bag"></i>
                         <span class="text">Products</span>
                     </a>
                     <div class="submenu">
                         <!-- <a href="page-products-list.html">Product List</a> -->
                         <a href="viewProduct">Product grid</a>
                         <a href="category">Categories</a>
-                        
+                        <a href="addProduct">Add product</a>
+
+
                     </div>
                 </li>
                 <li class="menu-item has-submenu">
@@ -68,7 +72,7 @@
                         <a href="page-seller-detail.html">Seller profile</a>
                     </div> -->
                 <!-- </li> -->
-                <li class="menu-item has-submenu">
+                <!-- <li class="menu-item has-submenu">
                     <a class="menu-link" href="page-form-product-1.html"> <i class="icon material-icons md-add_box"></i>
                         <span class="text">Add product</span>
                     </a>
@@ -77,7 +81,7 @@
                         <a href="addProduct">Add product</a>
                         
                     </div>
-                </li>
+                </li> -->
                 <!-- <li class="menu-item has-submenu">
                     <a class="menu-link" href="page-transactions-1.html"> <i class="icon material-icons md-monetization_on"></i>
                         <span class="text">Transactions</span>
@@ -212,7 +216,8 @@
                         <div class="content-header">
                             <h2 class="content-title">Edit Details</h2>
                             <div>
-                                <button type="button" class="btn btn-light rounded font-sm mr-5 text-body hover-up">Save to draft</button>
+                                <button type="button" class="btn btn-light rounded font-sm mr-5 text-body hover-up">Save
+                                    to draft</button>
                                 <button type="submit" class="btn btn-md rounded font-sm hover-up">Publish</button>
                             </div>
                         </div>
@@ -228,15 +233,17 @@
                                         <h6>1. General info</h6>
                                     </div>
                                     <div class="col-md-9">
-                                        
+
 
                                         <div class="mb-4">
                                             <label class="form-label">Product title</label>
-                                            <input type="text" placeholder="Type here" class="form-control" name="producttitle" value="<%=product.producttitle%>">
+                                            <input type="text" placeholder="Type here" class="form-control"
+                                                name="producttitle" value="<%=product.producttitle%>">
                                         </div>
                                         <div class="mb-4">
                                             <label class="form-label">Description</label>
-                                            <textarea placeholder="Type here" class="form-control" rows="4" name="description" ><%=product.description%></textarea>
+                                            <textarea placeholder="Type here" class="form-control" rows="4"
+                                                name="description"><%=product.description%></textarea>
                                         </div>
                                         <div class="mb-4">
                                             <label class="form-label">Brand name</label>
@@ -258,7 +265,7 @@
                                     </div>
                                 </div>
                                 <hr class="mb-4 mt-0">
-            
+
                                 <!-- Pricing -->
                                 <div class="row">
                                     <div class="col-md-3">
@@ -267,40 +274,38 @@
                                     <div class="col-md-9">
                                         <div class="mb-4">
                                             <label class="form-label">Cost</label>
-                                            <input type="text" placeholder="Rs" class="form-control" name="price" value="<%=product.price%>">
+                                            <input type="text" placeholder="Rs" class="form-control" name="price"
+                                                value="<%=product.price%>">
                                         </div>
                                     </div>
                                 </div>
                                 <hr class="mb-4 mt-0">
-            
+
                                 <!-- Category -->
                                 <div class="row">
                                     <div class="col-md-3">
                                         <h6>3. Category</h6>
+                                        
                                     </div>
                                     <div class="col-md-9">
                                         <div class="mb-4">
-                                            <label class="mb-2 form-check form-check-inline" style="width: 45%;">
-                                                <input class="form-check-input" value="clothes" checked="" name="category" type="radio">
-                                                <span class="form-check-label"> Clothes </span>
-                                            </label>
-                                            <label class="mb-2 form-check form-check-inline" style="width: 45%;">
-                                                <input class="form-check-input" value="bags" name="category" type="radio">
-                                                <span class="form-check-label"> Bags </span>
-                                            </label>
-                                            <label class="mb-2 form-check form-check-inline" style="width: 45%;">
-                                                <input class="form-check-input" value="sunglasses" name="category" type="radio">
-                                                <span class="form-check-label"> Sun glasses </span>
-                                            </label>
-                                            <label class="mb-2 form-check form-check-inline" style="width: 45%;">
-                                                <input class="form-check-input" value="chains" name="category" type="radio">
-                                                <span class="form-check-label"> Chains </span>
+                                            <label class="mb-2">
+                                                <select class="form-select" name="category" required
+                                                    onblur="validateCategory()">
+                                                    <option value="" selected>None</option>
+                                                    <% categories.forEach(function(category) { %>
+                                                        <option value="<%= category._id %>" <% if(category._id.equals(product.category)) {%> selected <%} %>>
+                                                            <%= category.name %>
+                                                        </option>
+                                                        <% }) %>
+                                                </select>
                                             </label>
                                         </div>
                                     </div>
+
                                 </div>
                                 <hr class="mb-4 mt-0">
-            
+
                                 <!-- Media -->
                                 <div class="row">
                                     <div class="col-md-3">
@@ -309,7 +314,8 @@
                                     <div class="col-md-9">
                                         <div class="mb-4">
                                             <label class="form-label">Images</label>
-                                            <input class="form-control" type="file" accept="images/*" name="images" multiple>
+                                            <input class="form-control" type="file" accept="images/*" name="images"
+                                                multiple>
                                         </div>
                                     </div>
                                 </div>
@@ -318,7 +324,7 @@
                     </div>
                 </div>
             </form>
-            
+
         </section>
         <footer class="main-footer font-xs">
             <div class="row pb-30 pt-15">

@@ -1,6 +1,8 @@
 const addCategory = require("../model/categoryModel");
 
 
+
+
 //loading category
 const loadCategory = async (req, res) => {
     try {
@@ -65,23 +67,33 @@ const editCategory = async (req, res) => {
 const updateCategory = async (req, res) => {
     try {
 
-            const categoryDataId = req.query.id;
+        const categoryDataId = req.query.id;
+
+        const categoryData = await addCategory.findById(categoryDataId);
+
+        if (!categoryData) {
+
+            res.redirect('/admin/category')
+            return;
+        }
+
+        const updatedIsBlocked = categoryData.is_blocked === 0 ? 1 : 0;
 
 
-            const updateCategoryData = {
+        const updateCategoryData = {
 
-                name: req.body.name,
-                description: req.body.description,
-                is_blocked: 0
+            name: req.body.name,
+            description: req.body.description,
+            is_blocked: updatedIsBlocked,
 
-            }
+        }
 
-            console.log('Update Data:', updateCategoryData);
+        console.log('Update Data:', updateCategoryData);
 
-            await addCategory.findByIdAndUpdate(categoryDataId, updateCategoryData);
+        await addCategory.findByIdAndUpdate(categoryDataId, updateCategoryData);
 
 
-            res.redirect('/admin/category');
+        res.redirect('/admin/category');
     } catch (error) {
         console.error(error);
         res.status(500).send('Internal Server Error');
@@ -99,11 +111,11 @@ const deleteCategory = async (req, res) => {
 
             res.redirect('/admin/category');
         } else {
-            
+
             res.status(404).send('Category not found');
         }
     } catch (error) {
-       
+
         console.error(error);
         res.status(500).send('Internal Server Error');
     }

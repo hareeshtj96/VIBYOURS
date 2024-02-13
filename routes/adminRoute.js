@@ -1,10 +1,16 @@
 const express = require('express');
 const session = require("express-session");
-
+const { isLogin, isLogout } = require("../middleware/adminAuth");
+const bodyParser = require("body-parser");
+const productController = require("../controller/productController");
+const adminController = require("../controller/adminController");
+const categoryController = require("../controller/categoryController");
 
 
 const admin_route = express();
+
 admin_route.use(express.urlencoded({ extended: true }));
+
 
 
 
@@ -13,72 +19,71 @@ admin_route.set('views', './views/admin');
 
 
 
-const bodyParser = require("body-parser");
+
 admin_route.use(bodyParser.json());
 admin_route.use(bodyParser.urlencoded({ extended: true }));
 
 
 
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX  ADMIN CONTROLLER XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX//
-const adminController = require("../controller/adminController");
 
 
-admin_route.get('/', adminController.loadLogin);
+
+admin_route.get('/', isLogout, adminController.loadLogin);
 
 admin_route.post('/', adminController.verfiyLogin);
 
-admin_route.get('/adminHome', adminController.loadHome);
+admin_route.get('/adminHome', isLogin, adminController.loadHome);
 
-admin_route.get('/logout', adminController.logout);
+admin_route.get('/logout', isLogin, adminController.logout);
 
-admin_route.get('/adminDashboard', adminController.adminDashboard);
+admin_route.get('/adminDashboard', isLogin, adminController.adminDashboard);
 
-admin_route.get('/new-user', adminController.newUserLoad);
+admin_route.get('/new-user', isLogin, adminController.newUserLoad);
 
-admin_route.post('/new-user', adminController.addUser);
+admin_route.post('/new-user', isLogin, adminController.addUser);
 
-admin_route.get('/edit-user', adminController.editUserLoad);
+admin_route.get('/edit-user', isLogin, adminController.editUserLoad);
 
-admin_route.post('/edit-user', adminController.updateUsers);
+admin_route.post('/edit-user', isLogin, adminController.updateUsers);
 
-admin_route.get('/delete-user', adminController.deleteUser);
+
 
 
 
 
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX PRODUCT CONTROLLER XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX//
 
-const productController = require("../controller/productController");
 
 
 
-admin_route.get('/addProduct', productController.loadProduct);
 
-admin_route.post('/addProduct', productController.verifyProduct);
+admin_route.get('/addProduct', isLogin, productController.loadProduct);
 
-admin_route.get('/viewProduct', productController.loadProductGrid);
+admin_route.post('/addProduct', isLogin, productController.verifyProduct);
 
-admin_route.get('/editProduct', productController.editProduct);
+admin_route.get('/viewProduct', isLogin, productController.loadProductGrid);
 
-admin_route.post('/editProduct', productController.updateProduct);
+admin_route.get('/editProduct', isLogin, productController.editProduct);
 
-admin_route.get('/deleteProduct/:productId', productController.deleteProduct);
+admin_route.post('/editProduct', isLogin, productController.updateProduct);
+
+admin_route.get('/deleteProduct/:productId', isLogin, productController.deleteProduct);
 
 
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX CATEGORY CONTROLLER XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX//
 
-const categoryController = require("../controller/categoryController");
 
 
-admin_route.get('/category', categoryController.loadCategory);
+admin_route.get('/category', isLogin, categoryController.loadCategory);
 
-admin_route.post('/category', categoryController.createCategory);
+admin_route.post('/category', isLogin, categoryController.createCategory);
 
-admin_route.get('/editCategory', categoryController.editCategory);
+admin_route.get('/editCategory', isLogin, categoryController.editCategory);
 
-admin_route.post('/editCategory', categoryController.updateCategory);
+admin_route.post('/editCategory', isLogin, categoryController.updateCategory);
 
-admin_route.get('/deleteCategory/:categoryDataId', categoryController.deleteCategory);
+admin_route.get('/deleteCategory/:categoryDataId', isLogin, categoryController.deleteCategory);
 
 
 admin_route.get('*', function (req, res) {

@@ -45,6 +45,7 @@
                         <!-- <a href="page-products-list.html">Product List</a> -->
                         <a href="viewProduct">Product grid</a>
                         <a href="category">Categories</a>
+                        <a href="addProduct">Add product</a>
 
                     </div>
                 </li>
@@ -70,7 +71,7 @@
                         <a href="page-seller-detail.html">Seller profile</a>
                     </div> -->
                 <!-- </li> -->
-                <li class="menu-item has-submenu">
+                <!-- <li class="menu-item has-submenu">
                     <a class="menu-link" href="page-form-product-1.html"> <i class="icon material-icons md-add_box"></i>
                         <span class="text">Add product</span>
                     </a>
@@ -79,7 +80,7 @@
                         <a href="addProduct">Add product</a>
 
                     </div>
-                </li>
+                </li> -->
                 <!-- <li class="menu-item has-submenu">
                     <a class="menu-link" href="page-transactions-1.html"> <i class="icon material-icons md-monetization_on"></i>
                         <span class="text">Transactions</span>
@@ -208,7 +209,9 @@
             </div>
         </header>
         <section class="content-main">
-            <form action="" method="post" enctype="multipart/form-data" onsubmit="return validateForm(event)">
+
+            <form action="" method="post" enctype="multipart/form-data" id="form">
+                <div id="errorMessage" class="error"></div>
                 <div class="row">
                     <div class="col-6">
                         <div class="content-header">
@@ -234,19 +237,20 @@
                                         <div class="mb-4">
                                             <label class="form-label">Product title</label>
                                             <input type="text" placeholder="Type here" class="form-control"
-                                                name="producttitle" required onblur="validateTitle()">
+                                                id="producttitle" name="producttitle" onkeyup="validateTitle()">
                                             <p id="titleError" class="error"></p>
                                         </div>
                                         <div class="mb-4">
                                             <label class="form-label">Description</label>
                                             <textarea placeholder="Type here" class="form-control" rows="4"
-                                                name="description" required onclick="validateDescription()"></textarea>
+                                                id="description" name="description"
+                                                onkeyup="validateDescription()"></textarea>
                                             <p id="descriptionError" class="error"></p>
 
                                         </div>
                                         <div class="mb-4">
                                             <label class="form-label">Brand name</label>
-                                            <select class="form-select" name="brand" required onblur="validateBrand()">
+                                            <select class="form-select" name="brand" onkeyup="validateBrand()">
 
                                                 <option value="Adidas">Adidas</option>
                                                 <option value="Nike">Nike</option>
@@ -255,7 +259,7 @@
                                         </div>
                                         <div class="mb-4">
                                             <label class="form-label">Size</label>
-                                            <select class="form-select" name="size" required onblur="validateSize()">
+                                            <select class="form-select" name="size" onblur="validateSize()">
                                                 <option value="S">S</option>
                                                 <option value="M">M</option>
                                                 <option value="L">L</option>
@@ -274,10 +278,10 @@
                                     <div class="col-md-9">
                                         <div class="mb-4">
                                             <label class="form-label">Cost</label>
-                                            <input type="text" placeholder="Rs" class="form-control" value=""
+                                            <input type="text" placeholder="Rs" class="form-control" value="" id="price"
                                                 name="price" required
                                                 onkeydown="return/[0-9\b]/i.test(event.key) || event.keyCode === 8"
-                                                onblur="validatePrice()">
+                                                onkeyup="validatePrice()">
                                             <p id="priceError" class="error"></p>
 
                                         </div>
@@ -290,11 +294,17 @@
                                     <div class="col-md-3">
                                         <h6>3. Category</h6>
                                     </div>
-                                    <div class="col-md-9">
+                                    <!-- <div class="col-md-9">
                                         <div class="mb-4">
                                             <label class="mb-2 form-check form-check-inline" style="width: 45%;">
                                                 <input class="form-check-input" value="clothes" checked=""
-                                                    name="category" type="radio" required onblur="validateCategory()">
+                                                    name="category"  required onblur="validateCategory()">
+                                                    <option value="" selected>None</option>
+                                                    <% categories.forEach(function(category)  { %>
+                                                        <option value="<%= category._id  %>">
+                                                            <%= category.name  %>
+                                                        </option>
+                                                    <% }) %>
                                                 <span class="form-check-label"> Clothes </span>
                                             </label>
                                             <label class="mb-2 form-check form-check-inline" style="width: 45%;">
@@ -312,8 +322,25 @@
                                                     type="radio" required onblur="validateCategory()">
                                                 <span class="form-check-label"> Chains </span>
                                             </label>
+                                        </div> -->
+
+
+                                    <div class="col-md-9">
+                                        <div class="mb-4">
+                                            <label class="mb-2">
+                                                <select class="form-select" name="category" required
+                                                    onblur="validateCategory()">
+                                                    <option value="" selected>None</option>
+                                                    <% categories.forEach(function(category) { %>
+                                                        <option value="<%= category._id %>">
+                                                            <%= category.name %>
+                                                        </option>
+                                                        <% }) %>
+                                                </select>
+                                            </label>
                                         </div>
                                     </div>
+
                                 </div>
                                 <hr class="mb-4 mt-0">
 
@@ -325,7 +352,7 @@
                                     <div class="col-md-9">
                                         <div class="mb-4">
                                             <label class="form-label">Images</label>
-                                            <input class="form-control" type="file" name="images" multiple required
+                                            <input class="form-control" type="file" name="images" multiple id="images"
                                                 onblur="validateImages()">
                                             <p id="imagesError" class="error"></p>
                                         </div>
@@ -366,128 +393,140 @@
     <script>
 
 
-
-
         function validateTitle() {
-            var titleInput = document.getElementsByName('producttitle')[0].value.trim();
-            var titleError = document.getElementById('titleError');
 
-            console.log('titleInput',titleInput);
+            const productname = document.getElementById('producttitle').value.trim();
 
-            if (titleInput == "") {
-                titleError.innerHTML = 'Product title is required';
-                //clearing message after 3 seconds
+            const titleError = document.getElementById('titleError');
+
+            if (productname == "") {
+
+                titleError.innerHTML = "product title is required"
                 setTimeout(function () {
-                    titleError.innerHTML = '';
-                }, 3000)
-
+                    titleError.innerHTML = ""
+                }, 3000);
             } else {
-                titleError.innerHTML = '';
+                titleError.innerHTML = ""
             }
         }
 
+
         function validateDescription() {
-            var descriptionInput = document.getElementsByName('description').value.trim();
-            var descriptionError = document.getElementById('descriptionError');
 
-            console.log('Description Input:', descriptionInput)
+            const productDescription = document.getElementById('description').value.trim();
 
-            if (descriptionInput == "") {
-                descriptionError.innerHTML = 'Description is required';
-                //clearing message after 3 seconds
+            const descriptionError = document.getElementById('descriptionError');
+
+            if (productDescription == "") {
+
+                descriptionError.innerHTML = "Product description is required"
                 setTimeout(function () {
-                    descriptionError.innerHTML = '';
-                }, 3000)
+                    descriptionError.innerHTML = ""
+                }, 3000);
             } else {
-                descriptionError.innerHTML = '';
+                descriptionError.innerHTML = ""
             }
         }
 
         function validatePrice() {
-            alert("from validateprice")
-            var priceInput = document.getElementsByName('price')[0].value.trim();
-            var priceError = document.getElementById('priceError');
-            var priceValue = parseFloat(priceInput);
 
-            if (priceInput == "") {
-                // alert("from validateprice if")
-                priceError.innerHTML = 'Price is required';
 
-                //clearing message after 3 seconds
+            const Priceinput = document.getElementById('price').value.trim();
+
+            const priceError = document.getElementById('priceError');
+
+            if (Priceinput == "") {
+
+                priceError.innerHTML = "product price is required";
                 setTimeout(function () {
-                    priceError.innerHTML = '';
-                }, 3000)
-                return false;
+                    priceError.innerHTML = ""
+                }, 3000);
 
-            } else if (priceValue < 0) {
-                // alert("from validateprice elseif")
-                priceError.innerHTML = 'Price must be positive';
-                //clearing message after 3 seconds
+
+            } else if (Priceinput < 0) {
+                priceError.innerHTML = "product price must be positive";
                 setTimeout(function () {
-                    priceError.innerHTML = '';
-                }, 3000)
-                return false;
-
+                    priceError.innerHTML = ""
+                }, 3000);
             } else {
-                // alert("from validateprice else")
-                priceError.innerHTML = '';
-                return true;
+                priceError.innerHTML = "";
             }
+
         }
+
+        // function validateImages() {
+
+        //     const productImage = document.getElementById('images').value.trim();
+
+        //     const imageError = document.getElementById('imagesError');
+
+        //     if(productImage == ""){
+        //         imageError.innerHTML = "Image is required";
+        //         setTimeout(function (){
+        //             imageError.innerHTML = ""
+        //         }, 3000);
+        //     } else if (condition) {
+
+        //     } else {
+
+        //     }
+        // }
+
+
 
         function validateImages() {
-            var imagesInput = document.getElementsByName('images')[0];
-            var imagesError = document.getElementById('imagesError');
+            const productImageInput = document.getElementById('images');
+            const imageError = document.getElementById('imagesError');
 
-
-            if (imagesInput == "") {
-                imagesError.innerHTML = 'this field is required';
-
-                //clearing message after 3 seconds
+            // Check if an image is submitted
+            if (!productImageInput.files || productImageInput.files.length === 0) {
+                imageError.innerHTML = "Image is required";
                 setTimeout(function () {
-                    imagesError.innerHTML = '';
-                }, 3000)
+                    imageError.innerHTML = "";
+                }, 3000);
+                return;
+            }
+
+            // Get the file object
+            const productImage = productImageInput.files[0];
+
+            // Check file extension and MIME type
+            const allowedExtensions = ['jpeg', 'jpg', 'webp', 'png'];
+            const allowedMimeTypes = ['image/jpeg', 'image/jpg', 'image/webp', 'image/png'];
+
+            const fileExtension = productImage.name.split('.').pop().toLowerCase();
+            const fileMimeType = productImage.type.toLowerCase();
+
+            if (!allowedExtensions.includes(fileExtension) || !allowedMimeTypes.includes(fileMimeType)) {
+                imageError.innerHTML = "Invalid image format. Allowed formats: jpeg, jpg, webp, png";
+                setTimeout(function () {
+                    imageError.innerHTML = "";
+                }, 3000);
+                return;
             } else {
-                imagesError.innerHTML = '';
+                imageError.innerHTML = "";
             }
+
 
         }
 
 
 
-        function validateForm(event) {
-
-            // alert("from validatepriceForm")
-            //Checking if any error message
-            const titleError = document.getElementById('titleError');
-            const descriptionError = document.getElementById('descriptionError');
-            const priceError = document.getElementById('priceError');
-            const imagesError = document.getElementById('imagesError');
-
-            var isTitleValid = validateTitle();
-            var isDescriptionValid = validateDescription();
-            var isPriceValid = validatePrice();
-            var isImagesValid = validateImages();
+        document.getElementById("form").addEventListener("submit", (e) => {
 
 
+            validateTitle()
+            validateDescription()
+            validatePrice()
+            validateImages()
 
-            
+
+            if (titleError.innerHTML || descriptionError.innerHTML || priceError.innerHTML || imageError.innerHTML) {
+                e.preventDefault();
+            } else {
+
             }
-
-
-           
-        
-
-
-        function displayErrorMessage(message) {
-            const errorMessageElement = document.getElementById("errorMessage");
-            errorMessageElement.textContent = message;
-
-            // Display the error message for 5 seconds
-            setTimeout(function () {
-                errorMessageElement.textContent = "";
-            }, 3000);
-        }
+        });
 
 
     </script>
