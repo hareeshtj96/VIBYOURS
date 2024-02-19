@@ -70,6 +70,8 @@ admin_route.post('/editProduct', isLogin, productController.updateProduct);
 
 admin_route.get('/deleteProduct/:productId', isLogin, productController.deleteProduct);
 
+admin_route.get('/blockProduct/:id', productController.blockProduct);
+
 
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX CATEGORY CONTROLLER XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX//
 

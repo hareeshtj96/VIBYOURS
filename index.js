@@ -4,6 +4,7 @@ const flash = require('connect-flash');
 const path = require('path')
 const userRoute = require('./routes/userRoute')
 const adminRoute = require('./routes/adminRoute');
+const Swal = require('sweetalert2')
 require("./DB/dataBase");
 
 
@@ -19,6 +20,13 @@ app.use("/assets", express.static(path.join(__dirname, "public/assets")))
 app.use("/adminAssets", express.static(path.join(__dirname, "/public/adminAssets")))
 app.use("/uploads", express.static(path.join(__dirname, "/public/uploads")))
 
+
+
+// caching disabled for every route
+app.use(function(req, res, next) {
+    res.set('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+    next();
+  });
 
 //user Route
 app.use('/', userRoute);

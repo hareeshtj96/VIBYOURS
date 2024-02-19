@@ -946,12 +946,6 @@
                             <div class="col-md-4">
                                 <div class="dashboard-menu">
                                     <ul class="nav flex-column" role="tablist">
-                                        <!-- <li class="nav-item">
-                                            <a class="nav-link active" id="dashboard-tab" data-bs-toggle="tab"
-                                                href="#dashboard" role="tab" aria-controls="dashboard"
-                                                aria-selected="false"><i
-                                                    class="fi-rs-settings-sliders mr-10"></i>Dashboard</a>
-                                        </li> -->
                                         <li class="nav-item">
                                             <a class="nav-link" id="account-detail-tab" data-bs-toggle="tab"
                                                 href="#account-detail" role="tab" aria-controls="account-detail"
@@ -965,8 +959,9 @@
                                         </li>
 
                                         <li class="nav-item">
-                                            <a class="nav-link" id="address-tab" data-bs-toggle="tab" href="#address"
-                                                role="tab" aria-controls="address" aria-selected="true">Manage
+                                            <a class="nav-link" id="address-tab" data-bs-toggle="tab"
+                                                href="#manage-address" role="tab" aria-controls="address"
+                                                aria-selected="true">Manage
                                                 Address</a>
                                         </li>
 
@@ -996,20 +991,6 @@
                             </div>
                             <div class="col-md-8">
                                 <div class="tab-content dashboard-content">
-                                    <!-- <div class="tab-pane fade active show" id="dashboard" role="tabpanel"
-                                        aria-labelledby="dashboard-tab">
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <h5 class="mb-0">Hello Rosie! </h5>
-                                            </div>
-                                            <div class="card-body">
-                                                <p>From your account dashboard. you can easily check &amp; view your <a
-                                                        href="#">recent orders</a>, manage your <a href="#">shipping and
-                                                        billing addresses</a> and <a href="#">edit your password and
-                                                        account details.</a></p>
-                                            </div>
-                                        </div>
-                                    </div> -->
                                     <div class="tab-pane fade" id="orders" role="tabpanel" aria-labelledby="orders-tab">
                                         <div class="card">
                                             <div class="card-header">
@@ -1089,47 +1070,54 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="tab-pane fade" id="address" role="tabpanel"
-                                        aria-labelledby="address-tab">
-                                        <div class="row">
-                                            <div class="col-lg-6">
-                                                <div class="card mb-3 mb-lg-0">
-                                                    <div class="card-header">
-                                                        <h5 class="mb-0">Home Address</h5>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <address>
-                                                            3522 Interstate<br> 75 Business Spur,<br> Sault Ste.
-                                                            <br>Marie, MI 49783
-                                                        </address>
-                                                        <p>New York</p>
-                                                        <div class="btn-group">
-                                                            <a href="#" class="btn btn-small">Edit</a>
-                                                            <a href="#" class="btn btn-small">Remove</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6">
+
+
+                                    <div class="tab-pane fade" id="manage-address" role="tabpanel"
+                                        aria-labelledby="manage-address-tab">
+                                        <% if (user && user.address && user.address.length> 0) { %>
+                                            <% for (let i=0; i < user.address.length; i++) { %>
                                                 <div class="card">
-                                                    <div class="card-header">
-                                                        <h5 class="mb-0">Work Address</h5>
-                                                    </div>
                                                     <div class="card-body">
-                                                        <address>
-                                                            4299 Express Lane<br> Sarasota, <br>FL 34249 USA <br>Phone:
-                                                            1.941.227.4444
-                                                        </address>
-                                                        <p>Sarasota</p>
-                                                        <div class="btn-group">
-                                                            <a href="#" class="btn btn-small">Edit</a>
-                                                            <a href="#" class="btn btn-small">Remove</a>
+                                                        <h5 class="card-title">Manage Address</h5>
+                                                        <div class="address-type">
+                                                            <p class="card-text">
+                                                                <%= user.address[i].addressType %>
+                                                            </p>
                                                         </div>
+                                                        <p class="card-text">
+                                                            <%= user.address[i].name %>,
+                                                                <%= user.address[i].mobile %>,
+                                                                    <%= user.address[i].pincode %>,
+                                                                        <%= user.address[i].locality %>,
+                                                                            <%= user.address[i].housename %>,
+                                                                                <%= user.address[i].city %>,
+                                                                                    <%= user.address[i].state %>,
+                                                                                        <%= user.address[i].landmark %>
+                                                        </p>
+                                                        <form action="" name="editAddressForm">
+                                                            <input type="hidden" name="addressId"
+                                                                value="<%= user.address[i]._id %>">
+                                                            <a href="/editAddress?addressId=<%= user.address[i]._id %>"
+                                                                class="btn btn-fill-out btn-success submit"
+                                                                name="submit">Edit</a>
+                                                            <!-- <a href="/deleteAddress?addressId=<%= user.address[i]._id %>"
+                                                                class="btn btn-fill-out btn-danger submit" name="submit"
+                                                                style="background-color: red; color: white;">Delete</a> -->
+                                                            <a href="#"
+                                                                onclick="confirmDelete('<%= user.address[i]._id %>')"
+                                                                class="btn btn-fill-out btn-danger submit" name="submit"
+                                                                style="background-color: red; color: white;">Delete</a>
+                                                        </form>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
+                                                <% } %>
+                                                    <% } else { %>
+                                                        <!-- Display a message if no addresses are found -->
+                                                        <p>No addresses found.</p>
+                                                        <% } %>
                                     </div>
+
+
 
                                     <div class="tab-pane fade" id="add-address" role="tabpanel"
                                         aria-labelledby="add-address-tab">
@@ -1138,7 +1126,7 @@
                                                 <h5>Add Address</h5>
                                             </div>
                                             <div class="card-body">
-                                                <form action="/userProfile" method="post" name="addAddressForm">
+                                                <!-- <form action="/userProfile" method="post" name="addAddressForm">
                                                     <div class="row">
                                                         <div class="form-group col-md-6">
                                                             <label>Name <span class="required">*</span></label>
@@ -1161,9 +1149,10 @@
                                                                 name="locality" value="" type="text">
                                                         </div>
                                                         <div class="form-group col-md-12">
-                                                            <label>Address <span class="required">*</span></label>
+                                                            <label>House name/ Street name <span
+                                                                    class="required">*</span></label>
                                                             <textarea required="" class="form-control square"
-                                                                name="address"></textarea>
+                                                                name="housename"></textarea>
                                                         </div>
                                                         <div class="form-group col-md-6">
                                                             <label>City <span class="required">*</span></label>
@@ -1177,8 +1166,8 @@
                                                         </div>
                                                         <div class="form-group col-md-6">
                                                             <label>Landmark</label>
-                                                            <input class="form-control square" name="landmark"
-                                                                value="" type="text">
+                                                            <input class="form-control square" name="landmark" value=""
+                                                                type="text">
                                                         </div>
                                                         <div class="form-group col-md-6">
                                                             <label>Address Type <span
@@ -1198,17 +1187,86 @@
                                                                 name="submit" value="Submit">Save</button>
                                                         </div>
                                                     </div>
+                                                </form> -->
+
+                                                <form action="/userProfile" method="post" id="addressForm"
+                                                    name="addAddressForm">
+                                                    <div class="row">
+                                                        <div class="form-group col-md-6">
+                                                            <label>Name <span class="required">*</span></label>
+                                                            <input class="form-control square" name="name" id="name"
+                                                                value="" type="text" oninput="validateName(event)"  onkeydown="return /[a-zA-Z ]/.test(event.key)">
+                                                            <span id="nameError" class="error"></span>
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <label>Mobile Number <span class="required">*</span></label>
+                                                            <input class="form-control square" name="mobile" id="mobile"
+                                                                value="" type="tel" oninput="validateMobile(event)">
+                                                            <span id="mobileError" class="error"></span>
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <label>Pincode <span class="required">*</span></label>
+                                                            <input class="form-control square" name="pincode"
+                                                                id="pincode" oninput="validatePincode(event)" value=""
+                                                                type="text"  onkeydown="return /[0-9\b]/.test(event.key) && this.value.length < 6 || event.keyCode === 8">
+                                                            <span id="pincodeError" class="error"></span>
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <label>Locality <span class="required">*</span></label>
+                                                            <input class="form-control square" name="locality"
+                                                                id="locality" oninput="validateLocality(event)" value=""
+                                                                type="text">
+                                                            <span id="localityError" class="error"></span>
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <label>House name/ Street name <span
+                                                                    class="required">*</span></label>
+                                                            <textarea class="form-control square" name="housename"
+                                                                oninput="validateHouseName(event)"
+                                                                id="housename"></textarea>
+                                                            <span id="housenameError" class="error"></span>
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <label>City <span class="required">*</span></label>
+                                                            <input class="form-control square" name="city" id="city"
+                                                                oninput="validateCity(event)" type="text" value="">
+                                                            <span id="cityError" class="error"></span>
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <label>State <span class="required">*</span></label>
+                                                            <input class="form-control square" name="state" id="state"
+                                                                oninput="validateState(event)" value="" type="text">
+                                                            <span id="stateError" class="error"></span>
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <label>Landmark</label>
+                                                            <input class="form-control square" name="landmark"
+                                                                id="landmark" oninput="validateLandmark(event)" value=""
+                                                                type="text">
+                                                            <span id="landmarkError" class="error"></span>
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <label>Address Type <span
+                                                                    class="required">*</span></label><br>
+                                                            <label class="radio-inline small-radio">
+                                                                <input type="radio" name="addressType" value="home"
+                                                                    checked> Home
+
+                                                            </label>
+                                                            <label class="radio-inline small-radio">
+                                                                <input type="radio" name="addressType" value="work">
+                                                                Work
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <button type="submit" class="btn btn-fill-out submit"
+                                                                id="submitButton" onclick="submitForm()">Save</button>
+                                                        </div>
+                                                    </div>
                                                 </form>
                                             </div>
                                         </div>
                                     </div>
-
-
-
-
-
-
-
 
 
                                     <div class="tab-pane fade" id="account-detail" role="tabpanel"
@@ -1218,30 +1276,30 @@
                                                 <h5>Account Details</h5>
                                             </div>
                                             <div class="card-body">
-                                                
+
                                                 <form method="post" name="enq">
                                                     <div class="row">
                                                         <div class="form-group col-md-6">
                                                             <label>Name <span class="required"></span></label>
-                                                            <input required="" class="form-control square" name="name"
+                                                            <input readonly class="form-control square" name="name"
                                                                 value="<%= user.name %>" type="text">
                                                         </div>
 
                                                         <div class="form-group col-md-12">
                                                             <label>Mobile <span class="required"></span></label>
-                                                            <input required="" class="form-control square" name="mobile"
+                                                            <input readonly class="form-control square" name="mobile"
                                                                 value="<%= user.mobile  %>" type="text">
                                                         </div>
                                                         <div class="form-group col-md-12">
                                                             <label>Email Address <span class="required"></span></label>
-                                                            <input required="" class="form-control square" name="email"
+                                                            <input readonly class="form-control square" name="email"
                                                                 value="<%= user.email  %>" type="email">
                                                         </div>
-                                                    
-                                                        <div class="col-md-12">
+
+                                                        <!-- <div class="col-md-12">
                                                             <button type="submit" class="btn btn-fill-out submit"
                                                                 name="submit" value="Submit">Save</button>
-                                                        </div>
+                                                        </div> -->
                                                     </div>
                                                 </form>
                                             </div>
@@ -1255,6 +1313,302 @@
             </div>
         </section>
     </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function confirmDelete(addressId) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'You won\'t be able to revert this!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Redirect to the delete URL or perform the delete action
+                    window.location.href = '/deleteAddress?addressId=' + addressId;
+                }
+            });
+        }
+    </script>
+
+    <script>
+
+        function validateName(e) {
+
+            const Username = document.getElementById('name').value.trim();
+
+            const titleError = document.getElementById('nameError');
+
+            if (Username == "") {
+
+                nameError.innerHTML = "Name is required"
+                setTimeout(function () {
+                    nameError.innerHTML = ""
+                }, 3000);
+                return false;
+
+            } else if (event.key === ' ' || event.code === 'Space') {
+                nameError.innerHTML = "Name cannot be just spaces";
+                setTimeout(function () {
+                    nameError.innerHTML = "";
+                }, 3000);
+                return false;
+
+            } else {
+                nameError.innerHTML = ""
+                return true;
+            }
+        }
+
+        function validateMobile(e) {
+
+            const MobileNumber = document.getElementById('mobile').value.trim();
+
+            const mobileError = document.getElementById('mobileError');
+
+            if (MobileNumber == "") {
+                mobileError.innerHTML = "Mobile Number is required"
+                setTimeout(function () {
+                    mobileError.innerHTML = ""
+                }, 3000);
+                return false;
+
+            } else if (!/^[6-9]\d{9}$/.test(MobileNumber)) {
+
+                mobileError.innerHTML = "Invalid mobile number";
+                setTimeout(function () {
+                    mobileError.innerHTML = "";
+                }, 3000);
+                return false;
+
+            } else if (event.key === ' ' || event.code === 'Space') {
+                mobileError.innerHTML = "Mobile number cannot be just spaces";
+                setTimeout(function () {
+                    mobileError.innerHTML = "";
+                }, 3000);
+
+                return false;
+
+            } else {
+                mobileError.innerHTML = ""
+                return true;
+            }
+        }
+
+        function validatePincode(e) {
+
+            const pincode = document.getElementById('pincode').value.trim();
+
+            const pincodeError = document.getElementById('pincodeError');
+
+            if (pincode == "") {
+                pincodeError.innerHTML = "Pincode is required"
+                setTimeout(function () {
+                    pincodeError.innerHTML = ""
+                }, 3000);
+                return false;
+
+            } else if (event.key === ' ' || event.code === 'Space') {
+                pincodeError.innerHTML = "Pincode cannot be just spaces";
+                setTimeout(function () {
+                    pincodeError.innerHTML = "";
+                }, 3000);
+                return false;
+
+            } else {
+                pincodeError.innerHTML = ''
+                return true;
+            }
+        }
+
+        function validateLocality(e) {
+            const locality = document.getElementById('locality').value.trim();
+
+            const localityError = document.getElementById('localityError');
+
+            if (locality == "") {
+                localityError.innerHTML = "Locality is required"
+                setTimeout(function () {
+                    localityError.innerHTML = ""
+                }, 3000);
+                return false;
+
+            } else if (event.key === ' ' || event.code === 'Space') {
+                nameError.innerHTML = "Locality cannot be just spaces";
+                setTimeout(function () {
+                    localityError.innerHTML = "";
+                }, 3000);
+                return false;
+
+            } else {
+                localityError.innerHTML = ""
+                return true;
+            }
+        }
+
+        function validateHouseName(e) {
+            const Housename = document.getElementById('housename').value.trim();
+
+            const housenameError = document.getElementById('housenameError');
+
+            if (Housename == "") {
+                localityError.innerHTML = "House Name is required"
+                setTimeout(function () {
+                    housenameError.innerHTML = ""
+                }, 3000);
+                return false;
+
+            } else if (event.key === ' ' || event.code === 'Space') {
+                housenameError.innerHTML = "HouseName cannot be just spaces";
+                setTimeout(function () {
+                    housenameError.innerHTML = "";
+                }, 3000);
+                return false;
+
+            }
+            else {
+                housenameError.innerHTML = ""
+                return true;
+
+            }
+
+
+        }
+
+        function validateCity(e) {
+            const City = document.getElementById('city').value.trim();
+
+            const cityError = document.getElementById('cityError');
+
+            if (City == "") {
+                cityError.innerHTML = "City is required"
+                setTimeout(function () {
+                    cityError.innerHTML = ""
+                }, 3000);
+                return false;
+
+            } else if (event.key === ' ' || event.code === 'Space') {
+                cityError.innerHTML = "City cannot be just spaces";
+                setTimeout(function () {
+                    cityError.innerHTML = "";
+                }, 3000);
+                return false;
+
+            }
+            else {
+                cityError.innerHTML = ""
+                return true;
+            }
+        }
+
+        function validateState(e) {
+            const State = document.getElementById('state').value.trim();
+
+            const stateError = document.getElementById('stateError');
+
+            if (State == "") {
+                stateError.innerHTML = "State is required"
+                setTimeout(function () {
+                    stateError.innerHTML = ""
+                }, 3000);
+                return false;
+
+            } else if (event.key === ' ' || event.code === 'Space') {
+                stateError.innerHTML = "State cannot be just spaces";
+                setTimeout(function () {
+                    stateError.innerHTML = "";
+                }, 3000);
+                return false;
+
+            }
+            else {
+                stateError.innerHTML = ""
+                return true;
+            }
+        }
+
+        function validateLandmark(e) {
+            const Landmark = document.getElementById('landmark').value.trim();
+
+            const landmarkError = document.getElementById('landmarkError');
+
+            if (Landmark == "") {
+                landmarkError.innerHTML = "Landmark is required"
+                setTimeout(function () {
+                    landmarkError.innerHTML = ""
+                }, 3000);
+                return false;
+
+            } else if (event.key === ' ' || event.code === 'Space') {
+                landmarkError.innerHTML = "Landmark cannot be just spaces";
+                setTimeout(function () {
+                    landmarkError.innerHTML = "";
+                }, 3000);
+                return false;
+
+            }
+            else {
+                landmarkError.innerHTML = ""
+                return true;
+            }
+        }
+
+        document.getElementById("addressForm").addEventListener("submit", (e) => {
+
+
+
+            if (
+                !validateName(e) ||
+                !validateMobile(e) ||
+                !validatePincode(e) ||
+                !validateLocality(e) ||
+                !validateCity(e) ||
+                !validateHouseName(e) ||
+                !validateState(e) ||
+                !validateLandmark(e)
+            ) {
+                e.preventDefault();
+            }
+
+
+
+        });
+
+
+    </script>
+
+    <style>
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+    </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <style>
         .small-radio input[type="radio"] {
             transform: scale(0.3);
@@ -1265,6 +1619,18 @@
 
         .small-radio label {
             font-size: 14px;
+
+        }
+
+
+        .address-type {
+            background-color: #bbddd3;
+
+            display: inline-block;
+
+            padding: 10px;
+
+            border-radius: 5px;
 
         }
     </style>

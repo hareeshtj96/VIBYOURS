@@ -1,6 +1,7 @@
 const express = require('express');
 const session = require('express-session');
 const userController = require("../controller/userController");
+const cartController = require("../controller/cartController");
 const { isLogin, isLogout } = require("../middleware/userAuth");
 const { isBlocked } = require("../middleware/blockAuth");
 const bodyParser = require('body-parser');
@@ -30,7 +31,7 @@ user_route.use(bodyParser.urlencoded({ extended: true }))
 
 //**************************USER CONTROLLER ******************************** */
 
-user_route.get('/', userController.load_home);
+user_route.get('/', isLogout, userController.load_home);
 
 user_route.get('/register', isLogout, userController.loadRegister);
 
@@ -58,11 +59,27 @@ user_route.get('/dashboard', isBlocked, isLogin, userController.loadDashboard);
 
 user_route.get('/home', isLogin, userController.userLogout);
 
+
+//Product actions
 user_route.get('/productDetails', userController.listIndividualProduct)
 
+
+//userProfile actions
 user_route.get('/userProfile', userController.userProfile);
 
 user_route.post('/userProfile', userController.postAddress);
+
+user_route.get('/editAddress', userController.getEditAddress)
+
+user_route.post('/editAddress', userController.updateEditAddress);
+
+user_route.get('/deleteAddress', userController.getDeleteAddress);
+
+
+//cart actions
+// user_route.get('/cart', cartController.getCartPage);
+
+user_route.post('/cart', cartController.addToCart);
 
 
 module.exports = user_route;

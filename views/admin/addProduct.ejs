@@ -43,7 +43,7 @@
                     </a>
                     <div class="submenu">
                         <!-- <a href="page-products-list.html">Product List</a> -->
-                        <a href="viewProduct">Product grid</a>
+                        <a href="viewProduct">Product list</a>
                         <a href="category">Categories</a>
                         <a href="addProduct">Add product</a>
 
@@ -260,11 +260,21 @@
                                         <div class="mb-4">
                                             <label class="form-label">Size</label>
                                             <select class="form-select" name="size" onblur="validateSize()">
-                                                <option value="S">S</option>
-                                                <option value="M">M</option>
-                                                <option value="L">L</option>
-                                                <option value="XL">XL</option>
+                                                <option value="s">S</option>
+                                                <option value="m">M</option>
+                                                <option value="l">L</option>
+                                                <option value="xl">XL</option>
                                             </select>
+                                        </div>
+                                        <div class="mb-4">
+                                            <label class="form-label">Size S</label>
+                                            <input type="number" placeholder="Add quantity" class="form-control" name="sizeS" onblur="validateSize('S')" min="0" max="100">
+                                            <label class="form-label">Size M</label>
+                                            <input type="number" placeholder="Add quantity" class="form-control" name="sizeM" onblur="validateSize('M')" min="0" max="100">
+                                            <label class="form-label">Size L</label>
+                                            <input type="number" placeholder="Add quantity" class="form-control" name="sizeL" onblur="validateSize('L')" min="0" max="100">
+                                            <label class="form-label">Size XL</label>
+                                            <input type="number" placeholder="Add quantity" class="form-control" name="sizeXL" onblur="validateSize('XL')" min="0" max="100">
                                         </div>
                                     </div>
                                 </div>
@@ -294,35 +304,7 @@
                                     <div class="col-md-3">
                                         <h6>3. Category</h6>
                                     </div>
-                                    <!-- <div class="col-md-9">
-                                        <div class="mb-4">
-                                            <label class="mb-2 form-check form-check-inline" style="width: 45%;">
-                                                <input class="form-check-input" value="clothes" checked=""
-                                                    name="category"  required onblur="validateCategory()">
-                                                    <option value="" selected>None</option>
-                                                    <% categories.forEach(function(category)  { %>
-                                                        <option value="<%= category._id  %>">
-                                                            <%= category.name  %>
-                                                        </option>
-                                                    <% }) %>
-                                                <span class="form-check-label"> Clothes </span>
-                                            </label>
-                                            <label class="mb-2 form-check form-check-inline" style="width: 45%;">
-                                                <input class="form-check-input" value="bags" name="category"
-                                                    type="radio" required onblur="validateCategory()">
-                                                <span class="form-check-label"> Bags </span>
-                                            </label>
-                                            <label class="mb-2 form-check form-check-inline" style="width: 45%;">
-                                                <input class="form-check-input" value="sunglasses" name="category"
-                                                    type="radio" required onblur="validateCategory()">
-                                                <span class="form-check-label"> Sun glasses </span>
-                                            </label>
-                                            <label class="mb-2 form-check form-check-inline" style="width: 45%;">
-                                                <input class="form-check-input" value="chains" name="category"
-                                                    type="radio" required onblur="validateCategory()">
-                                                <span class="form-check-label"> Chains </span>
-                                            </label>
-                                        </div> -->
+                                    
 
 
                                     <div class="col-md-9">
@@ -454,24 +436,7 @@
 
         }
 
-        // function validateImages() {
-
-        //     const productImage = document.getElementById('images').value.trim();
-
-        //     const imageError = document.getElementById('imagesError');
-
-        //     if(productImage == ""){
-        //         imageError.innerHTML = "Image is required";
-        //         setTimeout(function (){
-        //             imageError.innerHTML = ""
-        //         }, 3000);
-        //     } else if (condition) {
-
-        //     } else {
-
-        //     }
-        // }
-
+        
 
 
         function validateImages() {

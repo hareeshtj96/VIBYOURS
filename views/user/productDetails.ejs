@@ -1,4 +1,4 @@
-<%- include("../partials/userheaders")  %>
+<%- include("../partials/userheaders2") %>
     <div class="mobile-header-active mobile-header-wrapper-style">
         <div class="mobile-header-wrapper-inner">
             <div class="mobile-header-top">
@@ -314,24 +314,29 @@
                                         </div> -->
                                         <div class="attr-detail attr-size">
                                             <strong class="mr-10">Size</strong>
-                                            <ul class="list-filter size-filter font-small">
+                                            <ul class="list-filter size-filter font-small" id="selectedSize">
                                                 <li><a href="#">S</a></li>
-                                                <li class="active"><a href="#">M</a></li>
+                                                <li><a href="#">M</a></li>
                                                 <li><a href="#">L</a></li>
                                                 <li><a href="#">XL</a></li>
-                                                <li><a href="#">XXL</a></li>
+
                                             </ul>
                                         </div>
+
+
+
                                         <div class="bt-1 border-color-1 mt-30 mb-30"></div>
                                         <div class="detail-extralink">
                                             <div class="detail-qty border radius">
                                                 <a href="#" class="qty-down"><i class="fi-rs-angle-small-down"></i></a>
-                                                <span class="qty-val">1</span>
+                                                <span class="qty-val" id="quanty">1</span>
                                                 <a href="#" class="qty-up"><i class="fi-rs-angle-small-up"></i></a>
                                             </div>
                                             <div class="product-extra-link2">
-                                                <button type="submit" class="button button-add-to-cart">Add to
+                                                <button type="submit" class="button button-add-to-cart"
+                                                    onclick="addToCartClicked('<%= product._id %>')">Add to
                                                     cart</button>
+
                                                 <a aria-label="Add To Wishlist" class="action-btn hover-up"
                                                     href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
                                                 <a aria-label="Compare" class="action-btn hover-up"
@@ -713,7 +718,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="product-content-wrap">
-                                                    <h2><a href="shop-product-right.html" tabindex="0">Redawesome t-shirt</a></h2>
+                                                    <h2><a href="shop-product-right.html" tabindex="0">Redawesome
+                                                            t-shirt</a></h2>
                                                     <div class="rating-result" title="90%">
                                                         <span>
                                                         </span>
@@ -753,7 +759,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="product-content-wrap">
-                                                    <h2><a href="shop-product-right.html" tabindex="0">Bluorng t-shirt</a></h2>
+                                                    <h2><a href="shop-product-right.html" tabindex="0">Bluorng
+                                                            t-shirt</a></h2>
                                                     <div class="rating-result" title="90%">
                                                         <span>
                                                         </span>
@@ -793,7 +800,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="product-content-wrap">
-                                                    <h2><a href="shop-product-right.html" tabindex="0">Addidas t-shirt</a></h2>
+                                                    <h2><a href="shop-product-right.html" tabindex="0">Addidas
+                                                            t-shirt</a></h2>
                                                     <div class="rating-result" title="90%">
                                                         <span>
                                                         </span>
@@ -832,7 +840,7 @@
                                                         <span class="hot">Hot</span>
                                                     </div>
                                                 </div> -->
-                                                <!-- <div class="product-content-wrap">
+                                        <!-- <div class="product-content-wrap">
                                                     <h2><a href="shop-product-right.html" tabindex="0">T-shirt</a></h2>
                                                     <div class="rating-result" title="90%">
                                                         <span>
@@ -843,7 +851,7 @@
                                                         <span class="old-price">Rs.3500</span>
                                                     </div>
                                                 </div> -->
-                                            <!-- </div> -->
+                                        <!-- </div> -->
                                         <!-- </div> -->
                                     </div>
                                 </div>
@@ -928,7 +936,7 @@
                             <a href="shop-grid-right.html" class="btn btn-sm btn-default"><i
                                     class="fi-rs-filter mr-5"></i> Fillter</a>
                         </div>
-                        Product sidebar Widget 
+                        Product sidebar Widget
                         <div class="sidebar-widget product-sidebar  mb-30 p-30 bg-grey border-radius-10">
                             <div class="widget-header position-relative mb-20 pb-10">
                                 <h5 class="widget-title mb-10">New products</h5>
@@ -984,4 +992,118 @@
             </div>
         </section>
     </main>
-    <%- include("../partials/userfooters")  %>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+
+    <!-- <script>
+        function addToCartClicked(productId) {
+            
+            const quantity = document.getElementById('quanty').innerHTML;
+
+            const selectedSizeElement = document.getElementById('selectedSize');
+
+            const selectedSize = selectedSizeElement.querySelector('li.active a').innerText;
+
+           
+            fetch('/cart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ productId, selectedSize, quantity }),
+            })
+                .then(response => {
+                    if(response.status === true) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Added to Cart',
+                            text: 'The item has been successfully added to your cart.'
+                        });
+                    } else {
+                        console.log('Add to cart failed');
+                    }
+                })
+                .then(data => {
+                    console.log('Response from server:', data);
+                    
+                    
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    </script> -->
+
+    <script>
+        function addToCartClicked(productId) {
+            const quantity = document.getElementById('quanty').innerHTML;
+            const selectedSizeElement = document.getElementById('selectedSize');
+            const selectedSize = selectedSizeElement.querySelector('li.active a').innerText;
+    
+            fetch('/cart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ productId, selectedSize, quantity }),
+            })
+            .then(response => {
+                if (response.ok) {
+                    // HTTP status code in the range 200-299
+                    return response.json();
+                } else {
+                    // Handle non-successful response
+                    throw new Error('Add to cart failed');
+                }
+            })
+            .then(data => {
+                console.log('Response from server:', data);
+    
+                // Check if the response status is true (or modify based on your server response)
+                if (data.status === true) {
+                    // Display SweetAlert for success
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Added to Cart',
+                        text: 'The item has been successfully added to your cart.',
+                    }); 
+                } else if (data.status === "invalidQuantity") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Out of Quantity',
+                        text: 'The item has been out of stock.',
+                    }); 
+                }  else if (data.status === "Out of Stock") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Out of Stock',
+                        text: 'The item has been out of stock.',
+                    }); 
+                }
+                 else if (data.status === "maximumQuantity") {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'You have been reached your stock limit',
+                        text: 'Your cart if full.',
+                    }); 
+
+                }else if (data.status === false ){
+                    location.href="/login"
+                }
+                 else {
+                    // Handle other cases if needed
+                    console.log('Add to cart failed.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Handle error cases, e.g., show an error message
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'An error occurred while adding to cart.',
+                });
+            });
+        }
+    </script>
+    
+
+    <%- include("../partials/userfooters") %>

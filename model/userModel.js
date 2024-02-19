@@ -13,6 +13,11 @@ const addressSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+
+    housename: {
+        type: String,
+        required: true
+    },
     locality: {
         type: String,
         required: true
@@ -65,6 +70,10 @@ const userSchema = new mongoose.Schema({
         default: 0
     },
     address: [addressSchema], 
+    cart: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Cart'
+    }],
     passwordResetToken: String,
     passwordResetTokenExpires: Date,
 });

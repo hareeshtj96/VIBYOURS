@@ -500,12 +500,12 @@
                                                 <form method="post" onsubmit="return validateForm(event)">
                                                     <div class="form-group">
                                                         <input type="email" id="email" name="email"
-                                                            placeholder="Your Email" onblur="validateEmail()">
+                                                            placeholder="Your Email" onblur="validateEmail()" value="hareeshtj1996@gmail.com">
                                                         <p id="emailError" class="error"></p>
                                                     </div>
                                                     <div class="form-group">
                                                         <input type="password" id="password" name="password"
-                                                            placeholder="Password" onblur="validatePassword()">
+                                                            placeholder="Password" onblur="validatePassword()" value="hareesh123">
                                                         <p id="passwordError" class="error"></p>
                                                     </div>
                                                     <div class="login_footer form-group">
@@ -560,9 +560,15 @@
 
                                     if (!emailPattern.test(emailInput)) {
                                         emailError.innerHTML = 'Invalid email format. Please enter a valid email address.';
+                                        setTimeout(function() {
+                                            emailError.innerHTML = ''
+                                        }, 3000);
 
                                     } else if (emailInput == "") {
                                         emailError.innerHTML = 'it is required';
+                                        setTimeout(function() {
+                                            emailError.innerHTML = ''
+                                        }, 3000);
                                     } else {
                                         emailError.innerHTML = '';
 
@@ -576,6 +582,9 @@
 
                                     if (!passwordPattern.test(passwordInput)) {
                                         passwordError.innerHTML = 'Invalid password format.';
+                                        setTimeout(function() {
+                                            passwordError.innerHTML = ''
+                                        }, 3000);
 
                                     } else {
                                         passwordError.innerHTML = '';
@@ -606,14 +615,7 @@
 
                             </script>
 
-                            <script>
-                                // Check if the back button has been pressed
-                                if (!!window.performance && window.performance.navigation.type === 2) {
-                                    console.log('Reloading');
-                                    // Force the page to reload
-                                    window.location.reload();
-                                }
-                            </script>
+                            
                             <style>
                                 .error {
                                     color: red;

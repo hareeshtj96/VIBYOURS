@@ -312,8 +312,13 @@ const passwordReset = async (req, res) => {
 const loadDashboard = async (req, res) => {
     try {
 
+
+        
+        const productData = await addProduct.find({}).limit(16);
+        const categoryData = await addCategory.find({})
+
         const userData = await User.findById({ _id: req.session.user_id });
-        res.render('dashboard', { user: userData });
+        res.render('dashboard', { user: userData, product: productData, category: categoryData });
 
     } catch (error) {
         console.log(error.message);
@@ -378,7 +383,7 @@ const load_home = async (req, res) => {
 //load userProfile
 const userProfile = async (req, res) => {
     try {
-        console.log(req.session.user_id);
+        // console.log(req.session.user_id);
 
         const userId = req.session.user_id;
 
@@ -401,6 +406,7 @@ const postAddress = async (req, res) => {
             name,
             mobile,
             pincode,
+            housename,
             locality,
             city,
             state,
@@ -425,6 +431,7 @@ const postAddress = async (req, res) => {
                 name,
                 mobile,
                 pincode,
+                housename,
                 locality,
                 city,
                 state,
@@ -439,6 +446,7 @@ const postAddress = async (req, res) => {
                 name,
                 mobile,
                 pincode,
+                housename,
                 locality,
                 city,
                 state,
@@ -458,6 +466,139 @@ const postAddress = async (req, res) => {
     }
 }
 
+
+//get editaddress
+const getEditAddress = async (req, res) => {
+    try {
+        const addressId = req.query.addressId;
+        const user = req.session.user_id;
+
+
+
+        // console.log("Address ID:", addressId);
+
+        const currentAddress = await User.findOne({
+            "address._id": addressId,
+        });
+
+        // console.log("Current Address:", currentAddress);
+
+        if (!currentAddress) {
+            return res.status(404).send('Address not found');
+        }
+
+        const addressData = currentAddress.address.find((item) => {
+            return item._id.toString() == addressId.toString()
+        })
+        // console.log(addressData);
+
+        if (!addressData) {
+            return res.status(404).send('Address not found');
+        }
+
+
+        // console.log("User Object:", user);
+
+        res.render("editAddress", { address: addressData, user })
+
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).send('Internal Server Error');
+    }
+}
+
+
+//updating editAddress
+const updateEditAddress = async (req, res) => {
+    try {
+        const addressId = req.query.addressId;
+        const data = req.body;
+        const user = req.session.user_id;
+
+        console.log("Address ID:", addressId);
+
+
+        const findUser = await User.findOne({ "_id": user });
+
+        console.log("find user result", findUser);
+
+        if (findUser && findUser.address) {
+            const matchedAddress = findUser.address.find(item => item._id == addressId);
+            console.log("matched Address:", matchedAddress);
+
+            await User.updateOne(
+                {
+                    "_id": user,
+                    "address._id": addressId,
+                },
+                {
+                    $set: {
+                        "address.$": {
+                            _id: addressId,
+                            name: data.name,
+                            mobile: data.mobile,
+                            pincode: data.pincode,
+                            housename: data.housename,
+                            locality: data.locality,
+                            city: data.city,
+                            state: data.state,
+                            landmark: data.landmark,
+                            addressType: data.addressType,
+                        },
+                    }
+                }
+            ).then((result) => {
+                console.log("Update Result:", result);
+                res.redirect('/userProfile');
+            }).catch((error) => {
+                console.error("Update Error:", error);
+                res.status(500).send('Internal Server Error');
+            });
+        } else {
+            console.log("User not found");
+            res.redirect('/userProfile');
+        }
+    } catch (error) {
+        console.error("General Error:", error);
+        res.status(500).send('Internal Server Error');
+    }
+}
+
+
+
+//delete address
+const getDeleteAddress = async (req, res) => {
+    try {
+        const addressId = req.query.addressId;
+
+        const user = req.session.user_id;
+
+        const findUser = await User.findOne({ "_id": user });
+        await User.updateOne(
+            {
+                "address._id": addressId
+            },
+            {
+
+                $pull: {
+                    address: {
+                        _id: addressId
+                    }
+                }
+            }
+        )
+            .then((data) => res.redirect('/userProfile'))
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+
+
+
+
+
+
 module.exports = {
     loadRegister,
     insertUser,
@@ -475,6 +616,9 @@ module.exports = {
     listIndividualProduct,
     load_home,
     userProfile,
-    postAddress
+    postAddress,
+    getEditAddress,
+    updateEditAddress,
+    getDeleteAddress
 
 };

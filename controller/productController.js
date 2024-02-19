@@ -32,15 +32,6 @@ const upload = multer({
 
 
 
-//loading product 
-// const loadProduct = async (req, res) => {
-//     try {
-//         res.render('addProduct');
-//     } catch (error) {
-//         console.log(error.message);
-//     }
-// }
-
 
 const loadProduct = async (req, res) => {
     try {
@@ -59,8 +50,11 @@ const verifyProduct = async (req, res) => {
         } else if (err) {
             return res.status(500).json({ error: err.message });
         }
+        console.log(req.body,"hhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
 
-        const { producttitle, description, brand, size, price, category, is_listed } = req.body;
+        const { producttitle, description, brand, sizeS, sizeM, sizeL, sizeXL, price, category, is_listed } = req.body;
+
+
 
         try {
             // Verify if product exists with the same title
@@ -75,7 +69,12 @@ const verifyProduct = async (req, res) => {
                 producttitle,
                 description,
                 brand,
-                size,
+                size: [
+                    { size: 'S', quantity: sizeS },
+                    { size: 'M', quantity: sizeM },
+                    { size: 'L', quantity: sizeL },
+                    { size: 'XL', quantity: sizeXL }
+                ],
                 price,
                 category,
                 images: req.files.map(file => file.filename),
@@ -99,7 +98,7 @@ const verifyProduct = async (req, res) => {
 //view products
 const loadProductGrid = async (req, res) => {
     try {
-        const addProducts = await addProduct.find()
+        const addProducts = await addProduct.find({})
         res.render('viewProduct', { addProduct: addProducts });
 
     } catch (error) {
@@ -111,6 +110,7 @@ const loadProductGrid = async (req, res) => {
 const editProduct = async (req, res) => {
     try {
 
+        const addProducts = await addProduct.find()
 
         const productId = req.query.id;
         const existingProduct = await addProduct.findById(productId);
@@ -136,12 +136,19 @@ const editProduct = async (req, res) => {
         existingImages = existingImages.slice(0, 4);
 
 
+        const { sizeS, sizeM, sizeL, sizeXL } = req.body;
 
         const updatedProduct = {
+            
             producttitle: req.body.producttitle,
             description: req.body.description,
             brand: req.body.brand,
-            size: req.body.size,
+            size: [
+                { size: 'S', quantity: sizeS },
+                { size: 'M', quantity: sizeM },
+                { size: 'L', quantity: sizeL },
+                { size: 'XL', quantity: sizeXL }
+            ],
             price: req.body.price,
             category: req.body.category,
             images: existingImages,
@@ -154,9 +161,10 @@ const editProduct = async (req, res) => {
         // const id = req.query.id;
         // const productData = await addProduct.findById(id);
 
+        console.log(productData);
 
         if (productId) {
-            res.render('editProduct', { product: productData, categories });
+            res.render('editProduct', { product: productData, categories  });
         } else {
             res.redirect('/admin/viewProduct');
         }
@@ -197,6 +205,7 @@ const updateProduct = async (req, res) => {
             const allImages = existingImages.concat(newImages)
 
 
+            const { sizeS, sizeM, sizeL, sizeXL } = req.body;
 
             const updatedCategory = req.body.category
 
@@ -205,7 +214,12 @@ const updateProduct = async (req, res) => {
                 producttitle: req.body.producttitle,
                 description: req.body.description,
                 brand: req.body.brand,
-                size: req.body.size,
+                size: [
+                    { size: 'S', quantity: sizeS },
+                    { size: 'M', quantity: sizeM },
+                    { size: 'L', quantity: sizeL },
+                    { size: 'XL', quantity: sizeXL }
+                ],
                 price: req.body.price,
                 category: updatedCategory,
                 images: allImages,
@@ -249,6 +263,28 @@ const deleteProduct = async (req, res) => {
     }
 };
 
+//block products
+const blockProduct = async (req, res) => {
+    const productId = req.params.id;
+    try {
+        
+        const product = await addProduct.findById(productId);
+
+        if(!product) {
+            return res.status(404).json({ error: 'Product not found'})
+        }
+
+        product.is_listed = product.is_listed === 1 ? 0 : 1;;
+
+        await product.save();
+
+        res.redirect('/admin/viewProduct')
+
+    }catch (error) {
+        console.error('Error blocking product:', error);
+        res.status(500).json({ error: 'Internal Server Error'});
+    }
+}
 
 
 module.exports = {
@@ -257,5 +293,6 @@ module.exports = {
     loadProductGrid,
     editProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    blockProduct
 }

@@ -43,7 +43,7 @@
                     </a>
                     <div class="submenu">
                         <!-- <a href="page-products-list.html">Product List</a> -->
-                        <a href="viewProduct">Product grid</a>
+                        <a href="viewProduct">Product list</a>
                         <a href="category">Categories</a>
                         <a href="addProduct">Add product</a>
 
@@ -255,12 +255,22 @@
                                         </div>
                                         <div class="mb-4">
                                             <label class="form-label">Size</label>
-                                            <select class="form-select" name="size" value="<%=product.size%>">
-                                                <option value="S">S</option>
-                                                <option value="M">M</option>
-                                                <option value="L">L</option>
-                                                <option value="XL">XL</option>
+                                            <select class="form-select" name="size" onblur="validateSize()">
+                                                <option value="s">S</option>
+                                                <option value="m">M</option>
+                                                <option value="l">L</option>
+                                                <option value="xl">XL</option>
                                             </select>
+                                        </div>
+                                        <div class="mb-4">
+                                            <label class="form-label">Size S</label>
+                                            <input type="number" placeholder="Add quantity" class="form-control" name="sizeS" value="<%= product.size[0].quantity  %>" onblur="validateSize('S')"  max="100">
+                                            <label class="form-label">Size M</label>
+                                            <input type="number" placeholder="Add quantity" class="form-control" name="sizeM" value="<%= product.size[1].quantity  %>" onblur="validateSize('M')"  max="100">
+                                            <label class="form-label">Size L</label>
+                                            <input type="number" placeholder="Add quantity" class="form-control" name="sizeL" value="<%= product.size[2].quantity %>" onblur="validateSize('L')"  max="100">
+                                            <label class="form-label">Size XL</label>
+                                            <input type="number" placeholder="Add quantity" class="form-control" name="sizeXL" value="<%= product.size[3].quantity  %>" onblur="validateSize('XL')"  max="100">
                                         </div>
                                     </div>
                                 </div>
