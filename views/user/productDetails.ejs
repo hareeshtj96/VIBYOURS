@@ -274,9 +274,9 @@
                                         </div>
                                         <div class="clearfix product-price-cover">
                                             <div class="product-price primary-color float-left">
-                                                <ins><span class="text-brand"><%- product.price %></span></ins>
-                                                <ins><span class="old-price font-md ml-15">$200.00</span></ins>
-                                                <span class="save-price  font-md color3 ml-15">25% Off</span>
+                                                <ins><span class="text-brand">Rs.<%- product.price %></span></ins>
+                                                <!-- <ins><span class="old-price font-md ml-15">$200.00</span></ins>
+                                                <span class="save-price  font-md color3 ml-15">25% Off</span> -->
                                             </div>
                                         </div>
                                         <div class="bt-1 border-color-1 mt-15 mb-15"></div>
@@ -346,8 +346,7 @@
                                         <ul class="product-meta font-xs color-grey mt-50">
                                             <li class="mb-5">SKU: <a href="#">FWM15VKT</a></li>
                                             <li class="mb-5">Tags: <a href="#" rel="tag">Clothes</a></li>
-                                            <li>Availability:<span class="in-stock text-success ml-5">8 Items In
-                                                    Stock</span></li>
+                                            <li>Availability:<span class="in-stock text-success ml-5"></span></li>
                                         </ul>
                                     </div>
                                     <!-- Detail Info -->
@@ -888,10 +887,10 @@
                                 <div class="price-filter-inner">
                                     <div id="slider-range"></div>
                                     <div class="price_slider_amount">
-                                        <div class="label-input">
+                                        <!-- <div class="label-input">
                                             <span>Range:</span><input type="text" id="amount" name="price"
                                                 placeholder="Add Your Price" />
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
                             </div>
@@ -1037,7 +1036,7 @@
             const quantity = document.getElementById('quanty').innerHTML;
             const selectedSizeElement = document.getElementById('selectedSize');
             const selectedSize = selectedSizeElement.querySelector('li.active a').innerText;
-    
+
             fetch('/cart', {
                 method: 'POST',
                 headers: {
@@ -1045,65 +1044,72 @@
                 },
                 body: JSON.stringify({ productId, selectedSize, quantity }),
             })
-            .then(response => {
-                if (response.ok) {
-                    // HTTP status code in the range 200-299
-                    return response.json();
-                } else {
-                    // Handle non-successful response
-                    throw new Error('Add to cart failed');
-                }
-            })
-            .then(data => {
-                console.log('Response from server:', data);
-    
-                // Check if the response status is true (or modify based on your server response)
-                if (data.status === true) {
-                    // Display SweetAlert for success
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Added to Cart',
-                        text: 'The item has been successfully added to your cart.',
-                    }); 
-                } else if (data.status === "invalidQuantity") {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Out of Quantity',
-                        text: 'The item has been out of stock.',
-                    }); 
-                }  else if (data.status === "Out of Stock") {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Out of Stock',
-                        text: 'The item has been out of stock.',
-                    }); 
-                }
-                 else if (data.status === "maximumQuantity") {
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'You have been reached your stock limit',
-                        text: 'Your cart if full.',
-                    }); 
+                .then(response => {
+                    if (response.ok) {
+                        // HTTP status code in the range 200-299
+                        return response.json();
+                    } else {
+                        // Handle non-successful response
+                        throw new Error('Add to cart failed');
+                    }
+                })
+                .then(data => {
+                    console.log('Response from server:', data);
 
-                }else if (data.status === false ){
-                    location.href="/login"
-                }
-                 else {
-                    // Handle other cases if needed
-                    console.log('Add to cart failed.');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                // Handle error cases, e.g., show an error message
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'An error occurred while adding to cart.',
+                    // Check if the response status is true (or modify based on your server response)
+                    if (data.status === true) {
+                        // Display SweetAlert for success
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Added to Cart',
+                            text: 'The item has been successfully added to your cart.',
+                        });
+                    } else if (data.status === "invalidQuantity") {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Out of Quantity',
+                            text: 'The item has been out of stock.',
+                        });
+                    } else if (data.status === "Out of Stock") {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Out of Stock',
+                            text: 'The item has been out of stock.',
+                        });
+                    }
+                    else if (data.status === "maximumQuantity") {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'You have been reached your stock limit',
+                            text: 'Your cart if full.',
+                        });
+
+                    } else if (data.status === false) {
+                        location.href = "/login"
+                    }
+                    else {
+                        // Handle other cases if needed
+                        console.log('Add to cart failed.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    // Handle error cases, e.g., show an error message
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'An error occurred while adding to cart.',
+                    });
                 });
-            });
         }
+
+
+
     </script>
-    
+
+   
+
+
+
 
     <%- include("../partials/userfooters") %>

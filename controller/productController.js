@@ -64,6 +64,9 @@ const verifyProduct = async (req, res) => {
                 return res.status(400).json({ error: 'Product with this title already exists.' });
             }
 
+            const categoryObject = await addCategory.findById(category);
+            const categoryName = categoryObject ? categoryObject.name : null;
+
             // Create a new product
             const newProduct = new addProduct({
                 producttitle,
@@ -76,7 +79,7 @@ const verifyProduct = async (req, res) => {
                     { size: 'XL', quantity: sizeXL }
                 ],
                 price,
-                category,
+                category: categoryName,
                 images: req.files.map(file => file.filename),
                 is_listed: 1
             });

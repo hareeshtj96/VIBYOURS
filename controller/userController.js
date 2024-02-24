@@ -4,7 +4,9 @@ const sendOTPEmail = require('../utils/emailUtils');
 const forgotOTPEmail = require('../utils/forgotOTP');
 const addProduct = require("../model/productModel");
 const addCategory = require("../model/categoryModel");
+const Order = require("../model/orderModel");
 const bcrypt = require('bcrypt');
+const { name } = require('ejs');
 
 
 
@@ -312,9 +314,7 @@ const passwordReset = async (req, res) => {
 const loadDashboard = async (req, res) => {
     try {
 
-
-        
-        const productData = await addProduct.find({}).limit(16);
+        const productData = await addProduct.find({is_listed:1}).limit(16)
         const categoryData = await addCategory.find({})
 
         const userData = await User.findById({ _id: req.session.user_id });
@@ -350,8 +350,8 @@ const listIndividualProduct = async (req, res) => {
 
         const id = req.query.id;
         const userData = await User.findById(req.session.user_id)
-        const productData = await addProduct.findById({ _id: id })
-        const categoryData = await addCategory.find()
+        const productData = await addProduct.findById({ _id: id, is_listed: 1})
+        const categoryData = await addCategory.find({})
         if (productData) {
             res.render('productDetails', { user: userData, product: productData, category: categoryData })
         } else {
@@ -363,6 +363,7 @@ const listIndividualProduct = async (req, res) => {
         console.log(error.message);
     }
 }
+
 
 
 //loading home page
@@ -388,7 +389,12 @@ const userProfile = async (req, res) => {
         const userId = req.session.user_id;
 
         const userData = await User.findById(userId)
-        res.render('userProfile', { user: userData });
+
+        const orderData = await Order.find({ user: userId })
+
+        // console.log("orderData", orderData);
+
+        res.render('userProfile', { user: userData, orderData });
     } catch (error) {
         console.log(error.message);
         res.status(500).send('Internal Servor Error')

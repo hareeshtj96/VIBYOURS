@@ -259,8 +259,8 @@
                                     </td>
                                     <td>
                                         <% if (addProduct[i].size && addProduct[i].size.length> 0) { %>
-                                            <% ['s', 'm' , 'l' , 'xl' ].forEach(size=> { %>
-                                                <%= size.toUpperCase() %>: <%= addProduct[i].size.find(item=> item.size
+                                            <% ['S', 'M' , 'L' , 'XL' ].forEach(size=> { %>
+                                                <%= size %>: <%= addProduct[i].size.find(item=> item.size
                                                         === size)?.quantity || 0 %>
                                                         <% }) %>
                                                             <% } else { %>

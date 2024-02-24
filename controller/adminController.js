@@ -1,4 +1,5 @@
 const User = require("../model/userModel");
+const Order = require("../model/orderModel");
 const bcrypt = require("bcrypt");
 const randomstring = require('randomstring');
 
@@ -177,6 +178,19 @@ const deleteUser = async (req, res) => {
 
 
 
+// Order list
+const getOrderList = async (req, res) => {
+    try {
+
+        const orderData = await Order.find({});
+        console.log(orderData, "orderData");
+
+        res.render('orderList', {orderData});
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
 
 
 
@@ -190,6 +204,7 @@ module.exports = {
     addUser,
     editUserLoad,
     updateUsers,
-    deleteUser
+    deleteUser,
+    getOrderList
 
 }

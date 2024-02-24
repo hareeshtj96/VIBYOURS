@@ -222,17 +222,17 @@
             </div>
 
             <!-- Category creation form -->
-            <form action="/admin/category" method="post">
+            <form id="categoryForm" action="/admin/category" method="post">
                 <div class="mb-4">
                     <label for="category_name" class="form-label">Category Name</label>
-                    <input type="text" placeholder="Type here" class="form-control" name="name" required />
+                    <input type="text" placeholder="Type here" class="form-control" name="name" id="categoryName" required />
                 </div>
                 <div class="mb-4">
                     <label class="form-label">Description</label>
                     <textarea placeholder="Type here" class="form-control" name="description" required></textarea>
                 </div>
                 <div class="d-grid">
-                    <button type="submit" class="btn btn-primary">Create category</button>
+                    <button type="button" onclick="checkAndSubmit()" class="btn btn-primary">Create category</button>
                 </div>
             </form>
 
@@ -258,7 +258,7 @@
                                 <%= category.description %>
                             </div>
                             <div class="col-lg-2 col-sm-2 col-4 col-status">
-                                <% if (category.is_blocked=== 0) { %>
+                                <% if (category.is_blocked===0) { %>
                                     <span class="badge rounded-pill alert-success">List</span>
                                     <% } else { %>
                                         <span class="badge rounded-pill alert-danger">Unlist</span>
@@ -307,6 +307,58 @@
     <script src="/adminAssets/assets/js/vendors/jquery.fullscreen.min.js"></script>
     <!-- Main Script -->
     <script src="/adminAssets/assets/js/main.js" type="text/javascript"></script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        async function checkAndSubmit() {
+            const nameInput = document.getElementById('categoryName');
+            const name = nameInput.value.trim().toLowerCase(); // Convert to lowercase
+        
+            // Example: Check if the name is not empty
+            if (!name) {
+                showAlert('error', 'Oops...', 'Please enter a category name');
+                return;
+            }
+        
+            // Check if the category name already exists
+            const response = await checkCategoryExists(name);
+        
+            if (response && response.status === 'CategoryExists') {
+                // Display SweetAlert notification for existing category
+                showAlert('error', 'Oops...', response.message);
+                return;
+            }
+        
+            // Update the input value with the standardized name
+            nameInput.value = name;
+        
+            // Submit the form
+            document.getElementById('categoryForm').submit();
+        }
+        
+        async function checkCategoryExists(name) {
+            try {
+                const response = await fetch(`/admin/category/check?name=${name}`);
+                return await response.json();
+            } catch (error) {
+                console.error('Error checking category:', error.message);
+                return { status: 'ServerError', message: 'Failed to check category existence' };
+            }
+        }
+        
+        function showAlert(icon, title, text) {
+            Swal.fire({
+                icon: icon,
+                title: title,
+                text: text,
+            });
+        }
+        </script>
+
+
+
 </body>
 
 </html>

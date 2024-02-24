@@ -47,6 +47,8 @@ admin_route.get('/edit-user', isLogin, adminController.editUserLoad);
 
 admin_route.post('/edit-user', isLogin, adminController.updateUsers);
 
+admin_route.get('/orderList', isLogin, adminController.getOrderList)
+
 
 
 
@@ -86,6 +88,10 @@ admin_route.get('/editCategory', isLogin, categoryController.editCategory);
 admin_route.post('/editCategory', isLogin, categoryController.updateCategory);
 
 admin_route.get('/deleteCategory/:categoryDataId', isLogin, categoryController.deleteCategory);
+
+
+
+
 
 
 admin_route.get('*', function (req, res) {

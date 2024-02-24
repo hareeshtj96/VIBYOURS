@@ -60,26 +60,47 @@ user_route.get('/dashboard', isBlocked, isLogin, userController.loadDashboard);
 user_route.get('/home', isLogin, userController.userLogout);
 
 
+
 //Product actions
-user_route.get('/productDetails', userController.listIndividualProduct)
+user_route.get('/productDetails', isLogin, userController.listIndividualProduct)
+
 
 
 //userProfile actions
-user_route.get('/userProfile', userController.userProfile);
+user_route.get('/userProfile', isLogin, userController.userProfile);
 
-user_route.post('/userProfile', userController.postAddress);
+user_route.post('/userProfile', isLogin, userController.postAddress);
 
-user_route.get('/editAddress', userController.getEditAddress)
+user_route.get('/editAddress', isLogin, userController.getEditAddress)
 
-user_route.post('/editAddress', userController.updateEditAddress);
+user_route.post('/editAddress', isLogin, userController.updateEditAddress);
 
-user_route.get('/deleteAddress', userController.getDeleteAddress);
+user_route.get('/deleteAddress', isLogin, userController.getDeleteAddress);
+
 
 
 //cart actions
-// user_route.get('/cart', cartController.getCartPage);
+user_route.get('/cart', isLogin, cartController.getCartPage);
 
-user_route.post('/cart', cartController.addToCart);
+user_route.post('/cart', isLogin, cartController.addToCart);
+
+user_route.get('/removeItem', isLogin, cartController.removeItem);
+
+user_route.post('/changingQuantity', isLogin, cartController.changingQuantity);
+
+
+//checkout Actions
+user_route.get('/checkOut', isLogin, cartController.loadCheckOUt);
+
+user_route.post('/checkOut', isLogin, cartController.doCheckOut);
+
+user_route.get('/orderConfirmation', isLogin, cartController.orderConfirmation);
+
+user_route.get('/orderDetails', isLogin, cartController.getOrderDetails);
+
+
+
+
 
 
 module.exports = user_route;

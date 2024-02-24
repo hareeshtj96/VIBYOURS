@@ -252,12 +252,12 @@
                                             <label class="form-label">Brand name</label>
                                             <select class="form-select" name="brand" onkeyup="validateBrand()">
 
-                                                <option value="Adidas">Adidas</option>
-                                                <option value="Nike">Nike</option>
-                                                <option value="Puma">Puma</option>
+                                                <option value="Bluorng">Bluorng</option>
+                                                <option value="H&M">H&M</option>
+                                               
                                             </select>
                                         </div>
-                                        <div class="mb-4">
+                                        <!-- <div class="mb-4">
                                             <label class="form-label">Size</label>
                                             <select class="form-select" name="size" onblur="validateSize()">
                                                 <option value="s">S</option>
@@ -265,7 +265,7 @@
                                                 <option value="l">L</option>
                                                 <option value="xl">XL</option>
                                             </select>
-                                        </div>
+                                        </div> -->
                                         <div class="mb-4">
                                             <label class="form-label">Size S</label>
                                             <input type="number" placeholder="Add quantity" class="form-control" name="sizeS" onblur="validateSize('S')" min="0" max="100">
@@ -312,12 +312,15 @@
                                             <label class="mb-2">
                                                 <select class="form-select" name="category" required
                                                     onblur="validateCategory()">
-                                                    <option value="" selected>None</option>
+
+                                                   <option value="" selected>None</option>
                                                     <% categories.forEach(function(category) { %>
                                                         <option value="<%= category._id %>">
                                                             <%= category.name %>
                                                         </option>
                                                         <% }) %>
+                                                   
+                                                        
                                                 </select>
                                             </label>
                                         </div>

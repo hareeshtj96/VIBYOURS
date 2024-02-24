@@ -21,6 +21,13 @@ const createCategory = async (req, res) => {
     const { name, description, is_blocked } = req.body;
 
     try {
+        const lowercaseName = name.toLowerCase();
+
+        const existingCategory = await addCategory.findOne({ name: lowercaseName });
+
+        if (existingCategory) {
+            return res.json({ status: "Category Name already exists" });
+        }
 
         // Create a new category
         const newCategory = new addCategory({

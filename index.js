@@ -6,6 +6,7 @@ const userRoute = require('./routes/userRoute')
 const adminRoute = require('./routes/adminRoute');
 const Swal = require('sweetalert2')
 require("./DB/dataBase");
+require('dotenv').config();
 
 
 
@@ -13,6 +14,11 @@ const app = express();
 
 
 app.use(flash());
+
+//setting view engine
+app.set('view engine', 'ejs')
+app.set('views', './views/user');
+
 
 //loading static files
 app.use("/static", express.static(path.join(__dirname, "public")))
@@ -36,8 +42,17 @@ app.use('/', userRoute);
 app.use('/admin', adminRoute);
 
 
-app.listen(7000, function () {
-    console.log(`server is running at port 7000`)
+
+//for handling error page
+app.use('*', (req, res) => {
+  res.render('error404');
+});
+
+
+const port = process.env.PORT || 3000;
+
+app.listen(port, function () {
+    console.log(`server is running  at port ${port}`)
 });
 
 
