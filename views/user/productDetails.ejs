@@ -1,4 +1,5 @@
 <%- include("../partials/userheaders2") %>
+
     <div class="mobile-header-active mobile-header-wrapper-style">
         <div class="mobile-header-wrapper-inner">
             <div class="mobile-header-top">
@@ -338,7 +339,11 @@
                                                     cart</button>
 
                                                 <a aria-label="Add To Wishlist" class="action-btn hover-up"
-                                                    href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                                                    onclick="addToWishlist('<%= product._id %>')">
+                                                    <i class="fi-rs-heart"></i>
+                                                </a>
+
+
                                                 <a aria-label="Compare" class="action-btn hover-up"
                                                     href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
                                             </div>
@@ -1105,9 +1110,37 @@
 
 
 
+
+
+        function addToWishlist(productId) {
+            fetch(`/addToWishlist?id=${productId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Product added to wishlist',
+                        text: data,
+                    });
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Failed to add product to wishlist',
+                    });
+                });
+        }
+
+
     </script>
 
-   
+
 
 
 

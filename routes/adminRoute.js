@@ -49,6 +49,10 @@ admin_route.post('/edit-user', isLogin, adminController.updateUsers);
 
 admin_route.get('/orderList', isLogin, adminController.getOrderList)
 
+admin_route.get('/orderDetails', isLogin, adminController.orderDetails);
+
+admin_route.post('/orderStatusChanged', isLogin, adminController.orderStatusChanging)
+
 
 
 

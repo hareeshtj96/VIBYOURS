@@ -1,7 +1,10 @@
 const User = require("../model/userModel");
+const addProduct = require("../model/productModel");
+const addCategory = require("../model/categoryModel")
 const Order = require("../model/orderModel");
 const bcrypt = require("bcrypt");
 const randomstring = require('randomstring');
+const mongoose = require('mongoose');
 
 
 
@@ -13,6 +16,7 @@ const loadLogin = async (req, res) => {
         res.render('adminLogin')
     } catch (error) {
         console.log(error);
+        res.status(500).send('Internal Server Error');
     }
 }
 
@@ -71,6 +75,7 @@ const logout = async (req, res) => {
 
     } catch (error) {
         console.log('logout', error.message);
+        res.status(500).send('Internal Server Error');
 
     }
 }
@@ -183,15 +188,99 @@ const getOrderList = async (req, res) => {
     try {
 
         const orderData = await Order.find({});
-        console.log(orderData, "orderData");
+        // console.log(orderData, "orderData");
 
-        res.render('orderList', {orderData});
+        res.render('orderList', { orderData });
     } catch (error) {
         console.log(error.message);
+        res.status(500).json({ message: "Internal Server Error" });
     }
 }
 
 
+
+//order details
+const orderDetails = async (req, res) => {
+
+    try {
+
+
+        const orderId = req.query.orderId;
+
+        // console.log("orderId", orderId);
+
+        // Find the order data
+        const orderData = await Order.findOne({ orderId }).populate({
+            path: 'items.productId',
+            model: 'addProduct',
+            select: 'producttitle'
+        });
+
+        // console.log("orderData", orderData);
+
+        const userId = req.session.user_id;
+
+        // Find the user data
+        const userData = await User.findById({ _id: userId });
+
+        // console.log("userData", userData);
+
+        // Find the product data
+        const productData = await addProduct.find({ _id: { $in: orderData.items.map(item => item.product) } });
+
+        // console.log("product", productData);
+
+        // Find the category data
+        const categoryIds = productData.map(product => product.categoryId);
+        const categoryData = await addCategory.find({ _id: { $in: categoryIds } });
+
+        // console.log("category data", categoryData);
+
+        // Assemble the data
+        const assembledOrderData = {
+            orderData: orderData,
+            userData: userData,
+            productData: productData,
+            categoryData: categoryData
+        };
+
+        // console.log("assembledOrderData", assembledOrderData);
+
+        res.render("orderDetails", assembledOrderData);
+
+
+    } catch (error) {
+        // Handle the error appropriately
+        console.error(error);
+        res.status(500).send("Internal Server Error");
+    }
+}
+
+
+//changing orderStatus
+const orderStatusChanging = async (req, res) => {
+    
+    try {
+        const { orderId, status } = req.body;
+
+        const changeOrderStatus = await Order.findOneAndUpdate(
+            { orderId: orderId },
+            { $set: { status: status } },
+            { new: true }
+        );
+        
+
+        if (changeOrderStatus) {
+            res.json({ status: "OrderStatusChanged" });
+        } else {
+            res.status(404).json({ message: 'Order not found' });
+        }
+       
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+}
 
 
 module.exports = {
@@ -205,6 +294,8 @@ module.exports = {
     editUserLoad,
     updateUsers,
     deleteUser,
-    getOrderList
+    getOrderList,
+    orderDetails,
+    orderStatusChanging
 
 }

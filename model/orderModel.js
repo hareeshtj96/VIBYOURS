@@ -33,49 +33,62 @@ const orderSchema = new mongoose.Schema({
             min: [1, 'Quantity can not be less than 1.'],
             default: 1,
         },
+        size: {
+        type: String, 
+        required: true,
+    },
         price: {
-            type: Number,
-            required: true,
-        },
-    },],
-    billTotal: {
         type: Number,
         required: true,
     },
+    },],
+    billTotal: {
+    type: Number,
+    required: true,
+},
     paymentMethod: {
-        type: String,
-    },
+    type: String,
+},
     paymentStatus: {
-        type: String,
-        enum: ['Pending', 'Success', 'Failed'],
-        default: 'Pending',
-    },
+    type: String,
+    enum: ['Pending', 'Success', 'Failed'],
+    default: 'Pending',
+},
     deliveryAddress: {
-        type: {
-            name: String,
-            houseName: String,
-            street: String,
-            pincode: Number,
-            city: String,
-            state: String,
-            country: String,
-            phone: String,
-            email: String
+    type: {
+        name: String,
+        houseName: String,
+        housename: String,
+        street: String,
+        pincode: Number,
+        city: String,
+        state: String,
+        country: String,
+        locality: String,
+        phone: String,
+        mobile: String,
+        email: String,
+        landmark: String,
+        addressType: String,
+        savedAddress: {
+            type: ObjectID,
+            ref: 'User',
         },
-        required: true,
     },
+    required: true,
+},
     orderDate: {
-        type: Date,
-        default: Date.now,
-    },
+    type: Date,
+    default: Date.now,
+},
     status: {
-        type: String,
-        enum: ['Pending', 'Processing', 'Shipped', 'Delivered', 'Canceled', 'Returned'],
-        default: 'Pending'
-    },
+    type: String,
+    enum: ['Pending', 'Processing', 'Shipped', 'Delivered', 'Canceled', 'Returned'],
+    default: 'Pending'
+},
     reason: {
-        type: String
-    },
+    type: String
+},
 
 
     requests: [{
@@ -94,9 +107,9 @@ const orderSchema = new mongoose.Schema({
 
 
 },
-    {
-        timestamps: true
+{
+    timestamps: true
         , strictPopulate: false
-    });
+});
 
 module.exports = mongoose.model('Order', orderSchema);

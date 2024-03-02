@@ -1,0 +1,190 @@
+<%- include ("../partials/adminheaders") %>
+
+<section class="content-main">
+  <div class="content-header">
+    <div>
+      <h2 class="content-title card-title">Order Detail</h2>
+      <% if (orderData) { %>
+      <p>Details for Order ID: <%= orderData.orderId %></p>
+      <% } %>
+    </div>
+  </div>
+
+  <% if (orderData) { %>
+  <div class="card">
+    <header class="card-header">
+      <div class="row align-items-center">
+        <div class="col-lg-6 col-md-6 mb-lg-0 mb-15">
+          <span>
+            <i class="material-icons md-calendar_today"></i>
+            <b> <%= orderData.orderDate.toDateString() %> </b>
+          </span>
+          <br />
+          <small class="text-muted">Order ID: <%= orderData.orderId %></small>
+        </div>
+        <div class="col-lg-6 col-md-6 ms-auto text-md-end">
+          <select
+            class="form-select d-inline-block mb-lg-0 mb-15 mw-200"
+            id="statusOptions"
+          >
+            <option>Change status</option>
+            <option value="Confirmed">Confirmed</option>
+            <option value="Shipped">Shipped</option>
+            <option value="Delivered">Delivered</option>
+            <option value="Cancelled">Cancelled</option>
+          </select>
+          <button class="btn btn-primary" id="status">Save</button>
+        </div>
+      </div>
+    </header>
+  </div>
+
+  <div class="card-body">
+    <div class="row mb-50 mt-20 order-info-wrap">
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Customer</h5>
+            <p class="card-text">
+              <%= orderData.deliveryAddress.name %><br />
+              <%= orderData.deliveryAddress.email %><br />
+              <%= orderData.deliveryAddress.phone %><br />
+              <%= orderData.deliveryAddress.mobile %>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Deliver to</h5>
+            <p class="card-text">
+              <% if (orderData && orderData.deliveryAddress) { %> <%=
+              orderData.deliveryAddress.name %><br />
+              <%= orderData.deliveryAddress.houseName %><br />
+              <%= orderData.deliveryAddress.housename %><br />
+              <%= orderData.deliveryAddress.street %><br />
+              <%= orderData.deliveryAddress.pincode %><br />
+              <%= orderData.deliveryAddress.locality %><br />
+              <%= orderData.deliveryAddress.city %><br />
+              <%= orderData.deliveryAddress.state %><br />
+              <%= orderData.deliveryAddress.landmark %><br />
+              <%= orderData.deliveryAddress.country %><br />
+              <%= orderData.deliveryAddress.phone %>
+              <br />
+              <%= orderData.deliveryAddress.mobile %><br />
+              <%= orderData.deliveryAddress.email %> <% } else { %> Delivery
+              address not available <% } %>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Payment</h5>
+            <p class="card-text"><%= orderData.paymentMethod %><br /></p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Reason</h5>
+            <% if (orderData.requests && orderData.requests.length > 0) { %>
+            <ul>
+              <% orderData.requests.forEach(request => { %>
+              <li><%= request.reason %></li>
+              <% }); %>
+            </ul>
+            <% } else { %>
+            <p>No reasons provided.</p>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="table-responsive">
+          <% if (orderData && orderData.items) { %>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Product Name</th>
+                <th>Unit Price</th>
+                <th>Quantity</th>
+                <th>Size</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% orderData.items.forEach(item=> { %>
+              <tr>
+                <td class="text-center">
+                  <img
+                    src="/uploads/<%= item.image %>"
+                    width="80px"
+                    alt="Product Image"
+                  />
+                </td>
+                <td class="text-center"><%= item.productId.producttitle %></td>
+                <td class="text-center"><%= item.price %></td>
+                <td class="text-center"><%= item.quantity %></td>
+                <td class="text-center"><%= item.size %></td>
+                <td class="text-center"><%= item.price * item.quantity %></td>
+              </tr>
+              <% }) %>
+              <tr>
+                <td colspan="5" class="text-end fw-bold">Total Amount:</td>
+                <td class="text-center fw-bold"><%= orderData.billTotal %></td>
+              </tr>
+            </tbody>
+          </table>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% } %>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+  document.getElementById("status").addEventListener("click", function () {
+    var selectedStatus = document.getElementById("statusOptions").value;
+    const orderId = "<%= orderData.orderId.toString() %>";
+    console.log(orderId);
+    console.log(selectedStatus);
+    $.ajax({
+      url: "/admin/orderStatusChanged",
+      method: "POST",
+      data: {
+        status: selectedStatus,
+        orderId: orderId,
+      },
+      success: function (response) {
+        if (response.status == "OrderStatusChanged") {
+          Swal.fire({
+            title: "<span style='color: green;'>success</span>",
+            html: "<span style='color: purple;'>Order status has been changed</span>",
+            icon: "success",
+            timer: 2000,
+          });
+          setTimeout(() => {
+            location.href = "/admin/orderList";
+          }, 2000);
+        }
+      },
+      error: function (error) {
+        alert(
+          "Error occurred while updating order status: " + error.responseText
+        );
+        console.log(error);
+      },
+    });
+  });
+</script>
+
+<%- include("../partials/adminfooters") %>

@@ -75,14 +75,18 @@
                                             <div class="py-2">
 
                                                 <span class="d-block text-muted">Shiping Address</span>
-                                            <span><%= orderData.deliveryAddress.name %>,
-                                                <%= orderData.deliveryAddress.houseName %>,
-                                                <%= orderData.deliveryAddress.street %>, 
-                                                <%= orderData.deliveryAddress.city %>,
-                                                <%= orderData.deliveryAddress.state %>,
-                                                <%= orderData.deliveryAddress.country %>,
-                                                <%= orderData.deliveryAddress.pincode %>,
-                                                <%= orderData.deliveryAddress.phone %>,
+                                            <span><%= orderData.deliveryAddress.name %>
+                                                <%= orderData.deliveryAddress.houseName %>
+                                                <%= orderData.deliveryAddress.housename %>
+                                                <%= orderData.deliveryAddress.street %> 
+                                                <%= orderData.deliveryAddress.city %>
+                                                <%= orderData.deliveryAddress.state %>
+                                                <%= orderData.deliveryAddress.landmark %>
+                                                <%= orderData.deliveryAddress.locality %>
+                                                <%= orderData.deliveryAddress.country %>
+                                                <%= orderData.deliveryAddress.pincode %>
+                                                <%= orderData.deliveryAddress.phone %>
+                                                <%= orderData.deliveryAddress.mobile %>
                                                 <%= orderData.deliveryAddress.email %>
                                             </span>
                                                 
@@ -118,10 +122,17 @@
                                     <% for(let i=0; i<orderData.items.length; i++) {%>
                                     <tr>
                                         
-                                        <td class="product_thumb"><a href="/productdetails?id=<%=orderData.items[i].productId %>"><img
+                                        <td class="product_thumb"><a href="/productdetails?id=<%=orderData.items[i].productId._id %>"><img
                                                     src="uploads/<%= orderData.items[i].image%>"
                                                     alt="" style="width: 60px;"></a></td>
-                                        <td class="product_name"><a href="/productdetails?id=<%= orderData.items[i].productId %>"><%= productData[i].producttitle %></a></td>
+                                                    <% if (orderData && orderData.items && orderData.items[i]) { %>
+                                                        <td class="product_name">
+                                                          <a href="/productdetails?id=<%= orderData.items[i].productId._id %>">
+                                                            <%= orderData.items[i].productId.producttitle %>
+                                                          </a>
+                                                        </td>
+                                                      <% } %>
+                                                      
                                         
                                             <td>
                                         <div class="detail-qty  radius  m-auto">

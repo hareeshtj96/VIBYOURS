@@ -447,7 +447,7 @@
                                     <td colspan="7" class="text-center" style="font-size: 18px; font-weight: bold;">
                                         There is no products in your cart. Please shop.
                                     </td>
-                                    
+
                                 </tr>
                                 <% } %>
 
@@ -511,33 +511,34 @@
                                                     <div class="table-responsive">
                                                         <table class="table">
                                                             <tbody>
-                                                                <% if (userCart.items.length > 0) { %>
-                                                                <tr>
-                                                                    <td class="cart_total_label">Cart Subtotal</td>
-                                                                    <td class="cart_total_amount"><span
-                                                                            class="font-lg fw-900 text-brand"
-                                                                            id="total">
-                                                                            <%= userCart.billTotal %>
-                                                                        </span></td>
-                                                                </tr>
-                                                                <% } %>
-                                                                <tr>
-                                                                    <td class="cart_total_label">Shipping</td>
-                                                                    <td class="cart_total_amount"><i
-                                                                            class="ti-gift mr-5"></i> Free
-                                                                        Shipping</td>
-                                                                </tr>
-                                                                <% if (userCart.items.length > 0) { %>
-                                                                <tr>
-                                                                    <td class="cart_total_label">Total</td>
-                                                                    <td class="cart_total_amount"><strong><span
-                                                                                class="font-xl fw-900 text-brand"
-                                                                                id="grandTotal">
+                                                                <% if (userCart.items.length> 0) { %>
+                                                                    <tr>
+                                                                        <td class="cart_total_label">Cart Subtotal</td>
+                                                                        <td class="cart_total_amount"><span
+                                                                                class="font-lg fw-900 text-brand"
+                                                                                id="total">
                                                                                 <%= userCart.billTotal %>
-                                                                                    <span></strong>
-                                                                    </td>
-                                                                </tr>
-                                                                <% } %>
+                                                                            </span></td>
+                                                                    </tr>
+                                                                    <% } %>
+                                                                        <tr>
+                                                                            <td class="cart_total_label">Shipping</td>
+                                                                            <td class="cart_total_amount"><i
+                                                                                    class="ti-gift mr-5"></i> Free
+                                                                                Shipping</td>
+                                                                        </tr>
+                                                                        <% if (userCart.items.length> 0) { %>
+                                                                            <tr>
+                                                                                <td class="cart_total_label">Total</td>
+                                                                                <td class="cart_total_amount">
+                                                                                    <strong><span
+                                                                                            class="font-xl fw-900 text-brand"
+                                                                                            id="grandTotal">
+                                                                                            <%= userCart.billTotal %>
+                                                                                                <span></strong>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <% } %>
 
                                                             </tbody>
                                                         </table>
@@ -670,6 +671,14 @@
                                                             Swal.fire({
                                                                 title: "<span style='color: red;'>Maximum Quantity Reached</span>",
                                                                 html: "<span style='color: blue;'>You have reached the maximum allowed quantity</span>",
+                                                                icon: "warning",
+                                                                timer: 2000,
+                                                                showConfirmButton: false,
+                                                            });
+                                                        } else if (responseData.status === "ProductIsBlocked") {
+                                                            Swal.fire({
+                                                                title: "<span style='color: red;'>Product Blocked</span>",
+                                                                html: "<span style='color: blue;'>This product is currently unavailable</span>",
                                                                 icon: "warning",
                                                                 timer: 2000,
                                                                 showConfirmButton: false,

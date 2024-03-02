@@ -1,6 +1,7 @@
 const express = require("express");
 const session = require('express-session');
 const flash = require('connect-flash');
+const cors = require('cors');
 const path = require('path')
 const userRoute = require('./routes/userRoute')
 const adminRoute = require('./routes/adminRoute');
@@ -14,6 +15,8 @@ const app = express();
 
 
 app.use(flash());
+
+app.use(cors());
 
 //setting view engine
 app.set('view engine', 'ejs')

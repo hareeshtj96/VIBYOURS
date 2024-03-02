@@ -17,37 +17,44 @@ const loadCategory = async (req, res) => {
 
 //create category
 const createCategory = async (req, res) => {
-
     const { name, description, is_blocked } = req.body;
 
     try {
+        
         const lowercaseName = name.toLowerCase();
 
-        const existingCategory = await addCategory.findOne({ name: lowercaseName });
+        const existingCategory = await addCategory.findOne({name: lowercaseName});
 
         if (existingCategory) {
-            return res.json({ status: "Category Name already exists" });
+            
+            return res.status(400).json({ status: 'error', message: "Category Name already exists" });
         }
 
-        // Create a new category
         const newCategory = new addCategory({
             name,
             description,
             is_blocked
         });
 
-        console.log(newCategory);
+        const savedCategory = await newCategory.save();
 
-        // Save the product to the database
-        await newCategory.save();
 
-        res.redirect('/admin/category');
+        if (savedCategory) {
+            // Send success response if the category is saved successfully
+            return res.status(201).json({ status: "success", message: "Category created successfully", category: savedCategory });
+        } else {
+            // Handle the case where the category is not saved
+            return res.status(500).json({ status: 'error', message: 'Failed to save the new category' });
+        }
+
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.status(500).json({ status: 'error', message: 'Internal Server Error' });
     }
-
 }
+
+
+
 
 
 //edit category
@@ -70,42 +77,53 @@ const editCategory = async (req, res) => {
     }
 };
 
+
+
+
+
 //update category
 const updateCategory = async (req, res) => {
     try {
-
         const categoryDataId = req.query.id;
-
         const categoryData = await addCategory.findById(categoryDataId);
 
         if (!categoryData) {
+            return res.status(404).json({ status: 'error', message: 'Category not found' });
+        }
 
-            res.redirect('/admin/category')
-            return;
+        const existingCategory = await addCategory.findOne({
+            name: req.body.name,
+            _id: { $ne: categoryDataId },
+        });
+
+        if (existingCategory) {
+            return res.status(400).json({ status: 'error', message: 'Category Name already exists' });
         }
 
         const updatedIsBlocked = categoryData.is_blocked === 0 ? 1 : 0;
 
-
         const updateCategoryData = {
-
             name: req.body.name,
             description: req.body.description,
             is_blocked: updatedIsBlocked,
-
-        }
-
-        console.log('Update Data:', updateCategoryData);
+        };
 
         await addCategory.findByIdAndUpdate(categoryDataId, updateCategoryData);
 
-
-        res.redirect('/admin/category');
+        // Set the 'Content-Type' header to 'application/json'
+        res.setHeader('Content-Type', 'application/json');
+        
+        // Send a proper JSON response
+        res.status(200).json({ status: 'success', message: 'Category updated successfully' });
     } catch (error) {
         console.error(error);
-        res.status(500).send('Internal Server Error');
+        // Set the 'Content-Type' header to 'application/json'
+        res.setHeader('Content-Type', 'application/json');
+        res.status(500).json({ status: 'error', message: 'Internal Server Error' });
     }
 };
+
+
 
 //delete category
 const deleteCategory = async (req, res) => {
