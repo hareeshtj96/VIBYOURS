@@ -74,6 +74,8 @@ user_route.post("/editAddress", isLogin, userController.updateEditAddress);
 
 user_route.get("/deleteAddress", isLogin, userController.getDeleteAddress);
 
+user_route.post('/userprofileResetPassword', isLogin, userController.userprofileResetPassword);
+
 //cart actions
 user_route.get("/cart", isLogin, cartController.getCartPage);
 
@@ -91,6 +93,8 @@ user_route.post("/checkOut", isLogin, cartController.doCheckOut);
 user_route.get("/orderConfirmation", isLogin, cartController.orderConfirmation);
 
 user_route.post("/onlinePayment",  cartController.razorpayVerification);
+
+user_route.post("/paypalPayment", cartController.paypalVerification);
 
 user_route.get("/orderDetails", isLogin, cartController.getOrderDetails);
 

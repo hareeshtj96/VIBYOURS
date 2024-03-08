@@ -88,6 +88,12 @@
         </div>
         <div class="card">
           <div class="card-body">
+            <h5 class="card-title">Payment Status</h5>
+            <p class="card-text"><%= orderData.paymentStatus %><br /></p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body">
             <h5 class="card-title">Reason</h5>
             <% if (orderData.requests && orderData.requests.length > 0) { %>
             <ul>

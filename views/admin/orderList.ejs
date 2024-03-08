@@ -46,8 +46,9 @@
               <th scope="col">Name</th>
               <th scope="col">Email</th>
               <th scope="col">Total</th>
-              <th scope="col">Status</th>
-              <th scope="col">Date</th>
+              <th scope="col">Order </th>
+              <th scope="col">Payment </th>
+              <!-- <th scope="col">Date</th> -->
               <th scope="col" class="text-end">Action</th>
             </tr>
           </thead>
@@ -71,28 +72,22 @@
                   <%= orderData[i].status %>
                 </span>
               </td>
+              <td>
+                <span
+                  class="badge rounded-pill <%= orderData[i].paymentStatus === 'Success' ? 'alert-success' : orderData[i].paymentStatus === 'Pending' ? 'alert-info' : orderData[i].paymentStatus === 'Failed'? 'alert-danger' : '' %>"
+                >
+                  <%= orderData[i].paymentStatus %>
+                </span>
+              </td>
 
-              <td><%= orderData[i].orderDate.toDateString() %></td>
+              
               <td class="text-end">
                 <a
                   href="/admin/orderDetails?orderId=<%=orderData[i].orderId%>"
                   class="btn btn-md rounded font-sm"
                   >Detail</a
                 >
-                <div class="dropdown">
-                  <a
-                    href="#"
-                    data-bs-toggle="dropdown"
-                    class="btn btn-light rounded btn-sm font-sm"
-                  >
-                    <i class="material-icons md-more_horiz"></i>
-                  </a>
-                  <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">View detail</a>
-                    <a class="dropdown-item" href="#">Edit info</a>
-                    <a class="dropdown-item text-danger" href="#">Delete</a>
-                  </div>
-                </div>
+                
               </td>
             </tr>
 
@@ -109,20 +104,26 @@
   <!-- card end// -->
   <div class="pagination-area mt-30 mb-50">
     <nav aria-label="Page navigation example">
-      <ul class="pagination justify-content-start">
-        <li class="page-item active"><a class="page-link" href="#">01</a></li>
-        <li class="page-item"><a class="page-link" href="#">02</a></li>
-        <li class="page-item"><a class="page-link" href="#">03</a></li>
-        <li class="page-item"><a class="page-link dot" href="#">...</a></li>
-        <li class="page-item"><a class="page-link" href="#">16</a></li>
-        <li class="page-item">
-          <a class="page-link" href="#"
-            ><i class="material-icons md-chevron_right"></i
-          ></a>
-        </li>
-      </ul>
+        <ul class="pagination justify-content-start">
+            <li class="page-item">
+                <a class="page-link" href="/admin/orderList?page=<%= encodeURIComponent(currentPage - 1) %>" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <% for (let i = 1; i <= totalPages; i++) { %>
+                <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                    <a class="page-link" href="/admin/orderList?page=<%= encodeURIComponent(i) %>"><%= i %></a>
+                </li>
+            <% } %>
+            <li class="page-item">
+                <a class="page-link" href="/admin/orderList?page=<%= encodeURIComponent(currentPage + 1) %>" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
     </nav>
-  </div>
+</div>
+
 </section>
 <!-- content-main end// -->
 

@@ -83,12 +83,23 @@ const logout = async (req, res) => {
 //admin dashboard
 const adminDashboard = async (req, res) => {
     try {
-        const usersData = await User.find({ is_admin: 0 });
+
+        const page = parseInt(req.query.page) || 1;
+        const pageSize = 5;
+
+        const skip = (page-1) * pageSize;
+
+        const totalUsers = await User.countDocuments({is_admin: 0});
+
+        const totalPages = Math.ceil(totalUsers/ pageSize);
+
+        const usersData = await User.find({ is_admin: 0 }).skip(skip).limit(pageSize);
         // console.log(usersData);
-        res.render('adminDashboard', { users: usersData });
+        res.render('adminDashboard', { users: usersData, currentPage: page, totalPages: totalPages });
 
     } catch (error) {
         console.error(error.message);
+        res.status(500).json({ message: "Internal Server Error"});
 
     }
 }
@@ -187,10 +198,19 @@ const deleteUser = async (req, res) => {
 const getOrderList = async (req, res) => {
     try {
 
-        const orderData = await Order.find({});
+        const page = parseInt(req.query.page) || 1;
+        const pageSize = 9;
+
+        const skip = (page-1) * pageSize;
+
+        const totalOrders = await Order.countDocuments({});
+
+        const totalPages = Math.ceil(totalOrders/pageSize);
+
+        const orderData = await Order.find({}).skip(skip).limit(pageSize);
         // console.log(orderData, "orderData");
 
-        res.render('orderList', { orderData });
+        res.render('orderList', { orderData, currentPage: page, totalPages });
     } catch (error) {
         console.log(error.message);
         res.status(500).json({ message: "Internal Server Error" });

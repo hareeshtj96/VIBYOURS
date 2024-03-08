@@ -209,7 +209,7 @@
         </header>
         <section class="content-main">
 
-            <form action="" method="post" enctype="multipart/form-data" id="form">
+            <form action="/admin/addProduct" method="post" enctype="multipart/form-data" id="form">
                 <div id="errorMessage" class="error"></div>
                 <div class="row">
                     <div class="col-6">
@@ -337,9 +337,10 @@
                                         <div class="mb-4">
                                             <label class="form-label">Images</label>
                                             <input class="form-control" type="file" name="images" multiple id="images"
-                                                onblur="validateImages()">
+                                                onblur="validateImages()"  onchange="previewImages()">
                                             <p id="imagesError" class="error"></p>
                                         </div>
+                                        <div id="imagePreviewContainer"></div>
                                     </div>
                                 </div>
                             </div>
@@ -498,6 +499,48 @@
 
     </script>
 
+<script>
+    function previewImages() {
+        const imageContainer = document.getElementById('imagePreviewContainer');
+        imageContainer.innerHTML = ''; 
+
+        const input = document.getElementById('images');
+        const files = input.files;
+
+        for (const file of files) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                const imgElement = document.createElement('img');
+                imgElement.src = e.target.result;
+                imgElement.className = 'preview-image';
+
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'x';
+                deleteButton.className = 'delete-button';
+                deleteButton.onclick = function () {
+                    imageContainer.removeChild(container);
+
+                    const updatedFiles = Array.from(input.files).filter(f=> f!== file);
+
+
+                    input.files = new FileList(updatedFiles, input.files.item(0).name);
+                };
+
+                const container = document.createElement('div');
+                container.className = 'image-container';
+                container.appendChild(imgElement);
+                container.appendChild(deleteButton);
+
+                imageContainer.appendChild(container);
+            };
+
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
+
+
     <style>
         .error {
             color: red;
@@ -511,6 +554,31 @@
             margin-bottom: 10px;
         }
     </style>
+
+<style>
+    .image-container {
+        display: inline-block;
+        margin-right: 10px;
+    }
+
+    .preview-image {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border: 1px solid #ccc;
+        margin-bottom: 5px;
+    }
+
+    .delete-button {
+        cursor: pointer;
+        background-color: #e74c3c;
+        color: #fff;
+        border: none;
+        padding: 5px 8px;
+        border-radius: 3px;
+    }
+</style>
+
 
 
 </body>

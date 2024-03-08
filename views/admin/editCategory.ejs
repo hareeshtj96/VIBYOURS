@@ -283,7 +283,12 @@
           </div>
           <div class="mb-4">
             <label class="form-label">Description</label>
-            <textarea class="form-control" name="description" required>
+            <textarea
+              class="form-control"
+              id="description"
+              name="description"
+              required
+            >
             <%= category.description %></textarea
             >
           </div>
@@ -336,9 +341,15 @@
     <script>
       document
         .getElementById("submitBtn")
-        .addEventListener("click", function () {
+        .addEventListener("click", function (event) {
+          event.preventDefault();
+
           const categoryName = document
             .getElementById("categoryName")
+            .value.trim();
+
+          const description = document
+            .getElementById("description")
             .value.trim();
 
           if (!categoryName) {
@@ -350,41 +361,65 @@
             return;
           }
 
-          checkExistingCategory(categoryName);
+          const formData = {
+            name: categoryName,
+            description: description, // You can add description if needed
+          };
+
+          checkExistingCategory(formData);
         });
 
-      function checkExistingCategory(name) {
-        fetch(`/admin/editCategory?id=<%= category._id %>&name=${name}`)
+      function checkExistingCategory(formData) {
+        fetch(`/admin/editCategory?id=<%= category._id %>&name=${formData.name}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        })
           .then((response) => {
             
-
             if (!response.ok) {
+              
               throw new Error(`HTTP error! Status: ${response.status}`);
             }
 
-            // Check if the response is JSON
-            const contentType = response.headers.get("content-type");
-            const isJson =
-              contentType && contentType.includes("application/json");
-
-            // If it's JSON, parse it. Otherwise, treat it as text.
-            return isJson ? response.json() : response.text();
+            return response.json();
           })
           .then((data) => {
-            
-            if (typeof data === "object" && data.status === 'error') {
-              Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: data.message,
-                confirmButtonText: "OK",
-              });
+            if (data && data.status === "error") {
+              if (data.message === "Category Name already exists") {
+                // Display a specific SweetAlert for duplicate category name
+                Swal.fire({
+                  icon: "error",
+                  title: "Oops...",
+                  text: "Category Name already exists. Please choose a different name.",
+                  confirmButtonText: "OK",
+                });
+              } else {
+                // Handle other error cases
+                Swal.fire({
+                  icon: "error",
+                  title: "Oops...",
+                  text: data.message,
+                  confirmButtonText: "OK",
+                });
+              }
             } else {
-              document.getElementById("editCategoryForm").submit();
+              // Handle success case
+              Swal.fire({
+                icon: "success",
+                title: "Success!",
+                text: "Category updated successfully",
+                confirmButtonText: "OK",
+              }).then(() => {
+                document.getElementById("editCategoryForm").submit();
+                window.location.href = "/admin/category";
+              });
             }
           })
           .catch((error) => {
-            console.error("Error checking category existence:", error);
+            console.error("An unexpected error occurred:", error);
             alert("An unexpected error occurred: " + error.message);
           });
       }

@@ -316,7 +316,39 @@
 
                                 </div>
 
-                                <!--End product-grid-4-->
+                               
+                        
+                                <div class="pagination-area mt-30 mb-50">
+                                    <nav aria-label="Page navigation example">
+                                        <ul class="pagination justify-content-start">
+                                
+                                            <!-- Previous Page Link -->
+                                            <li class="page-item">
+                                                <a class="page-link" href="/dashboard?page=<%= encodeURIComponent(currentPage - 1) %>" aria-label="Previous">
+                                                    <span aria-hidden="true">&laquo;</span>
+                                                </a>
+                                            </li>
+                                
+                                            <!-- Display Page Links Dynamically -->
+                                            <% for (let i = 1; i <= totalPages; i++) { %>
+                                                <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                                                    <a class="page-link" href="/dashboard?page=<%= encodeURIComponent(i) %>"><%= i %></a>
+                                                </li>
+                                            <% } %>
+                                
+                                            <!-- Next Page Link -->
+                                            <li class="page-item">
+                                                <a class="page-link" href="/dashboard?page=<%= encodeURIComponent(currentPage + 1) %>" aria-label="Next">
+                                                    <span aria-hidden="true">&raquo;</span>
+                                                </a>
+                                            </li>
+                                
+                                        </ul>
+                                    </nav>
+                                </div>
+                                
+                                
+                                
                             </div>
                             <!--En tab one (Featured)-->
                             <div class="tab-pane fade" id="tab-two" role="tabpanel" aria-labelledby="tab-two">
@@ -1195,7 +1227,7 @@
                 </div>
             </div>
         </section>
-        <section class="pt-25 pb-15">
+        <!-- <section class="pt-25 pb-15">
             <div class="container wow fadeIn animated">
                 <h3 class="section-title mb-20"><span>New</span> Arrivals</h3>
                 <div class="carausel-6-columns-cover position-relative">
@@ -1235,7 +1267,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!--End product-cart-wrap-2-->
+                   
                         <div class="product-cart-wrap small hover-up">
                             <div class="product-img-action-wrap">
                                 <div class="product-img product-img-zoom">
@@ -1269,7 +1301,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!--End product-cart-wrap-2-->
+                     
                         <div class="product-cart-wrap small hover-up">
                             <div class="product-img-action-wrap">
                                 <div class="product-img product-img-zoom">
@@ -1303,7 +1335,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!--End product-cart-wrap-2-->
+                      
                         <div class="product-cart-wrap small hover-up">
                             <div class="product-img-action-wrap">
                                 <div class="product-img product-img-zoom">
@@ -1337,7 +1369,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!--End product-cart-wrap-2-->
+                     
                         <div class="product-cart-wrap small hover-up">
                             <div class="product-img-action-wrap">
                                 <div class="product-img product-img-zoom">
@@ -1371,7 +1403,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!--End product-cart-wrap-2-->
+                      
                         <div class="product-cart-wrap small hover-up">
                             <div class="product-img-action-wrap">
                                 <div class="product-img product-img-zoom">
@@ -1405,7 +1437,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!--End product-cart-wrap-2-->
+                       
                         <div class="product-cart-wrap small hover-up">
                             <div class="product-img-action-wrap">
                                 <div class="product-img product-img-zoom">
@@ -1436,12 +1468,12 @@
                                 </div>
                             </div>
                         </div>
-                        <!--End product-cart-wrap-2-->
+                       
                     </div>
                 </div>
             </div>
         </section>
-
+ -->
 
 
 

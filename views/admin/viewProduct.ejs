@@ -305,19 +305,32 @@
 
 
 
+            
             <div class="pagination-area mt-30 mb-50">
                 <nav aria-label="Page navigation example">
                     <ul class="pagination justify-content-start">
-                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><span class="page-link dot">...</span></li>
-                        <li class="page-item"><a class="page-link" href="#">7</a></li>
+            
+                        <!-- Previous Page Link -->
                         <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Next">
-                                <i class="material-icons md-chevron_right"></i>
+                            <a class="page-link" href="/admin/viewProduct?page=<%= encodeURIComponent(currentPage - 1) %>" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
                             </a>
                         </li>
+            
+                        <!-- Display Page Links Dynamically -->
+                        <% for (let i = 1; i <= totalPages; i++) { %>
+                            <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                                <a class="page-link" href="/admin/viewProduct?page=<%= encodeURIComponent(i) %>"><%= i %></a>
+                            </li>
+                        <% } %>
+            
+                        <!-- Next Page Link -->
+                        <li class="page-item">
+                            <a class="page-link" href="/admin/viewProduct?page=<%= encodeURIComponent(currentPage + 1) %>" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+            
                     </ul>
                 </nav>
             </div>

@@ -17,6 +17,7 @@ const securePassword = async (password) => {
         return passwordHash;
     } catch (error) {
         console.log(error.message);
+        res.status(500).json({ message: "Internal Server Error"});
     }
 
 }
@@ -30,6 +31,7 @@ const loadRegister = async (req, res) => {
         res.render('register')
     } catch (error) {
         console.log('error.message')
+        res.status(500).json({ message: "Internal Server Error"});
 
     }
 
@@ -154,6 +156,7 @@ const loadLogin = async (req, res) => {
         res.render('login')
     } catch (error) {
         console.log(error.message)
+        res.status(500).json({ message: "Internal Server Error"});
     }
 }
 
@@ -198,6 +201,7 @@ const verifyLogin = async (req, res) => {
 
     } catch (error) {
         console.log(error.message)
+        res.status(500).json({ message: "Internal Server Error"});
     }
 }
 
@@ -211,6 +215,7 @@ const loadforgotPassword = async (req, res) => {
         console.log("it is working")
     } catch (error) {
         console.log(error.message)
+        res.status(500).json({ message: "Internal Server Error"});
     }
 }
 
@@ -255,6 +260,7 @@ const loadPasswordReset = async (req, res) => {
         // console.log("hi hareesh")
     } catch (error) {
         console.log(error.message)
+        res.status(500).json({ message: "Internal Server Error"});
     }
 }
 
@@ -314,14 +320,29 @@ const passwordReset = async (req, res) => {
 const loadDashboard = async (req, res) => {
     try {
 
-        const productData = await addProduct.find({is_listed:1}).limit(16)
+        //implementing pagination
+        const page = parseInt(req.query.page) || 1;
+        const pageSize = 9;
+
+        const skip = (page-1) * pageSize;
+
+        //querying for the total count of products
+        const totalProductsCount = await addProduct.countDocuments({  is_listed: 1})
+
+        const productData = await addProduct.find({ is_listed: 1 }).skip(skip).limit(pageSize);
+
         const categoryData = await addCategory.find({})
 
         const userData = await User.findById({ _id: req.session.user_id });
-        res.render('dashboard', { user: userData, product: productData, category: categoryData });
 
+        if(productData.length>0){
+            const totalPages = Math.ceil(totalProductsCount / pageSize);
+            res.render('dashboard', { user: userData, product: productData, category: categoryData, currentPage: page, totalPages: totalPages });
+        }
+        
     } catch (error) {
         console.log(error.message);
+        res.status(500).json({ message: "Internal Server Error"});
 
     }
 }
@@ -336,11 +357,10 @@ const userLogout = async (req, res) => {
 
     } catch (error) {
         console.log(error.message);
+        res.status(500).json({ message: "Internal Server Error"});
 
     }
 }
-
-
 
 
 
@@ -350,7 +370,7 @@ const listIndividualProduct = async (req, res) => {
 
         const id = req.query.id;
         const userData = await User.findById(req.session.user_id)
-        const productData = await addProduct.findById({ _id: id, is_listed: 1})
+        const productData = await addProduct.findById({ _id: id, is_listed: 1 })
         const categoryData = await addCategory.find({})
         if (productData) {
             res.render('productDetails', { user: userData, product: productData, category: categoryData })
@@ -361,6 +381,7 @@ const listIndividualProduct = async (req, res) => {
     } catch (error) {
 
         console.log(error.message);
+        res.status(500).json({ message: "Internal Server Error"});
     }
 }
 
@@ -376,6 +397,7 @@ const load_home = async (req, res) => {
         res.render('home', { user: userData, product: productData, category: categoryData });
     } catch (error) {
         console.log(error.message);
+        res.status(500).json({ message: "Internal Server Error"});
 
     }
 }
@@ -384,22 +406,34 @@ const load_home = async (req, res) => {
 //load userProfile
 const userProfile = async (req, res) => {
     try {
-        // console.log(req.session.user_id);
-
         const userId = req.session.user_id;
+        const page = parseInt(req.query.page) || 1;
+        const pageSize = 6;
+        const skip = (page - 1) * pageSize;
 
-        const userData = await User.findById(userId)
+        // Fetch the total count of orders
+        const totalOrdersCount = await Order.countDocuments({ user: userId });
 
-        const orderData = await Order.find({ user: userId })
+        // Fetch a subset of orders based on pagination parameters
+        const orderData = await Order.find({ user: userId }).skip(skip).limit(pageSize);
 
-        // console.log("orderData", orderData);
+        const userData = await User.findById(userId);
 
-        res.render('userProfile', { user: userData, orderData });
+        if (orderData.length > 0) {
+            const totalPages = Math.ceil(totalOrdersCount / pageSize);
+
+            res.render('userProfile', { user: userData, orderData, currentPage: page, totalPages: totalPages });
+        } else {
+            // If there are no orders, still render the userProfile page
+            res.render('userProfile', { user: userData, orderData });
+        }
+
     } catch (error) {
         console.log(error.message);
-        res.status(500).send('Internal Servor Error')
+        res.status(500).send('Internal Server Error');
     }
-}
+};
+
 
 //updating userProfile
 const postAddress = async (req, res) => {
@@ -596,10 +630,53 @@ const getDeleteAddress = async (req, res) => {
             .then((data) => res.redirect('/userProfile'))
     } catch (error) {
         console.log(error.message);
+        res.status(500).json({ message: "Internal Server Error"});
     }
 }
 
 
+//user profile reset password
+const userprofileResetPassword = async (req, res) => {
+    try {
+        const currentPassword = req.body.currentPassword;
+        const newPassword = req.body.newPassword;
+        const confirmNewPassword = req.body.confirmNewPassword;
+
+        if (!currentPassword || !newPassword || !confirmNewPassword) {
+            return res.status(400).json({ success: false, error: 'All fields are required.' });
+        }
+
+        if (newPassword !== confirmNewPassword) {
+            return res.status(400).json({ success: false, error: 'New password and confirm new password do not match.' });
+        }
+
+        // Find the user by comparing hashed passwords
+        const user = await User.findOne({});
+
+        if (!user) {
+            return res.status(401).json({ success: false, error: "Invalid current Password" });
+        }
+
+        // Compare the user's input password with the hashed password from the database
+        const passwordMatch = await bcrypt.compare(currentPassword, user.password);
+
+        if (!passwordMatch) {
+            return res.status(401).json({ success: false, error: "Invalid current Password" });
+        }
+
+        // Update the user's password in the database
+        const newHashedPassword = await bcrypt.hash(newPassword, 10);
+        user.password = newHashedPassword;
+        await user.save();
+
+        // Send a success response
+        return res.status(200).json({ success: true, message: 'Password reset successfully.' });
+
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({ success: false, message: "Internal Server Error" });
+    }
+};
 
 
 
@@ -625,6 +702,7 @@ module.exports = {
     postAddress,
     getEditAddress,
     updateEditAddress,
-    getDeleteAddress
+    getDeleteAddress,
+    userprofileResetPassword
 
 };

@@ -606,7 +606,13 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <% for( let i=0; i < userCart.items.length; i++ ) { %>
+                  <% if (userCart.items.length === 0) { %>
+                  <!-- Show an empty row if there are no items in the cart -->
+                  <tr>
+                    <td colspan="3">No products in the cart</td>
+                  </tr>
+                  <% } else { %> <% for(let i=0; i < userCart.items.length; i++)
+                  { %>
                   <tr>
                     <td class="image product-thumbnail">
                       <img
@@ -629,6 +635,7 @@
                     <td><%= userCart.items[i].subTotal %></td>
                   </tr>
                   <% } %>
+                  <!-- Existing code for SubTotal, Shipping, and Total -->
                   <tr>
                     <th>SubTotal</th>
                     <td class="product-subtotal" colspan="2">
@@ -647,6 +654,7 @@
                       </span>
                     </td>
                   </tr>
+                  <% } %>
                 </tbody>
               </table>
             </div>
@@ -683,6 +691,21 @@
                     >Online Payment</label
                   >
                 </div>
+                <div class="custome-radio">
+                  <div id="paypal-container">
+                    <input
+                      class="form-check-input"
+                      required=""
+                      type="radio"
+                      name="paymentOption"
+                      id="exampleRadios6"
+                      value="Paypal"
+                    />
+                    <label class="form-check-label" for="exampleRadios6"
+                      >Paypal</label
+                    >
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -694,6 +717,12 @@
 
 <!-- Include Razorpay script in your HTML -->
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+<script
+  defer
+  src="https://www.paypal.com/sdk/js?client-id=Aew_9QXs6uIPPZ-D93id84JgWaJ0BUnd1bIRBQTtHZQDvLSyqvU8iFVHhbK5iCNkHm8XLerOl9JtLd5t"
+></script>
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
@@ -715,8 +744,134 @@
     });
   });
 
+  //saved address
+  //document.addEventListener("DOMContentLoaded", function () {
+  //     const placeOrderBtn = document.getElementById("placeOrderBtn2");
 
-//saved address
+  //     placeOrderBtn.addEventListener("click", async function (event) {
+  //       event.preventDefault();
+
+  //       const selectedPaymentOptionElement = document.querySelector(
+  //         'input[name="paymentOption"]:checked'
+  //       );
+
+  //       const selectedAddressRadio = document.querySelector(
+  //         'input[name="selectedAddress"]:checked'
+  //       );
+
+  //       if (selectedAddressRadio) {
+  //         const selectedAddressId = selectedAddressRadio.value;
+
+  //         if (selectedPaymentOptionElement) {
+  //           const selectedPaymentOption = selectedPaymentOptionElement.value;
+
+  //           try {
+  //             const response = await fetch("/checkOut", {
+  //               method: "POST",
+  //               headers: {
+  //                 "Content-Type": "application/json",
+  //               },
+  //               body: JSON.stringify({
+  //                 selectedAddress: selectedAddressId,
+  //                 paymentOption: selectedPaymentOption,
+  //               }),
+  //             });
+
+  //             if (!response.ok) {
+  //               throw new Error(`HTTP error! Status: ${response.status}`);
+  //             }
+
+  //             const data = await response.json();
+  //             if (data.orderId !== undefined && data.orderId !== null) {
+  //               if (selectedPaymentOption === "Online Payment") {
+  //                 const razorpayOrder = data;
+
+  //                 const convertedAmount = Math.round(
+  //                   parseFloat(razorpayOrder.order.amount) * 100
+  //                 );
+
+  //                 const options = {
+  //                   key: "rzp_test_NGuzvYo6A3U204",
+  //                   amount: convertedAmount,
+  //                   currency: data.currency,
+  //                   name: "VIBYOURS",
+  //                   description: "Order payment",
+  //                   order_id: data.id,
+  //                   handler: function (response) {
+
+  //                     const paymentData = {
+  //                       razorpay_paymentId: response.razorpay_paymentId,
+  //                       razorpay_orderid: data.order.id,
+  //                       razorpay_signature: response.razorpay_signature,
+  //                     };
+
+  //                     // Send payment details to server for verification
+  //                     fetch("/onlinePayment", {
+  //                       method: "POST",
+  //                       headers: {
+  //                         "Content-Type": "application/json",
+  //                       },
+  //                       body: JSON.stringify(paymentData),
+  //                     })
+  //                       .then((response) => response.json())
+  //                       .then((data) => {
+  //                         if (data.success) {
+  //                           // Now redirect to order confirmation page
+  //                           window.location.href = `/orderConfirmation?orderId=${data.orderId}`;
+  //                         } else {
+  //                           alert(
+  //                             "Error verifying Razorpay payment:\n" +
+  //                               (data.error || "unknown error")
+  //                           );
+  //                           alert(
+  //                             "Error verifying Razorpay payment. Please try again."
+  //                           );
+  //                         }
+  //                       })
+  //                       .catch((error) => {
+  //                         alert(
+  //                           "Error processing Razorpay payment verification:\n" +
+  //                             error.message
+  //                         );
+  //                         alert(
+  //                           "Error processing Razorpay payment verification. Please try again."
+  //                         );
+  //                       });
+  //                   },
+  //                 };
+
+  //                 const rzp = new Razorpay(options);
+  //                 rzp.on("payment.failed", function (response) {
+  //                   alert(
+  //                     "Payment failed:\n" + JSON.stringify(response, null, 2)
+  //                   );
+  //                   alert("Payment failed. Please try again.");
+  //                 });
+  //                 rzp.open();
+  //               } else {
+  //                 window.location.href = `/orderConfirmation?orderId=${data.orderId}`;
+  //               }
+  //             } else {
+  //               console.error(
+  //                 "Error: Invalid response from the server (missing orderId)"
+  //               );
+  //               alert("Error: Invalid response from the server");
+  //             }
+  //           } catch (error) {
+  //             console.error("Error:", error);
+  //             alert("Fetch Error: " + error.message);
+  //           }
+  //         } else {
+  //           console.log(
+  //             "Please select a payment option before placing the order."
+  //           );
+  //         }
+  //       } else {
+  //         console.log("Please select an address before placing the order.");
+  //       }
+  //     });
+  //   });
+
   document.addEventListener("DOMContentLoaded", function () {
     const placeOrderBtn = document.getElementById("placeOrderBtn2");
 
@@ -756,12 +911,12 @@
             const data = await response.json();
             if (data.orderId !== undefined && data.orderId !== null) {
               if (selectedPaymentOption === "Online Payment") {
-                const razorpayOrder = data; 
+                const razorpayOrder = data;
 
                 const convertedAmount = Math.round(
                   parseFloat(razorpayOrder.order.amount) * 100
                 );
-                
+
                 const options = {
                   key: "rzp_test_NGuzvYo6A3U204",
                   amount: convertedAmount,
@@ -770,7 +925,6 @@
                   description: "Order payment",
                   order_id: data.id,
                   handler: function (response) {
-                    
                     const paymentData = {
                       razorpay_paymentId: response.razorpay_paymentId,
                       razorpay_orderid: data.order.id,
@@ -788,26 +942,32 @@
                       .then((response) => response.json())
                       .then((data) => {
                         if (data.success) {
-                          // Now redirect to order confirmation page
-                          window.location.href = `/orderConfirmation?orderId=${data.orderId}`;
+                          Swal.fire({
+                            icon: "success",
+                            title: "Payment Verified",
+                            text: "Payment verification successful!",
+                          }).then(() => {
+                            // Redirect to order confirmation page
+                            window.location.href = `/orderConfirmation?orderId=${data.orderId}`;
+                          });
                         } else {
-                          alert(
-                            "Error verifying Razorpay payment:\n" +
-                              (data.error || "unknown error")
-                          );
-                          alert(
-                            "Error verifying Razorpay payment. Please try again."
-                          );
+                          Swal.fire({
+                            icon: "error",
+                            title: "Payment Verification Failed",
+                            text:
+                              data.error ||
+                              "Unknown error during payment verification.",
+                          });
                         }
                       })
                       .catch((error) => {
-                        alert(
-                          "Error processing Razorpay payment verification:\n" +
-                            error.message
-                        );
-                        alert(
-                          "Error processing Razorpay payment verification. Please try again."
-                        );
+                        Swal.fire({
+                          icon: "error",
+                          title: "Error",
+                          text:
+                            "Error processing payment verification:\n" +
+                            error.message,
+                        });
                       });
                   },
                 };
@@ -820,6 +980,94 @@
                   alert("Payment failed. Please try again.");
                 });
                 rzp.open();
+              } else if (selectedPaymentOption === "Paypal") {
+                // PayPal integration
+                const paypalOrder = data.order;
+
+                const purchaseUnit = paypalOrder?.purchase_units?.[0];
+                const amountInINR = purchaseUnit?.amount?.value;
+
+                const currencyCode = purchaseUnit?.amount?.currency_code;
+
+                let convertedAmount;
+
+                if (amountInINR) {
+                  const convertToUSD = (amountInINR) => {
+                    // Implement your currency conversion logic here
+                    // For simplicity, let's assume 1 INR = 0.014 USD
+                    const conversionRate = 0.014;
+                    return amountInINR * conversionRate;
+                  };
+
+                  convertedAmount = convertToUSD(amountInINR);
+                  //   alert(JSON.stringify(convertedAmount, null, 2));
+                } else {
+                  alert("Amount in INR is null or undefined.");
+                }
+
+                const paypalOptions = {
+                  createOrder: function (data, actions) {
+                    return actions.order.create({
+                      purchase_units: [
+                        {
+                          reference_id: "default",
+                          amount: {
+                            currency_code: "USD", // Change based on your currency
+                            value: convertedAmount.toFixed(2),
+                          },
+                        },
+                      ],
+                    });
+                  },
+
+                  onApprove: function (data, actions) {
+                    return actions.order.capture().then(function (details) {
+                      const paymentData = {
+                        paypalOrderId: data.orderID,
+                        payerID: data.payerID,
+                      };
+
+                      // Send PayPal details to the server for verification
+                      fetch("/paypalPayment", {
+                        method: "POST",
+                        headers: {
+                          "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(paymentData),
+                      })
+                        .then((response) => {
+                          if (!response.ok) {
+                            throw new Error(
+                              `HTTP error! Status: ${response.status}`
+                            );
+                          }
+
+                          //   alert(
+                          //     "Parsed Server Response:\n" +
+                          //       JSON.stringify(response, null, 2)
+                          //   );
+
+                          return response.json();
+                        })
+                        .then((data) => {
+                          console.log("Received Data from Server:", data); // Log data to console
+                          //   alert(
+                          //     "Parsed Server Response:\n" +
+                          //       JSON.stringify(data, null, 2)
+                          //   );
+                          handlePaymentVerification(data);
+                        })
+
+                        .catch((error) => {
+                          console.error("Server Response Error:", error); // Log error to console
+                          alert("Server Response Error:\n" + error.message);
+                          handlePaymentError(error);
+                        });
+                    });
+                  },
+                };
+
+                paypal.Buttons(paypalOptions).render("#paypal-container");
               } else {
                 window.location.href = `/orderConfirmation?orderId=${data.orderId}`;
               }
@@ -842,265 +1090,322 @@
         console.log("Please select an address before placing the order.");
       }
     });
+    function handlePaymentVerification(data) {
+      if (data.success) {
+        Swal.fire({
+          icon: "success",
+          title: "Payment Verified",
+          text: "Payment verification successful!",
+        }).then(() => {
+          // Redirect to order confirmation page
+          window.location.href = `/orderConfirmation?orderId=${data.orderId}`;
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Payment Verification Failed",
+          text: data.error || "Unknown error during payment verification.",
+        });
+      }
+    }
+
+    function handlePaymentError(error) {
+      Swal.fire({
+        icon: "error",
+        title: "Payment Error",
+        text: "Error processing payment verification:\n" + error.message,
+      });
+    }
   });
 
+  // new Address
+  //   document
+  //     .getElementById("placeOrderBtn")
+  //     .addEventListener("click", function (e) {
+  //       e.preventDefault();
 
-// new Address
-//   document
-//     .getElementById("placeOrderBtn")
-//     .addEventListener("click", function (e) {
-//       e.preventDefault();
+  //       const isNameValid = validateName();
+  //       const isMobileValid = validateMobile();
+  //       const isHousNameValid = validateHouseName();
+  //       const isStreetNameValid = validateStreet();
+  //       const isCityValid = validateCity();
+  //       const isStateValid = validateState();
+  //       const isCountryValid = validateCountry();
+  //       const isPincodeValid = validatePincode();
+  //       const isEmailValid = validateEmail();
 
-//       const isNameValid = validateName();
-//       const isMobileValid = validateMobile();
-//       const isHousNameValid = validateHouseName();
-//       const isStreetNameValid = validateStreet();
-//       const isCityValid = validateCity();
-//       const isStateValid = validateState();
-//       const isCountryValid = validateCountry();
-//       const isPincodeValid = validatePincode();
-//       const isEmailValid = validateEmail();
+  //       if (
+  //         isNameValid &&
+  //         isMobileValid &&
+  //         isHousNameValid &&
+  //         isStreetNameValid &&
+  //         isCityValid &&
+  //         isStateValid &&
+  //         isCountryValid &&
+  //         isPincodeValid &&
+  //         isEmailValid
+  //       ) {
+  //         try {
+  //           const selectedPaymentOption = document.querySelector(
+  //             'input[name="paymentOption"]:checked'
+  //           );
 
-//       if (
-//         isNameValid &&
-//         isMobileValid &&
-//         isHousNameValid &&
-//         isStreetNameValid &&
-//         isCityValid &&
-//         isStateValid &&
-//         isCountryValid &&
-//         isPincodeValid &&
-//         isEmailValid
-//       ) {
-//         try {
-//           const selectedPaymentOption = document.querySelector(
-//             'input[name="paymentOption"]:checked'
-//           );
+  //           const selectedName =
+  //             document.querySelector('input[name="name"]').value;
+  //           const selectedHouseName = document.querySelector(
+  //             'input[name="houseName"]'
+  //           ).value;
+  //           const selectedStreet = document.querySelector(
+  //             'input[name="street"]'
+  //           ).value;
+  //           const selectedCity =
+  //             document.querySelector('input[name="city"]').value;
+  //           const selectedState = document.querySelector(
+  //             'input[name="state"]'
+  //           ).value;
+  //           const selectedCountry = document.querySelector(
+  //             'input[name="country"]'
+  //           ).value;
+  //           const selectedPincode = document.querySelector(
+  //             'input[name="pincode"]'
+  //           ).value;
+  //           const selectedPhone = document.querySelector(
+  //             'input[name="phone"]'
+  //           ).value;
+  //           const selectedEmail = document.querySelector(
+  //             'input[name="Email"]'
+  //           ).value;
 
-//           const selectedName =
-//             document.querySelector('input[name="name"]').value;
-//           const selectedHouseName = document.querySelector(
-//             'input[name="houseName"]'
-//           ).value;
-//           const selectedStreet = document.querySelector(
-//             'input[name="street"]'
-//           ).value;
-//           const selectedCity =
-//             document.querySelector('input[name="city"]').value;
-//           const selectedState = document.querySelector(
-//             'input[name="state"]'
-//           ).value;
-//           const selectedCountry = document.querySelector(
-//             'input[name="country"]'
-//           ).value;
-//           const selectedPincode = document.querySelector(
-//             'input[name="pincode"]'
-//           ).value;
-//           const selectedPhone = document.querySelector(
-//             'input[name="phone"]'
-//           ).value;
-//           const selectedEmail = document.querySelector(
-//             'input[name="Email"]'
-//           ).value;
+  //           const data = {
+  //             paymentOption: selectedPaymentOption,
+  //             name: selectedName,
+  //             houseName: selectedHouseName,
+  //             street: selectedStreet,
+  //             city: selectedCity,
+  //             state: selectedState,
+  //             country: selectedCountry,
+  //             pincode: selectedPincode,
+  //             phone: selectedPhone,
+  //             email: selectedEmail,
+  //           };
 
-//           const data = {
-//             paymentOption: selectedPaymentOption,
-//             name: selectedName,
-//             houseName: selectedHouseName,
-//             street: selectedStreet,
-//             city: selectedCity,
-//             state: selectedState,
-//             country: selectedCountry,
-//             pincode: selectedPincode,
-//             phone: selectedPhone,
-//             email: selectedEmail,
-//           };
+  //           fetch("/checkOut", {
+  //             method: "POST",
+  //             headers: {
+  //               "Content-Type": "application/json",
+  //             },
+  //             body: JSON.stringify(data),
+  //           })
+  //             .then((response) => {
+  //               if (!response.ok) {
+  //                 throw new Error(`HTTP error! Status: ${response.status}`);
+  //               }
+  //               return response.text();
+  //             })
+  //             .then((data) => {
+  //               try {
+  //                 const jsonData = JSON.parse(data);
+  //                 console.log("Success:", jsonData);
+  //                 if (jsonData.orderId) {
+  //                   window.location.href = `/orderConfirmation?orderId=${jsonData.orderId}`;
+  //                 } else {
+  //                   console.error(
+  //                     "Error: Invalid response from the server (missing orderId)"
+  //                   );
+  //                   alert("Error: Invalid response from the server");
+  //                 }
+  //               } catch (error) {
+  //                 console.error("Error parsing JSON:", error);
+  //                 alert("Error parsing JSON: " + error.message);
+  //               }
+  //             })
+  //             .catch((error) => {
+  //               console.error("Error:", error);
+  //               alert("Error: " + error.message);
+  //             });
+  //         } catch (error) {
+  //           console.error("Exception:", error);
+  //           alert("Exception: " + error.message);
+  //         }
+  //       }
+  //     });
 
-//           fetch("/checkOut", {
-//             method: "POST",
-//             headers: {
-//               "Content-Type": "application/json",
-//             },
-//             body: JSON.stringify(data),
-//           })
-//             .then((response) => {
-//               if (!response.ok) {
-//                 throw new Error(`HTTP error! Status: ${response.status}`);
-//               }
-//               return response.text();
-//             })
-//             .then((data) => {
-//               try {
-//                 const jsonData = JSON.parse(data);
-//                 console.log("Success:", jsonData);
-//                 if (jsonData.orderId) {
-//                   window.location.href = `/orderConfirmation?orderId=${jsonData.orderId}`;
-//                 } else {
-//                   console.error(
-//                     "Error: Invalid response from the server (missing orderId)"
-//                   );
-//                   alert("Error: Invalid response from the server");
-//                 }
-//               } catch (error) {
-//                 console.error("Error parsing JSON:", error);
-//                 alert("Error parsing JSON: " + error.message);
-//               }
-//             })
-//             .catch((error) => {
-//               console.error("Error:", error);
-//               alert("Error: " + error.message);
-//             });
-//         } catch (error) {
-//           console.error("Exception:", error);
-//           alert("Exception: " + error.message);
-//         }
-//       }
-//     });
+  document
+    .getElementById("placeOrderBtn")
+    .addEventListener("click", async function (event) {
+      event.preventDefault();
 
+      const isNameValid = validateName();
+      const isMobileValid = validateMobile();
+      const isHousNameValid = validateHouseName();
+      const isStreetNameValid = validateStreet();
+      const isCityValid = validateCity();
+      const isStateValid = validateState();
+      const isCountryValid = validateCountry();
+      const isPincodeValid = validatePincode();
+      const isEmailValid = validateEmail();
 
-document.getElementById("placeOrderBtn").addEventListener("click", async function (event) {
-  event.preventDefault();
+      if (
+        isNameValid &&
+        isMobileValid &&
+        isHousNameValid &&
+        isStreetNameValid &&
+        isCityValid &&
+        isStateValid &&
+        isCountryValid &&
+        isPincodeValid &&
+        isEmailValid
+      ) {
+        try {
+          const selectedPaymentOption = document.querySelector(
+            'input[name="paymentOption"]:checked'
+          );
+          const selectedName =
+            document.querySelector('input[name="name"]').value;
+          const selectedHouseName = document.querySelector(
+            'input[name="houseName"]'
+          ).value;
+          const selectedStreet = document.querySelector(
+            'input[name="street"]'
+          ).value;
+          const selectedCity =
+            document.querySelector('input[name="city"]').value;
+          const selectedState = document.querySelector(
+            'input[name="state"]'
+          ).value;
+          const selectedCountry = document.querySelector(
+            'input[name="country"]'
+          ).value;
+          const selectedPincode = document.querySelector(
+            'input[name="pincode"]'
+          ).value;
+          const selectedPhone = document.querySelector(
+            'input[name="phone"]'
+          ).value;
+          const selectedEmail = document.querySelector(
+            'input[name="Email"]'
+          ).value;
 
-  const isNameValid = validateName();
-  const isMobileValid = validateMobile();
-  const isHousNameValid = validateHouseName();
-  const isStreetNameValid = validateStreet();
-  const isCityValid = validateCity();
-  const isStateValid = validateState();
-  const isCountryValid = validateCountry();
-  const isPincodeValid = validatePincode();
-  const isEmailValid = validateEmail();
-
-  if (
-    isNameValid &&
-    isMobileValid &&
-    isHousNameValid &&
-    isStreetNameValid &&
-    isCityValid &&
-    isStateValid &&
-    isCountryValid &&
-    isPincodeValid &&
-    isEmailValid
-  ) {
-    try {
-      const selectedPaymentOption = document.querySelector('input[name="paymentOption"]:checked');
-      const selectedName = document.querySelector('input[name="name"]').value;
-      const selectedHouseName = document.querySelector('input[name="houseName"]').value;
-      const selectedStreet = document.querySelector('input[name="street"]').value;
-      const selectedCity = document.querySelector('input[name="city"]').value;
-      const selectedState = document.querySelector('input[name="state"]').value;
-      const selectedCountry = document.querySelector('input[name="country"]').value;
-      const selectedPincode = document.querySelector('input[name="pincode"]').value;
-      const selectedPhone = document.querySelector('input[name="phone"]').value;
-      const selectedEmail = document.querySelector('input[name="Email"]').value;
-
-      const data = {
-        paymentOption: selectedPaymentOption ? selectedPaymentOption.value : null,
-        name: selectedName,
-        houseName: selectedHouseName,
-        street: selectedStreet,
-        city: selectedCity,
-        state: selectedState,
-        country: selectedCountry,
-        pincode: selectedPincode,
-        phone: selectedPhone,
-        email: selectedEmail,
-      };
-
-      const response = await fetch("/checkOut", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const responseData = await response.json();
-
-      if (responseData.orderId !== undefined && responseData.orderId !== null) {
-        if (data.paymentOption === "Online Payment") {
-          const razorpayOrder = responseData;
-          const convertedAmount = Math.round(parseFloat(razorpayOrder.order.amount) * 100);
-
-          const options = {
-            key: "rzp_test_NGuzvYo6A3U204",
-            amount: convertedAmount,
-            currency: razorpayOrder.currency,
-            name: "VIBYOURS",
-            description: "Order payment",
-            order_id: razorpayOrder.id,
-            handler: function (response) {
-              const paymentData = {
-                razorpay_paymentId: response.razorpay_paymentId,
-                razorpay_orderid: razorpayOrder.order.id,
-                razorpay_signature: response.razorpay_signature,
-              };
-
-              fetch("/onlinePayment", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify(paymentData),
-              })
-                .then((response) => response.json())
-                .then((data) => {
-                  if (data.success) {
-                    alert("Razorpay payment verified successfully");
-                    alert("Data before constructing URL: " + JSON.stringify(data, null, 2));
-                    alert("OrderId before constructing URL: " + data.orderId);
-
-                    window.location.href = `/orderConfirmation?orderId=${data.orderId}`;
-                  } else {
-                    alert(
-                      "Error verifying Razorpay payment:\n" +
-                      (data.error || "unknown error")
-                    );
-                    alert("Error verifying Razorpay payment. Please try again.");
-                  }
-                })
-                .catch((error) => {
-                  alert(
-                    "Error processing Razorpay payment verification:\n" +
-                    error.message
-                  );
-                  alert(
-                    "Error processing Razorpay payment verification. Please try again."
-                  );
-                });
-            },
+          const data = {
+            paymentOption: selectedPaymentOption
+              ? selectedPaymentOption.value
+              : null,
+            name: selectedName,
+            houseName: selectedHouseName,
+            street: selectedStreet,
+            city: selectedCity,
+            state: selectedState,
+            country: selectedCountry,
+            pincode: selectedPincode,
+            phone: selectedPhone,
+            email: selectedEmail,
           };
 
-          const rzp = new Razorpay(options);
-          rzp.on("payment.failed", function (response) {
-            alert(
-              "Payment failed:\n" + JSON.stringify(response, null, 2)
-            );
-            alert("Payment failed. Please try again.");
+          const response = await fetch("/checkOut", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
           });
-          rzp.open();
-        } else {
-          window.location.href = `/orderConfirmation?orderId=${responseData.orderId}`;
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+
+          const responseData = await response.json();
+
+          if (
+            responseData.orderId !== undefined &&
+            responseData.orderId !== null
+          ) {
+            if (data.paymentOption === "Online Payment") {
+              const razorpayOrder = responseData;
+              const convertedAmount = Math.round(
+                parseFloat(razorpayOrder.order.amount) * 100
+              );
+
+              const options = {
+                key: "rzp_test_NGuzvYo6A3U204",
+                amount: convertedAmount,
+                currency: razorpayOrder.currency,
+                name: "VIBYOURS",
+                description: "Order payment",
+                order_id: razorpayOrder.id,
+                handler: function (response) {
+                  const paymentData = {
+                    razorpay_paymentId: response.razorpay_paymentId,
+                    razorpay_orderid: razorpayOrder.order.id,
+                    razorpay_signature: response.razorpay_signature,
+                  };
+
+                  fetch("/onlinePayment", {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(paymentData),
+                  })
+                    .then((response) => response.json())
+                    .then((data) => {
+                      if (data.success) {
+                        alert("Razorpay payment verified successfully");
+                        alert(
+                          "Data before constructing URL: " +
+                            JSON.stringify(data, null, 2)
+                        );
+                        alert(
+                          "OrderId before constructing URL: " + data.orderId
+                        );
+
+                        window.location.href = `/orderConfirmation?orderId=${data.orderId}`;
+                      } else {
+                        alert(
+                          "Error verifying Razorpay payment:\n" +
+                            (data.error || "unknown error")
+                        );
+                        alert(
+                          "Error verifying Razorpay payment. Please try again."
+                        );
+                      }
+                    })
+                    .catch((error) => {
+                      alert(
+                        "Error processing Razorpay payment verification:\n" +
+                          error.message
+                      );
+                      alert(
+                        "Error processing Razorpay payment verification. Please try again."
+                      );
+                    });
+                },
+              };
+
+              const rzp = new Razorpay(options);
+              rzp.on("payment.failed", function (response) {
+                alert("Payment failed:\n" + JSON.stringify(response, null, 2));
+                alert("Payment failed. Please try again.");
+              });
+              rzp.open();
+            } else {
+              window.location.href = `/orderConfirmation?orderId=${responseData.orderId}`;
+            }
+          } else {
+            console.error(
+              "Error: Invalid response from the server (missing orderId)"
+            );
+            alert("Error: Invalid response from the server");
+          }
+        } catch (error) {
+          console.error("Error:", error);
+          alert("Fetch Error: " + error.message);
         }
       } else {
-        console.error(
-          "Error: Invalid response from the server (missing orderId)"
+        console.log(
+          "Please fill in all the required fields with valid information."
         );
-        alert("Error: Invalid response from the server");
       }
-    } catch (error) {
-      console.error("Error:", error);
-      alert("Fetch Error: " + error.message);
-    }
-  } else {
-    console.log("Please fill in all the required fields with valid information.");
-  }
-});
-
+    });
 
   function validateName(e) {
     const Username = document.getElementById("name").value.trim();

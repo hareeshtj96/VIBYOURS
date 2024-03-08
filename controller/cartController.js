@@ -5,6 +5,7 @@ const Order = require("../model/orderModel");
 const mongoose = require("mongoose");
 const { v4: uuidv4 } = require("uuid");
 const { razorpayIntegration, instance } = require("../config/razorpay");
+const paypal = require('@paypal/checkout-server-sdk');
 const crypto = require('crypto');
 
 const Razorpay = require('razorpay');
@@ -459,7 +460,48 @@ const doCheckOut = async (req, res) => {
               error: error.message
           });
       }
+  } else if(paymentOption === 'Paypal') {
+    console.log("it is reached paypal")
+    var environment = new paypal.core.SandboxEnvironment(
+      'Aew_9QXs6uIPPZ-D93id84JgWaJ0BUnd1bIRBQTtHZQDvLSyqvU8iFVHhbK5iCNkHm8XLerOl9JtLd5t',
+      'EAUvWy32LWlEIFHoXb_0foMEc95pFauvu4CyBhVUri2274xtmwBgrl-Wg7q8wVFnyuFkHBwVHh8VSCCd'
+    );
+    const client = new paypal.core.PayPalHttpClient(environment);
+
+      const request = new paypal.orders.OrdersCreateRequest();
+      request.prefer("return=representation");
+      request.requestBody({
+        intent: 'CAPTURE',
+        purchase_units: [{
+          amount: {
+            currency_code: 'USD', 
+            value: userCart.billTotal,
+          },
+        }],
+      });
+
+      try {
+        const order = await client.execute(request);
+
+        res.json({
+          success: true,
+          order: order.result,
+          orderId: orderId,
+        });
+      } catch (error) {
+        console.error("Error in PayPal order creation:", error);
+        res.status(400).json({
+          success: false,
+          message: "Something went wrong with PayPal!",
+          error: error.message,
+        });
+      }
+    
+    
+
   }
+
+
     
   } catch (error) {
     console.error(error.message);
@@ -552,6 +594,83 @@ const razorpayVerification = async( req, res ) => {
     res.status(500).json({ message : "Internal Server Error"});
   }
 }
+
+
+
+//paypal verfication
+const paypalVerification = async (req, res) => {
+  console.log("hiiiii......... paypal.....");
+  try {
+    const paypalOrderId = req.body.paypalOrderId;
+    const payerID = req.body.payerID;
+
+    const address = req.body.address || 'home';
+
+    // console.log("address", address);
+
+    const user = await User.findOne({_id: req.session.user_id});
+
+    // console.log("user", user);
+
+    const userCart = await Cart.findOne({ owner: user._id});
+
+    // console.log("userCart", userCart);
+
+    if(!userCart){
+      return res.status(400).json({message: "Cart not found"});
+    }
+
+    const orderAddress = await User.findOne({ _id: user._id})
+
+    // console.log("orderAddress", orderAddress);
+
+    if(!orderAddress) {
+      return res.status(400).json({ message: "Address not found"});
+    }
+
+    const addressDetails = orderAddress.address.find(item => item.addressType === address);
+
+    // console.log("addressDetails", addressDetails);
+    
+    if(!addressDetails){
+
+    }
+
+    const orderId = await generateUniqueId();
+
+    const orderData = new Order({
+      user:user._id,
+      cart: userCart._id,
+      paypalorderId:paypalOrderId,
+      payapalpayerid:payerID,
+      orderId: orderId,
+      items: userCart.items.map((cartItem)=> ({
+        productId: cartItem.productId,
+        image:cartItem.image,
+        quantity: cartItem.quantity,
+        size: cartItem.size,
+        price: cartItem.subTotal,
+      })),
+      billTotal: userCart.billTotal,
+      paymentStatus: 'Success',
+      paymentMethod: 'PayPal',
+      deliveryAddress: addressDetails,
+      "requests.type":"-",
+    })
+
+    await orderData.save();
+
+    userCart.items =[];
+
+    await userCart.save();
+
+    res.json({ success:true, message: "Order processed Successfully", orderId: orderId, orderData});
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
 
 
 
@@ -715,6 +834,7 @@ module.exports = {
   loadCheckOUt,
   doCheckOut,
   razorpayVerification,
+  paypalVerification ,
   orderConfirmation,
   getOrderDetails,
   cancelOrder,
