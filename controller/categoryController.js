@@ -7,6 +7,7 @@ const loadCategory = async (req, res) => {
     res.render("category", { categories });
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ message: "internal Server Error" });
   }
 };
 

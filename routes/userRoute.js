@@ -3,6 +3,8 @@ const session = require("express-session");
 const userController = require("../controller/userController");
 const cartController = require("../controller/cartController");
 const wishlistController = require("../controller/wishlistController");
+const couponController = require("../controller/couponController");
+const walletController = require("../controller/walletController");
 const { isLogin, isLogout } = require("../middleware/userAuth");
 const { isBlocked } = require("../middleware/blockAuth");
 const bodyParser = require("body-parser");
@@ -57,11 +59,27 @@ user_route.get("/dashboard", isBlocked, isLogin, userController.loadDashboard);
 user_route.get("/home", isLogin, userController.userLogout);
 
 //Product actions
-user_route.get(
-  "/productDetails",
-  isLogin,
-  userController.listIndividualProduct
-);
+user_route.get("/productDetails", isLogin, userController.listIndividualProduct);
+
+user_route.get("/sortByCaseSensitive", isLogin, userController.sortByCaseSensitive);
+
+user_route.get("/sortByCaseInSensitive", isLogin, userController.sortByCaseInSensitive);
+
+user_route.get("/sortByUserRating", isLogin, userController.sortByRating);
+
+user_route.get("/sortByPopularity", isLogin, userController.sortByPopularity);
+
+user_route.post("/searchProducts", isLogin, userController.searchProducts);
+
+user_route.get("/newArrivals", isLogin, userController.newArrivals);
+
+user_route.get("/lowtoHigh", isLogin, userController.lowToHigh);
+
+user_route.get("/hightoLow", isLogin, userController.hightoLow);
+
+user_route.get("/browseCategory", isLogin, userController.filterCategory);
+
+user_route.post("/userReview", isLogin, userController.userReview);
 
 //userProfile actions
 user_route.get("/userProfile", isLogin, userController.userProfile);
@@ -92,7 +110,7 @@ user_route.post("/checkOut", isLogin, cartController.doCheckOut);
 
 user_route.get("/orderConfirmation", isLogin, cartController.orderConfirmation);
 
-user_route.post("/onlinePayment",  cartController.razorpayVerification);
+user_route.post("/onlinePayment", cartController.razorpayVerification);
 
 user_route.post("/paypalPayment", cartController.paypalVerification);
 
@@ -108,5 +126,21 @@ user_route.get("/wishList", isLogin, wishlistController.loadWishlist);
 user_route.get("/addToWishlist", isLogin, wishlistController.addWishList);
 
 user_route.get("/removeWishlist", isLogin, wishlistController.removeWishList);
+
+
+
+//coupon actions
+user_route.get("/applyCouponInCart", isLogin, couponController.couponInCart);
+
+user_route.get("/removeCoupon", isLogin, couponController.removeCoupon);
+
+
+//wallet actions
+user_route.post("/addToWallet", isLogin, walletController.addToWallet);
+
+
+
+
+
 
 module.exports = user_route;

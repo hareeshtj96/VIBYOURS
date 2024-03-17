@@ -69,6 +69,9 @@ const userSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
+    referral: {
+        type: String
+    },
     address: [addressSchema], 
     cart: [{
         type: mongoose.Schema.Types.ObjectId,

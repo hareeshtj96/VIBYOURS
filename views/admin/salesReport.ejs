@@ -1,0 +1,366 @@
+<%- include('../partials/adminheaders') %>
+
+    <div class="container">
+        <h2 class="mt-4 mb-4 text-left">Sales Report</h2>
+        <div class="flex mb-30" style="display: flex; justify-content: space-evenly; align-items: center;">
+            <div>
+                <p>Custom Date <input type="date" id="customDate">
+                </p>
+                <BUtton class="btn btn-primary ml-100" id="customDateSubmit">Submit</BUtton>
+
+            </div>
+
+
+            <p class="btn btn-light" id="Day">Day</p>
+            <p class="btn btn-light" id="Week">Weekly</p>
+            <p class="btn btn-light" id="Month">Monthly</p>
+            <p class="btn btn-light" id="Year">Yearly</p>
+        </div>
+
+        <div class="table-responsive container" id="salesResponsiveTable">
+            <table class="table table-striped" id="salesTable">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Order Number</th>
+                        <th>Customer</th>
+                        <th>Product</th>
+                        <th>Quantity Sold</th>
+                        <th>Unit Price (Rs)</th>
+                        <th>Coupon (Amount)</th>
+                        <th>Total Sales (Rs)</th>
+                    </tr>
+                </thead>
+                <tbody id="salesTableBody">
+                    <% if (salesReport && salesReport.length> 0) { %>
+                        <% salesReport.forEach(order=> { %>
+
+                            <tr>
+                                <td>
+                                    <%= new Date(order.orderDate).toLocaleDateString(); %>
+                                </td>
+                                <td>
+                                    <%= order.orderId %>
+                                </td>
+                                <td>
+                                    <%= order.user.name %>
+                                </td>
+                                <% let groupedItems={}; %>
+                                    <% order.items.forEach(item=> { %>
+                                        <% if (!groupedItems[item.productId.producttitle]) { %>
+                                            <% groupedItems[item.productId.producttitle]={ quantity: 0, price: 0,
+                                                discountPrice:0 }; %>
+                                                <% } %>
+                                                    <% groupedItems[item.productId.producttitle].quantity
+                                                        +=item.quantity; %>
+                                                        <% if (item.discountPrice) { %>
+                                                            <% groupedItems[item.productId.producttitle].discountPrice
+                                                                +=item.discountPrice; %>
+                                                                <% } %>
+                                                                    <% groupedItems[item.productId.producttitle].price
+                                                                        +=item.quantity * item.price; %>
+                                                                        <% }); %>
+                                                                            <%
+                                                                                Object.keys(groupedItems).forEach(productTitle=>
+                                                                                { %>
+                                                                                <td>
+                                                                                    <%= productTitle %>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <%= groupedItems[productTitle].quantity
+                                                                                        %>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <%= groupedItems[productTitle].price
+                                                                                        %>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <%= order.discountPrice %>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <%= groupedItems[productTitle].price
+                                                                                        - order.discountPrice %>
+                                                                                </td>
+                                                                                <!-- Assuming total sales is the same as total price -->
+                                                                                <% }); %>
+
+                            </tr>
+                            <% }); %>
+                                <% } else { %>
+                                    <tr>
+                                        <td colspan="8">No sales data</td>
+                                    </tr>
+                                    <% } %>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="7" class="text-end"><strong>Total Sales:</strong></td>
+                        <td id="totalSales"></td>
+                    </tr>
+                </tfoot>
+            </table>
+
+        </div>
+        <div class="container mb-30" style="display: flex; justify-content: end;">
+            <div>
+                <button class="btn btn-primary" style="margin-right: 80px;" id="pdfBtn">Download PDF</button>
+                <button class="btn btn-primary" id="excelBtn">Download to Excel</button>
+            </div>
+        </div>
+
+    </div>
+    </div>
+
+    <script src="/asset/js/vendors/jquery-3.6.0.min.js"></script>
+    <script src="/asset/js/vendors/bootstrap.bundle.min.js"></script>
+    <script src="/asset/js/vendors/select2.min.js"></script>
+    <script src="/asset/js/vendors/perfect-scrollbar.js"></script>
+    <script src="/asset/js/vendors/jquery.fullscreen.min.js"></script>
+    <script src="/asset/js/vendors/chart.js"></script>
+    <!-- Main Script -->
+    <script src="/asset/js/main.js" type="text/javascript"></script>
+    <script src="/asset/js/custom-chart.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+
+
+
+
+    <script>
+
+
+        // Calculate and display total sales
+        function calculateTotalSales() {
+            const salesTableBody = document.getElementById('salesTableBody');
+            const totalSalesElement = document.getElementById('totalSales');
+
+            let totalSales = 0;
+            let salesCount = 0;
+            salesTableBody.querySelectorAll('tr').forEach(row => {
+                const totalSalesCell = row.querySelector('td:last-child');
+                if (totalSalesCell) {
+                    totalSales += parseFloat(totalSalesCell.textContent);
+                    salesCount++;
+                }
+            });
+
+            if(salesCount === 0 ){
+                totalSales = 0;
+            }
+
+            totalSalesElement.textContent = totalSales.toFixed(2); // Assuming 2 decimal places for currency
+        }
+
+        // Call the function to calculate total sales
+        calculateTotalSales();
+
+
+
+
+
+
+
+        const Day = document.getElementById('Day')
+        Day.addEventListener("click", () => {
+            axios({
+                method: 'get',
+                url: '/admin/filterSalesData?sortBy=Day',
+            })
+                .then(function (response) {
+                    console.log(response.data.filterData)
+                    const data = response.data.filterData
+                    filteringData(data);
+
+                }).catch((error) => {
+                    console.log(error)
+                })
+        })
+
+        const weekButton = document.getElementById('Week');
+        weekButton.addEventListener("click", () => {
+            axios({
+                method: 'get',
+                url: '/admin/filterSalesData?sortBy=Week',
+            }).then(function (response) {
+                const data = response.data.filterData;
+                filteringData(data);
+
+            }).catch((error) => {
+                console.log(error)
+            })
+        })
+
+        const monthlyButton = document.getElementById("Month");
+        monthlyButton.addEventListener("click", () => {
+            axios({
+                method: 'get',
+                url: '/admin/filterSalesData?sortBy=Month',
+
+            }).then(function (response) {
+                const data = response.data.filterData;
+                filteringData(data);
+            }).catch((error) => {
+                console.log(error);
+            })
+        })
+
+        const yearlyButton = document.getElementById("Year");
+        yearlyButton.addEventListener("click", () => {
+            axios({
+                method: 'get',
+                url: '/admin/filterSalesData?sortBy=Year',
+            })
+                .then(function (response) {
+                    const data = response.data.filterData;
+                    filteringData(data);
+                }).catch((error) => {
+                    console.log(error);
+                })
+        })
+
+        const customButton = document.getElementById("customDate");
+        customButton.addEventListener("click", () => {
+            axios({
+                method: 'get',
+                url: '/admin/filterSalesData?sortBy=Year',
+            })
+                .then(function (response) {
+                    const data = response.data.filterData;
+                    filteringData(data);
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        })
+
+        const customDateSubmit = document.getElementById('customDateSubmit')
+        customDateSubmit.addEventListener("click", () => {
+            const date = customDate.value
+
+            if (date == "") {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: "top",
+                    showConfirmButton: false,
+                    timer: 1000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;
+                    }
+                });
+                Toast.fire({
+                    icon: "warning",
+                    title: "Invalid Date. Please check again"
+                })
+            } else {
+                axios({
+                    method: 'get',
+                    url: `/admin/filterSalesData?sortBy=customDate&date=${date}`,
+                })
+                    .then(function (response) {
+                        const data = response.data.filterData;
+                        filteringData(data);
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                    })
+            }
+        })
+
+
+
+        const pdfButton = document.getElementById('pdfBtn')
+        pdfButton.addEventListener("click", () => {
+            const salesTable = document.getElementById("salesResponsiveTable")
+            html2pdf().from(salesTable).save();
+        })
+
+
+        const excelButton = document.getElementById('excelBtn');
+        excelButton.addEventListener("click", () => {
+            const salesTable = document.getElementById("salesResponsiveTable");
+
+
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.table_to_sheet(salesTable);
+
+            // Example: Apply date format to the 'Date' column (column index 2)
+            const dateColumnFormat = { numFmt: 'yyyy-mm-dd' };
+            ws['!cols'] = [{ width: 15 }, { width: 20 }, { width: 15, ...dateColumnFormat }];
+
+            XLSX.utils.book_append_sheet(wb, ws, 'SalesData');
+
+
+            const wbBinary = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' });
+
+            const wbBlob = new Blob([s2ab(wbBinary)], { type: 'application/octet-stream' });
+
+
+            saveAs(wbBlob, 'SalesData.xlsx');
+        })
+
+        // Utility function to convert binary string to array buffer
+        function s2ab(s) {
+            const buf = new ArrayBuffer(s.length);
+            const view = new Uint8Array(buf);
+            for (let i = 0; i < s.length; i++) {
+                view[i] = s.charCodeAt(i) & 0xFF;
+            }
+            return buf;
+        }
+
+
+
+        function filteringData(data) {
+            const tableBody = document.getElementById('salesTableBody');
+            tableBody.innerHTML = '';
+
+            let totalSales = 0;
+            
+
+            if (data && data.length > 0) {
+                data.forEach(order => {
+                    order.items.forEach(item => {
+
+                        const totalPrice = (item.quantity * item.price) - order.discountPrice; // Calculate total price
+                        totalSales += totalPrice;
+                        
+
+
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                        <td>${new Date(order.orderDate).toLocaleDateString()}</td>
+                        <td>${order.orderId}</td>
+                        <td>${order.user.name}</td>
+                        <td>${item.productId.producttitle}</td>
+                        <td>${item.quantity}</td>
+                        <td>${item.price}</td>
+                        <td>${order.discountPrice}</td>
+                        <td>${item.quantity * item.price - order.discountPrice}</td>
+                    `;
+                        tableBody.appendChild(row);
+                    })
+                })
+                const totalSalesAmount = document.getElementById('totalSales');
+                totalSalesAmount.textContent = totalSales.toFixed(2);
+
+                const salesCountElement = document.getElementById('salesCount')
+            } else {
+                const row = document.createElement('tr');
+                row.innerHTML = '<td colspan="8" class="text-center">No sales data</td>';
+                tableBody.appendChild(row);
+
+                const totalSalesAmount = document.getElementById('totalSales');
+                totalSalesAmount.textContent = '0';
+            }
+        }
+    </script>
+
+
+
+    <%- include('../partials/adminfooters') %>

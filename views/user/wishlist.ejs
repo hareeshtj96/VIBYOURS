@@ -190,47 +190,51 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="table-responsive">
-                            <% if (wishlist.product.length > 0) { %>
-                                <% for (let i = 0; i < wishlist.product.length; i++) { %>
-                                    <table class="table shopping-summery text-center">
-                                        <thead>
-                                            <tr class="main-heading">
-                                                <th scope="col" colspan="2">Product</th>
-                                                <th scope="col">Price</th>
-                                                <th scope="col">Stock Status</th>
-                                                <!-- <th scope="col">Action</th> -->
-                                                <th scope="col">Remove</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
+                            <table class="table shopping-summery text-center">
+                                <thead>
+                                    <tr class="main-heading">
+                                        <th scope="col" colspan="2">Product</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">Stock Status</th>
+                                        <!-- <th scope="col">Action</th> -->
+                                        <th scope="col">Remove</th>
+                                    </tr>
+                                </thead>
+                                <tbody> <!-- Move this tag outside the loop -->
+                                    <% if (wishlist.product.length> 0) { %>
+                                        <% for (let i=0; i < wishlist.product.length; i++) { %>
                                             <tr>
                                                 <td class="image product-thumbnail">
-                                                    <img src="/uploads/<%= wishlist.product[i].images[1]  %>" alt="#">
+                                                    <img src="/uploads/<%= wishlist.product[i].images[1] %>" alt="#">
                                                 </td>
                                                 <td class="product-des product-name">
                                                     <h5 class="product-name">
-                                                        <a href="/productDetails?id=<%= wishlist.product[i]._id  %>">
+                                                        <a href="/productDetails?id=<%= wishlist.product[i]._id %>">
                                                             <%= wishlist.product[i].producttitle %>
                                                         </a>
                                                     </h5>
                                                 </td>
                                                 <td class="price" data-title="Price">
-                                                    <span><%= wishlist.product[i].price %></span>
+                                                    <span>
+                                                        <%= wishlist.product[i].price %>
+                                                    </span>
                                                 </td>
                                                 <td class="text-center" data-title="Stock">
                                                     <% if (Array.isArray(wishlist.product[i].size)) { %>
-                                                        <% wishlist.product[i].size.forEach(sizeData => { %>
-                                                            <% if (sizeData.quantity > 0) { %>
+                                                        <% wishlist.product[i].size.forEach(sizeData=> { %>
+                                                            <% if (sizeData.quantity> 0) { %>
                                                                 <span style="color: green;">
                                                                     <%= sizeData.size %> (In Stock)
                                                                 </span><br>
-                                                            <% } else { %>
-                                                                <span class="out-of-stock" style="color:red;">
-                                                                    <strong><%= sizeData.size %></strong> (Out of Stock)
-                                                                </span><br>
-                                                            <% } %>
-                                                        <% }); %>
-                                                    <% } %>
+                                                                <% } else { %>
+                                                                    <span class="out-of-stock" style="color:red;">
+                                                                        <strong>
+                                                                            <%= sizeData.size %>
+                                                                        </strong> (Out of Stock)
+                                                                    </span><br>
+                                                                    <% } %>
+                                                                        <% }); %>
+                                                                            <% } %>
                                                 </td>
                                                 <td class="action" data-title="Remove">
                                                     <a href="#" class="remove-item"
@@ -239,18 +243,22 @@
                                                     </a>
                                                 </td>
                                             </tr>
-                                        </tbody>
-                                    </table>
-                                <% } %>
-                            <% } else { %>
-                                <p>Wishlist is empty! Please add your favorite products.</p>
-                            <% } %>
+                                            <% } %>
+                                                <% } else { %>
+                                                    <tr>
+                                                        <td colspan="5">Wishlist is empty! Please add your favorite
+                                                            products.</td>
+                                                    </tr>
+                                                    <% } %>
+                                </tbody> <!-- Move this tag outside the loop -->
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-        
+
+
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -259,7 +267,7 @@
 
     <script>
         function removeWishlist(itemId) {
-            
+
             Swal.fire({
                 title: 'Are you sure?',
                 text: 'You won\'t be able to revert this!',
@@ -277,7 +285,7 @@
                         .then(data => {
                             if (data.message === 'Product removed from wishlist successfully') {
                                 Swal.fire('Removed!', 'Your item has been removed.', 'success');
-                               
+
                                 window.location.reload();
                             } else {
                                 Swal.fire('Oops!', 'Something went wrong.', 'error');
@@ -289,8 +297,24 @@
                         });
                 }
             });
-           
+
         }
+    </script>
+
+
+    <script>
+        // JavaScript code
+        // Fetch the wishlist count from the server
+        fetch(`/wishlistCount/${userId}`) 
+            .then(response => response.json())
+            .then(data => {
+                // Update the wishlist count displayed on the page
+                const wishlistCountElement = document.getElementById('wishlistCount');
+                wishlistCountElement.textContent = data.count;
+            })
+            .catch(error => {
+                console.error('Error fetching wishlist count:', error);
+            });
     </script>
 
 

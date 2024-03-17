@@ -684,6 +684,19 @@
                     required=""
                     type="radio"
                     name="paymentOption"
+                    id="exampleRadios7"
+                    value="Wallet"
+                  />
+                  <label class="form-check-label" for="exampleRadios7"
+                    >Wallet</label
+                  >
+                </div>
+                <div class="custome-radio">
+                  <input
+                    class="form-check-input"
+                    required=""
+                    type="radio"
+                    name="paymentOption"
                     id="exampleRadios5"
                     value="Online Payment"
                   />
@@ -878,6 +891,11 @@
     placeOrderBtn.addEventListener("click", async function (event) {
       event.preventDefault();
 
+      placeOrderBtn.disabled = true;
+
+      alert('checkout button clicked')
+
+
       const selectedPaymentOptionElement = document.querySelector(
         'input[name="paymentOption"]:checked'
       );
@@ -980,7 +998,50 @@
                   alert("Payment failed. Please try again.");
                 });
                 rzp.open();
-              } else if (selectedPaymentOption === "Paypal") {
+
+
+              } else if( selectedPaymentOption === 'Wallet') {
+                const response = await fetch('/checkOut', {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    selectedAddress: selectedAddressId,
+                    paymentOption: selectedPaymentOption
+                  })
+                })
+
+                if(response.ok) {
+                  const responseData = await response.json();
+                  if(responseData.success) {
+                    Swal.fire({
+                            icon: "success",
+                            title: "Payment Verified",
+                            text: "Payment verification successful!",
+                          }).then(() => {
+                            // Redirect to order confirmation page
+                            window.location.href = `/orderConfirmation?orderId=${responseData.orderId}`
+                          });
+                    
+                  } else {
+
+                  }
+                } else if(response.status === 400) {
+                  Swal.fire({
+                    title: 'Attention',
+                    text: 'Insufficient Wallet balance',
+                    icon: 'warning',
+                    confirmButtonText: 'OK'
+                  })
+                } else {
+                  
+                  
+                }
+
+              }
+              
+              else if (selectedPaymentOption === "Paypal") {
                 // PayPal integration
                 const paypalOrder = data.order;
 
@@ -1068,7 +1129,8 @@
                 };
 
                 paypal.Buttons(paypalOptions).render("#paypal-container");
-              } else {
+
+              }  else {
                 window.location.href = `/orderConfirmation?orderId=${data.orderId}`;
               }
             } else {

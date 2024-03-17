@@ -59,9 +59,9 @@
                     </a>
                     <div class="submenu">
                         <a href="orderList">Order list</a>
-                        <a href="page-orders-detail.html">Order detail</a>
-                        <a href="page-orders-tracking.html">Order tracking</a>
-                        <a href="page-invoice.html">Invoice</a>
+                        <!-- <a href="page-orders-detail.html">Order detail</a>
+                        <a href="page-orders-tracking.html">Order tracking</a> -->
+                        <!-- <a href="page-invoice.html">Invoice</a> -->
                     </div>
                 </li>
                 <!-- <li class="menu-item has-submenu">
@@ -101,23 +101,20 @@
                     <div class="submenu">
                         <a href="adminDashboard">Users</a>
                         <!-- <a href="page-account-register.html">User registration</a> -->
-                        <a href="page-error-404.html">Error 404</a>
+                        
                     </div>
                 </li>
-                <!-- <li class="menu-item">
-                    <a class="menu-link" href="page-reviews.html"> <i class="icon material-icons md-comment"></i>
-                        <span class="text">Reviews</span>
-                    </a>
-                </li> -->
                 <li class="menu-item">
-                    <a class="menu-link" href="page-brands.html"> <i class="icon material-icons md-stars"></i>
-                        <span class="text">Brands</span> </a>
-                </li>
-                <!-- <li class="menu-item">
-                    <a class="menu-link" disabled href="#"> <i class="icon material-icons md-pie_chart"></i>
-                        <span class="text">Statistics</span>
+                    <a class="menu-link" href="couponManagement"> <i class="icon material-icons md-monetization_on"></i>
+                        <span class="text">Coupon</span>
                     </a>
-                </li> -->
+                </li>
+                
+                <li class="menu-item">
+                    <a class="menu-link"  href="salesReport"> <i class="icon material-icons md-pie_chart"></i>
+                        <span class="text">Sales Report</span>
+                    </a>
+                </li>
             </ul>
             <hr>
             <!-- <ul class="menu-aside">
@@ -202,7 +199,7 @@
                     <p>Whole data about your business here</p>
                 </div>
                 <div>
-                    <a href="#" class="btn btn-primary"><i class="text-muted material-icons md-post_add"></i>Create report</a>
+                    <!-- <a href="#" class="btn btn-primary"><i class="text-muted material-icons md-post_add"></i>Create report</a> -->
                 </div>
             </div>
             <div class="row">
@@ -212,7 +209,7 @@
                             <span class="icon icon-sm rounded-circle bg-primary-light"><i class="text-primary material-icons md-monetization_on"></i></span>
                             <div class="text">
                                 <h6 class="mb-1 card-title">Revenue</h6>
-                                <span>$13,456.5</span>
+                                <span>Rs.<%= totalSales[0].total  %></span>
                                 <span class="text-sm">
                                     Shipping fees are not included
                                 </span>
@@ -225,7 +222,7 @@
                         <article class="icontext">
                             <span class="icon icon-sm rounded-circle bg-success-light"><i class="text-success material-icons md-local_shipping"></i></span>
                             <div class="text">
-                                <h6 class="mb-1 card-title">Orders</h6> <span>53.668</span>
+                                <h6 class="mb-1 card-title">Orders</h6> <span>20</span>
                                 <span class="text-sm">
                                     Excluding orders in transit
                                 </span>
@@ -238,9 +235,9 @@
                         <article class="icontext">
                             <span class="icon icon-sm rounded-circle bg-warning-light"><i class="text-warning material-icons md-qr_code"></i></span>
                             <div class="text">
-                                <h6 class="mb-1 card-title">Products</h6> <span>9.856</span>
+                                <h6 class="mb-1 card-title">Products</h6> <span>12</span>
                                 <span class="text-sm">
-                                    In 19 Categories
+                                    In 2 Categories
                                 </span>
                             </div>
                         </article>
@@ -251,7 +248,7 @@
                         <article class="icontext">
                             <span class="icon icon-sm rounded-circle bg-info-light"><i class="text-info material-icons md-shopping_basket"></i></span>
                             <div class="text">
-                                <h6 class="mb-1 card-title">Monthly Earning</h6> <span>$6,982</span>
+                                <h6 class="mb-1 card-title">Monthly Earning</h6> <span>Rs.<%= monthlySales[0].totalSales  %></span>
                                 <span class="text-sm">
                                     Based in your local time.
                                 </span>
@@ -271,7 +268,7 @@
                     <div class="row">
                         <div class="col-lg-5">
                             <div class="card mb-4">
-                                <article class="card-body">
+                                <!-- <article class="card-body">
                                     <h5 class="card-title">New Members</h5>
                                     <div class="new-member-list">
                                         <div class="d-flex align-items-center justify-content-between mb-4">
@@ -311,7 +308,7 @@
                                             <a href="#" class="btn btn-xs"><i class="material-icons md-add"></i> Add</a>
                                         </div>
                                     </div>
-                                </article>
+                                </article> -->
                             </div>
                         </div>
                         <div class="col-lg-7">
@@ -407,7 +404,7 @@
                             <canvas id="myChart2" height="217"></canvas>
                         </article>
                     </div> -->
-                    <div class="card mb-4">
+                    <!-- <div class="card mb-4">
                         <article class="card-body">
                             <h5 class="card-title">Marketing Chanel</h5>
                             <span class="text-muted font-xs">Facebook</span>
@@ -431,10 +428,10 @@
                                 <div class="progress-bar" role="progressbar" style="width: 80%"> 80%</div>
                             </div>
                         </article>
-                    </div>
+                    </div> -->
                 </div>
             </div>
-            <div class="card mb-4">
+            <!-- <div class="card mb-4">
                 <header class="card-header">
                     <h4 class="card-title">Latest orders</h4>
                     <div class="row align-items-center">
@@ -646,10 +643,10 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div> <!-- table-responsive end// -->
+                    </div> 
                 </div>
-            </div>
-            <div class="pagination-area mt-30 mb-50">
+            </div> -->
+            <!-- <div class="pagination-area mt-30 mb-50">
                 <nav aria-label="Page navigation example">
                     <ul class="pagination justify-content-start">
                         <li class="page-item active"><a class="page-link" href="#">01</a></li>
@@ -660,7 +657,7 @@
                         <li class="page-item"><a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a></li>
                     </ul>
                 </nav>
-            </div>
+            </div> -->
         </section> <!-- content-main end// -->
         <footer class="main-footer font-xs">
             <div class="row pb-30 pt-15">

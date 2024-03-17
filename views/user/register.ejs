@@ -1,4 +1,4 @@
-<%- include("../partials/userheaders")  %>
+<%- include("../partials/userheaders") %>
     <div class="col-lg-1"></div>
     <div class="col-lg-6 mx-auto">
         <div class="login_wrap widget-taber-content p-30 background-white border-radius-5">
@@ -12,69 +12,101 @@
                 </p>
 
 
-                <%   if(typeof message != "undefined" && message) { %>
+                <% if(typeof message !="undefined" && message) { %>
 
                     <div class="mt-5 mb-3">
-            
-                      <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            
-                        <strong><%=  message  %></strong>
-            
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            
-                      </div>
-            
-                    </div> 
-            
-                  <% }    %>
+
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+
+                            <strong>
+                                <%= message %>
+                            </strong>
+
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+                        </div>
+
+                    </div>
+
+                    <% } %>
 
 
 
-                <form method="post" onsubmit="return validateForm(event)">
-                    <div class="form-group">
-                        <input type="text" id="name" name="name" placeholder="Username" onblur="validateName()">
-                        <p id="nameError" class="error"></p>
-                    </div>
-                    <div class="form-group">
-                        <input type="email" id="email" name="email" placeholder="Email" onblur="validateEmail()">
-                        <p id="emailError" class="error"></p>
-                    </div>
-                    <div class="form-group">
-                        <input type="password" id="password" name="password" placeholder="Password"
-                            onblur="validatePassword()">
-                        <p id="passwordError" class="error"></p>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" id="mobile" name="mobile" placeholder="mobile" onblur="validateMobile()">
-                        <p id="mobileError" class="error"></p>
-                    </div>
-                    <!-- <div class="form-group">
+                        <form method="post" onsubmit="return validateForm(event)">
+                            <div class="form-group">
+                                <input type="text" id="name" name="name" placeholder="Username" onblur="validateName()">
+                                <p id="nameError" class="error"></p>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" id="email" name="email" placeholder="Email"
+                                    onblur="validateEmail()">
+                                <p id="emailError" class="error"></p>
+                            </div>
+                            <div class="form-group">
+                                <input type="password" id="password" name="password" placeholder="Password"
+                                    onblur="validatePassword()">
+                                <p id="passwordError" class="error"></p>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" id="mobile" name="mobile" placeholder="mobile"
+                                    onblur="validateMobile()">
+                                <p id="mobileError" class="error"></p>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" id="refCode" name="refCode" placeholder="referral code">
+
+                            </div>
+                            <!-- <div class="form-group">
                         <input required="" type="password" name="password" placeholder="Confirm password">
                     </div> -->
-                    <div class="login_footer form-group">
-                        <div class="chek-form">
-                            <div class="custome-checkbox">
-                                <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox12"
-                                    value="">
-                                <label class="form-check-label" for="exampleCheckbox12"><span>I agree to terms &amp;
-                                        Policy.</span></label>
+                            <div class="login_footer form-group">
+                                <div class="chek-form">
+                                    <div class="custome-checkbox">
+                                        <input class="form-check-input" type="checkbox" name="checkbox"
+                                            id="exampleCheckbox12" value="">
+                                        <label class="form-check-label" for="exampleCheckbox12"><span>I agree to terms
+                                                &amp;
+                                                Policy.</span></label>
+                                    </div>
+                                </div>
+                                <a href="page-privacy-policy.html"><i class="fi-rs-book-alt mr-5 text-muted"></i>Lean
+                                    more</a>
                             </div>
-                        </div>
-                        <a href="page-privacy-policy.html"><i class="fi-rs-book-alt mr-5 text-muted"></i>Lean more</a>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit"  class="btn btn-fill-out btn-block hover-up"
-                            name="register">Submit</button>
-                    </div>
-                </form>
-                <!-- <div class="divider-text-center mt-15 mb-15">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-fill-out btn-block hover-up"
+                                    name="register">Submit</button>
+
+                                <% if (locals.message) { %>
+                                    <p id="localsmessage" class="error text-danger">
+                                        <%=message %>
+                                    </p>
+                                    <% } %>
+
+                                        <% if (typeof showAlert !== 'undefined' && showAlert) { %>
+                                            <script>
+                                                // Show IziToast success message
+                                                iziToast.success({
+                                                    title: 'Success!',
+                                                    message: '<%= message %>',
+                                                    position: 'topRight',
+                                                    timeout: 3000,
+                                                    onClosed: function () {
+                                                        window.location.href = "/login";
+                                                    }
+                                                });
+                                            </script>
+                                            <% } %>
+                            </div>
+                        </form>
+                        <!-- <div class="divider-text-center mt-15 mb-15">
                     <span> or</span>
                 </div>
                 <ul class="btn-login list_none text-center mb-15">
                     <li><a href="#" class="btn btn-facebook hover-up mb-lg-0 mb-sm-4">Login With Facebook</a></li>
                     <li><a href="#" class="btn btn-google hover-up">Login With Google</a></li>
                 </ul> -->
-                <div class="text-muted text-center">Already have an account? <a href="login">Sign in now</a></div>
+                        <div class="text-muted text-center">Already have an account? <a href="login">Sign in now</a>
+                        </div>
             </div>
         </div>
     </div>
@@ -84,113 +116,123 @@
     </div>
     </section>
     </main>
-   
-    <%- include("../partials/userfooters") %>  
 
-    <script>
-        function validateName() {
+    <%- include("../partials/userfooters") %>
 
-            var nameInput = document.getElementById('name');
-            var trimmedValue = nameInput.value.trim();
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/izitoast/dist/css/iziToast.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/izitoast"></script>
+
+        <script>
+
+            const localmessage = document.getElementById('localsmessage');
+            function validateName() {
+
+                var nameInput = document.getElementById('name');
+                var trimmedValue = nameInput.value.trim();
 
 
-            var namePattern = /^[A-Za-z ]+$/;
-            var nameError = document.getElementById('nameError');
+                var namePattern = /^[A-Za-z ]+$/;
+                var nameError = document.getElementById('nameError');
 
-            if (!namePattern.test(trimmedValue)) {
-                nameError.innerHTML = 'Invalid name format. Please use alphabets and space only.';
+                if (!namePattern.test(trimmedValue)) {
+                    nameError.innerHTML = 'Invalid name format. Please use alphabets and space only.';
 
-            } else {
-                nameError.innerHTML = '';
+                } else {
+                    nameError.innerHTML = '';
 
+                }
             }
-        }
 
-        function validateEmail() {
-            var emailInput = document.getElementById('email').value.trim()
-            var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z]{2,}$/;
-            var emailError = document.getElementById('emailError');
+            function validateEmail() {
+                var emailInput = document.getElementById('email').value.trim()
+                var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z]{2,}$/;
+                var emailError = document.getElementById('emailError');
 
-            if (!emailPattern.test(emailInput)) {
-                emailError.innerHTML = 'Invalid email format. Please enter a valid email address.';
+                if (!emailPattern.test(emailInput)) {
+                    emailError.innerHTML = 'Invalid email format. Please enter a valid email address.';
 
-            } else if (emailInput == "") {
-                emailError.innerHTML = 'it is required';
-            } else {
-                emailError.innerHTML = '';
+                } else if (emailInput == "") {
+                    emailError.innerHTML = 'it is required';
+                } else {
+                    emailError.innerHTML = '';
 
+                }
             }
-        }
 
-        function validatePassword() {
-            var passwordInput = document.getElementById('password').value.trim()
-            var passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
-            var passwordError = document.getElementById('passwordError');
+            function validatePassword() {
+                var passwordInput = document.getElementById('password').value.trim()
+                var passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
+                var passwordError = document.getElementById('passwordError');
 
-            if (!passwordPattern.test(passwordInput)) {
-                passwordError.innerHTML = 'Invalid password format. Password must be at least 6 characters, including alphabets and numerics, with no space.';
+                if (!passwordPattern.test(passwordInput)) {
+                    passwordError.innerHTML = 'Invalid password format. Password must be at least 6 characters, including alphabets and numerics, with no space.';
 
-            } else {
-                passwordError.innerHTML = '';
+                } else {
+                    passwordError.innerHTML = '';
 
-            }
-        }
-
-
-        function validateMobile() {
-            const mobile = document.getElementById("mobile").value.trim();
-            const mobileError = document.getElementById("mobileError");
-
-            if (mobile === "") {
-                mobileError.innerHTML = "Mobile number is required"
-                mobileError.style.display = "block"
-
-            }else if (!/^[6-9]\d{9}$/.test(mobile)) {
-                mobileError.innerHTML = "Invalid mobile number"
-                mobileError.style.display ="block";
-
-            }  else {
-                mobileError.innerHTML = "";
-                mobileError.style.display = "none"
-
-
+                }
             }
 
 
-        }
+            function validateMobile() {
+                const mobile = document.getElementById("mobile").value.trim();
+                const mobileError = document.getElementById("mobileError");
+
+                if (mobile === "") {
+                    mobileError.innerHTML = "Mobile number is required"
+                    mobileError.style.display = "block"
+
+                } else if (!/^[6-9]\d{9}$/.test(mobile)) {
+                    mobileError.innerHTML = "Invalid mobile number"
+                    mobileError.style.display = "block";
+
+                } else {
+                    mobileError.innerHTML = "";
+                    mobileError.style.display = "none"
 
 
-        function validateForm(event) {
+                }
 
-            validateName();
-            validateEmail();
-            validatePassword();
-            validateMobile()
-
-            if (mobileError.innerHTML || passwordError.innerHTML || emailError.innerHTML || nameError.innerHTML) {
-                event.preventDefault();
-                
 
             }
-            
-
-        }
-
-    
 
 
-    </script>
+            function validateForm(event) {
+
+                validateName();
+                validateEmail();
+                validatePassword();
+                validateMobile()
+
+                if (mobileError.innerHTML || passwordError.innerHTML || emailError.innerHTML || nameError.innerHTML) {
+                    event.preventDefault();
 
 
-    <style>
-        .error {
-            color: red;
-            font-size: 14px;
-            margin-top: 5px;
-        }
-    </style>
+                }
 
 
-</body>
+            }
 
-</html>
+
+            setTimeout(() => {
+                localmessage.innerHTML = '';
+                localmessage.style.display = "none";
+            }, 3000);
+
+
+
+        </script>
+
+
+        <style>
+            .error {
+                color: red;
+                font-size: 14px;
+                margin-top: 5px;
+            }
+        </style>
+
+
+        </body>
+
+        </html>

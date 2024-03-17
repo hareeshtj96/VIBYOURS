@@ -3116,7 +3116,7 @@ table .product-thumbnail img {
 }
 
 .deal .product-price .old-price {
-  color: #cccccc;
+  color: #da1616;
   text-decoration: line-through;
 }
 
@@ -3656,7 +3656,7 @@ table .product-thumbnail img {
 .product-cart-wrap .product-content-wrap .product-price span.old-price {
   font-size: 14px;
   font-weight: 400;
-  color: #90908e;
+  color: #da1616;
   margin: 0 0 0 7px;
   text-decoration: line-through;
 }
@@ -3845,7 +3845,7 @@ table .product-thumbnail img {
 .product-list-small .product-price span.old-price {
   font-size: 14px;
   font-weight: 400;
-  color: #90908e;
+  color: #da1616;
   margin: 0 0 0 7px;
   text-decoration: line-through;
 }
@@ -4292,7 +4292,7 @@ table .product-thumbnail img {
 
 .detail-info .product-price ins span.old-price {
   text-decoration: line-through;
-  color: #888;
+  color: #da1616;
   margin-left: 10px;
   font-size: 16px;
   font-weight: 500;
@@ -6964,7 +6964,7 @@ span.fi-rs-apps {
 .main-menu > nav > ul > li ul.mega-menu li .menu-banner-wrap .menu-banner-content .menu-banner-price span.old-price {
   font-size: 19px;
   font-weight: 400;
-  color: #696969;
+  color: #da1616;;
   text-decoration: line-through;
   margin-left: 5px;
 }

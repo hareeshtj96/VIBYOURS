@@ -56,9 +56,9 @@
                     </a>
                     <div class="submenu">
                         <a href="orderList">Order list</a>
-                        <a href="page-orders-detail.html">Order detail</a>
-                        <a href="page-orders-tracking.html">Order tracking</a>
-                        <a href="page-invoice.html">Invoice</a>
+                        <!-- <a href="page-orders-detail.html">Order detail</a>
+                        <a href="page-orders-tracking.html">Order tracking</a> -->
+                        <!-- <a href="page-invoice.html">Invoice</a> -->
                     </div>
                 </li>
                 <!-- <li class="menu-item has-submenu">
@@ -98,23 +98,20 @@
                     <div class="submenu">
                         <a href="adminDashboard">Users</a>
                         <!-- <a href="page-account-register.html">User registration</a> -->
-                        <a href="page-error-404.html">Error 404</a>
+                        <!-- <a href="page-error-404.html">Error 404</a> -->
                     </div>
                 </li>
-                <!-- <li class="menu-item">
-                    <a class="menu-link" href="page-reviews.html"> <i class="icon material-icons md-comment"></i>
-                        <span class="text">Reviews</span>
-                    </a>
-                </li> -->
                 <li class="menu-item">
-                    <a class="menu-link" href="page-brands.html"> <i class="icon material-icons md-stars"></i>
-                        <span class="text">Brands</span> </a>
-                </li>
-                <!-- <li class="menu-item">
-                    <a class="menu-link" disabled href="#"> <i class="icon material-icons md-pie_chart"></i>
-                        <span class="text">Statistics</span>
+                    <a class="menu-link" href="couponManagement"> <i class="icon material-icons md-monetization_on"></i>
+                        <span class="text">Coupon</span>
                     </a>
-                </li> -->
+                </li>
+                
+                <li class="menu-item">
+                    <a class="menu-link"  href="salesReport"> <i class="icon material-icons md-pie_chart"></i>
+                        <span class="text">Sales Report</span>
+                    </a>
+                </li>
             </ul>
             <hr>
             <!-- <ul class="menu-aside">
@@ -295,12 +292,24 @@
                                     <div class="col-md-9">
                                         <div class="mb-4">
                                             <label class="form-label">Cost</label>
-                                            <input type="text" placeholder="Rs" class="form-control" value="" id="price"
+                                            <input type="text" placeholder="Rs" class="form-control" value="<%= product.price  %>" id="price"
                                                 name="price" required
                                                 onkeydown="return/[0-9\b]/i.test(event.key) || event.keyCode === 8"
                                                 onkeyup="validatePrice()">
                                             <p id="priceError" class="error"></p>
                                         </div>
+
+                                        <div class="mb-4">
+                                            <label class="form-label">Selling Price</label>
+                                            <input type="text" placeholder="Rs" class="form-control" value="<%= product.sellingPrice  %>" id="sellingPrice"
+                                                name="sellingPrice" required
+                                                onkeydown="return/[0-9\b]/i.test(event.key) || event.keyCode === 8"
+                                                onkeyup="validateSellingPrice()">
+                                            <p id="SellingpriceError" class="error"></p>
+
+                                        </div>
+
+
                                     </div>
                                 </div>
                                 <hr class="mb-4 mt-0">
@@ -477,6 +486,38 @@
         }
 
 
+        function validateSellingPrice() {
+            const price = document.getElementById('price').value.trim();
+
+            const sellingPrice = document.getElementById('sellingPrice').value.trim();
+
+            const SellingpriceError = document.getElementById('SellingpriceError');
+
+            if(sellingPrice == "") {
+
+                SellingpriceError.innerHTML = "Selling price is required";
+                setTimeout(function() {
+                    SellingpriceError.innerHTML = ""
+                }, 3000);
+
+            } else if(sellingPrice > price) {
+
+                SellingpriceError.innerHTML = "Invalid price!";
+                setTimeout(function() {
+                    SellingpriceError.innerHTML = ""
+                }, 3000);
+
+            } else if(sellingPrice < 0) {
+                SellingpriceError.innerHTML = "Invalid price!";
+                setTimeout(() => {
+                    SellingpriceError.innerHTML = ""
+                }, 3000);
+            } else {
+                SellingpriceError.innerHTML = ""
+            }
+
+        }
+
 
 
         function validateImages() {
@@ -525,9 +566,10 @@
             validateDescription()
             validatePrice()
             validateImages()
+            validateSellingPrice()
 
 
-            if (titleError.innerHTML || descriptionError.innerHTML || priceError.innerHTML || imageError.innerHTML) {   
+            if (titleError.innerHTML || descriptionError.innerHTML || priceError.innerHTML || SellingpriceError.innerHTML || imageError.innerHTML) {   
                 e.preventDefault();
             } else {
 

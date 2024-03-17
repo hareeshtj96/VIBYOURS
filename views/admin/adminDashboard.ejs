@@ -1,26 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <title>VIBYOURS</title>
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta property="og:title" content="">
-    <meta property="og:type" content="">
-    <meta property="og:url" content="">
-    <meta property="og:image" content="">
-    <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="/adminAssets/assets/imgs/theme/favicon.svg">
-    <!-- Template CSS -->
-    <link href="/adminAssets/assets/css/main.css" rel="stylesheet" type="text/css" />
-</head>
-
-<body>
-
+<%- include("../partials/adminheaders") %>
 
     <style>
+        
         body {
             font-family: 'Arial', sans-serif;
             background-color: #f8f9fa;
@@ -114,28 +95,34 @@
             <div class="pagination-area mt-30 mb-50">
                 <nav aria-label="Page navigation example">
                     <ul class="pagination justify-content-start">
-            
+
                         <!-- Previous Page Link -->
                         <li class="page-item">
-                            <a class="page-link" href="/admin/adminDashboard?page=<%= encodeURIComponent(currentPage - 1) %>" aria-label="Previous">
+                            <a class="page-link"
+                                href="/admin/adminDashboard?page=<%= encodeURIComponent(currentPage - 1) %>"
+                                aria-label="Previous">
                                 <span aria-hidden="true">&laquo;</span>
                             </a>
                         </li>
-            
+
                         <!-- Display Page Links Dynamically -->
-                        <% for (let i = 1; i <= totalPages; i++) { %>
+                        <% for (let i=1; i <=totalPages; i++) { %>
                             <li class="page-item <%= currentPage === i ? 'active' : '' %>">
-                                <a class="page-link" href="/admin/adminDashboard?page=<%= encodeURIComponent(i) %>"><%= i %></a>
+                                <a class="page-link" href="/admin/adminDashboard?page=<%= encodeURIComponent(i) %>">
+                                    <%= i %>
+                                </a>
                             </li>
-                        <% } %>
-            
-                        <!-- Next Page Link -->
-                        <li class="page-item">
-                            <a class="page-link" href="/admin/adminDashboard?page=<%= encodeURIComponent(currentPage + 1) %>" aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
-                            </a>
-                        </li>
-            
+                            <% } %>
+
+                                <!-- Next Page Link -->
+                                <li class="page-item">
+                                    <a class="page-link"
+                                        href="/admin/adminDashboard?page=<%= encodeURIComponent(currentPage + 1) %>"
+                                        aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+
                     </ul>
                 </nav>
             </div>
@@ -151,6 +138,4 @@
             </div>
         </div>
 
-    </body>
-
-</html>
+        <%- include("../partials/adminfooters") %>

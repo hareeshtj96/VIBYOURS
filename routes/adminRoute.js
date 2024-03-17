@@ -53,6 +53,16 @@ admin_route.get('/orderDetails', isLogin, adminController.orderDetails);
 
 admin_route.post('/orderStatusChanged', isLogin, adminController.orderStatusChanging)
 
+admin_route.get('/couponManagement', isLogin, adminController.couponManagement);
+
+admin_route.post('/couponManagement', isLogin, adminController.createCoupon);
+
+admin_route.post('/couponListUnlist', isLogin, adminController.couponListUnlist);
+
+admin_route.get('/salesReport', isLogin, adminController.adminsalesReport);
+
+admin_route.get('/filterSalesData', isLogin, adminController.filterSalesReport);
+
 
 
 
@@ -92,6 +102,8 @@ admin_route.get('/editCategory', isLogin, categoryController.editCategory);
 admin_route.post('/editCategory', isLogin, categoryController.updateCategory);
 
 admin_route.get('/deleteCategory/:categoryDataId', isLogin, categoryController.deleteCategory);
+
+
 
 
 

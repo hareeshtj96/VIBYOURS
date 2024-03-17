@@ -28,6 +28,10 @@ const productSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    sellingPrice: {
+        type: Number,
+        required: true
+    },
 
     category: {
         type: String,
@@ -42,7 +46,23 @@ const productSchema = new mongoose.Schema({
         type: Number,
         default: 1
     },
-    
+    createdAt: {
+        type: Date,
+        default: Date.now,
+    },
+    rating: {
+        type: Number,
+        default: 0,
+        max: 5
+    },
+    totalReview : {
+        type: Number,
+        default: 0
+    },
+    count: {
+        type: Number,
+        default: 0
+    },
 
 
 });

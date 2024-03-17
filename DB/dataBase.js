@@ -1,5 +1,9 @@
 const mongoose = require('mongoose');
-const connectDB = mongoose.connect("mongodb://127.0.0.1:27017/vibyours_ecommerce");
+require('dotenv').config();
+
+const dbUrl = process.env.DB_URL;
+
+const connectDB = mongoose.connect(dbUrl);
 
 connectDB
     .then(() => console.log("Database connected"))

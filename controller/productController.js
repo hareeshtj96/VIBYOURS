@@ -6,10 +6,10 @@ const fs = require('fs');
 
 //Multer storage configuration
 const storage = multer.diskStorage({
-  destination: function (req,file,cb) {
+  destination: (req,file,cb)=> {
     cb(null, "public/uploads/")
   },
-  filename: function (req, file, cb) {
+  filename:  (req, file, cb)=> {
     cb(null, Date.now() + "-" + file.originalname);
   },
 });
@@ -49,12 +49,13 @@ const loadProduct = async (req, res) => {
     res.render("addProduct", { categories });
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
 //verify products
 const verifyProduct = async (req, res) => {
-  upload.array("images")(req, res, async function (err) {
+  upload(req, res, async (err)=> {
     if (err instanceof multer.MulterError) {
       return res.status(500).json({ error: "Error uploading file" });
     } else if (err) {
@@ -71,6 +72,7 @@ const verifyProduct = async (req, res) => {
       sizeL,
       sizeXL,
       price,
+      sellingPrice,
       category,
       is_listed,
     } = req.body;
@@ -102,6 +104,7 @@ const verifyProduct = async (req, res) => {
           { size: "XL", quantity: sizeXL },
         ],
         price,
+        sellingPrice,
         category: categoryName,
         images: req.files.map((file) => file.filename),
         is_listed: 1,
@@ -135,6 +138,7 @@ const loadProductGrid = async (req, res) => {
     res.render("viewProduct", { addProduct: addProducts, currentPage: page, totalPages: totalPages });
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -198,6 +202,7 @@ const editProduct = async (req, res) => {
         { size: "XL", quantity: sizeXL },
       ],
       price: req.body.price,
+      sellingPrice: req.body.sellingPrice,
       category: categoryName,
       images: existingImages,
       is_listed: 1,
@@ -345,6 +350,7 @@ const updateProduct = async (req, res) => {
             { size: "XL", quantity: sizeXL },
           ],
           price: req.body.price,
+          sellingPrice: req.body.sellingPrice,
           category: categoryName,
           images: allImages,
           is_listed: 1,

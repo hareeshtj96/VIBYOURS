@@ -478,7 +478,7 @@
                                                         </div>
                                                     </div>
                                                 </form>
-                                                <div class="mb-30 mt-50">
+                                                <!-- <div class="mb-30 mt-50">
                                                     <div class="heading_s1 mb-3">
                                                         <h4>Apply Coupon</h4>
                                                     </div>
@@ -498,6 +498,101 @@
                                                                     </div>
                                                                 </form>
                                                             </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div> -->
+
+                                                <!-- Start Coupon Start -->
+                                                <div class="coupon_area">
+                                                    <div class="container">
+                                                        <div class="row">
+                                                            <div class="col-lg-6 col-md-6">
+                                                                <div class="coupon_code left" data-aos="fade-up"
+                                                                    data-aos-delay="200">
+                                                                    <div class="coupon_inner">
+                                                                        
+
+                                                                        <% if (!userCart.isApplied) { %>
+
+                                                                            <button type="button"
+                                                                                class="btn btn-md btn-golden w-100"
+                                                                                data-bs-toggle="modal"
+                                                                                data-bs-target="#CouponModal">
+                                                                                Applicable Coupons
+                                                                            </button>
+                                                                            <div class="input-group mt-2">
+                                                                                <input class="form-control"
+                                                                                    placeholder="Coupon code"
+                                                                                    name="coupon" id="coupon"
+                                                                                    type="text">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md btn-golden"
+                                                                                    onclick="applycoupon()">Apply
+                                                                                    Coupon</button>
+
+                                                                            </div>
+                                                                            <% } else  { %>
+                                                                                <p>Already a coupon applied!</p>
+                                                                                <button type="button"
+                                                                                    class="btn btn-md btn-golden"
+                                                                                    onclick="removecoupon()">Remove
+                                                                                    Coupon</button>
+
+                                                                                <% } %>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div> <!-- ...:::: End Cart Section:::... -->
+                                            <div class="modal fade" id="CouponModal" tabindex="-1" role="dialog"
+                                                aria-labelledby="CouponModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+                                                    role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="CouponModalLabel">Applicable
+                                                                Coupons</h5>
+                                                            <button type="button" class="close" data-bs-dismiss="modal"
+                                                                aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <!-- Bootstrap card inside modal-body -->
+                                                            <% if(coupon!=='undefined' ){ for(let
+                                                                i=0;i<coupon.length;i++){%>
+                                                                <div class="card">
+                                                                    <div class="card-body">
+                                                                        <h5 class="card-title">Coupon Details</h5>
+                                                                        <p class="card-text">Coupon code:
+                                                                            <%=coupon[i].code%>
+                                                                        </p>
+                                                                        <p class="card-text">Discount:
+                                                                            <%=coupon[i].discountPercentage%>
+                                                                        </p>
+                                                                        <p class="card-text">Expiration Date: <%=new
+                                                                                Date(coupon[i].expirationDate).toLocaleDateString()%>
+                                                                        </p>
+                                                                        <a class="p-2"></a><i
+                                                                            class="bi bi-clipboard"></i> Use Code: <span
+                                                                            class="badge-primary p-1 rounded-pill">
+                                                                            <%=coupon[i].code%>
+                                                                        </span></a>
+
+                                                                    </div>
+                                                                </div>
+                                                                <%}}else{%>
+                                                                    <p>No coupon Available</p>
+                                                                    <%}%>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <!-- Optional footer buttons -->
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">Close</button>
+                                                            <!-- Add more footer buttons as needed -->
                                                         </div>
                                                     </div>
                                                 </div>
@@ -699,16 +794,155 @@
 
 
 
+                                        </script>
 
 
+                                        <script>
+
+                                            async function applycoupon() {
+                                                const code = document.getElementById('coupon').value;
+                                                // alert(code)
+                                                try {
+                                                    const response = await fetch(`/applyCouponInCart?code=${code}`);
+                                                    if (response.ok) {
+
+                                                        swal.fire({
+                                                            title: 'Coupon applied',
+                                                            text: '',
+                                                            icon: "success",
+                                                            type: 'success',
+                                                            timer: 1500,
+                                                            timerProgressBar: true,
+                                                        }).then(() => {
+                                                            window.location.reload(); // Reload the page after successful removal
+                                                        });
+                                                    } else {
+                                                        await Swal.fire({
+                                                            title: 'Error',
+                                                            text: 'Invalid Coupon code.',
+                                                            icon: 'Sorry',
+                                                            showConfirmButton: true
+                                                        });
+                                                    }
+                                                } catch (error) {
+                                                    // Handle network errors or other exceptions
+                                                    console.error('Error applying coupon:', error);
+                                                    // Optionally, you can display an error message to the user
+                                                }
+                                            }
 
 
+                                            async function removecoupon() {
+                                                alert("from removeCoupon")
 
+                                                try {
+                                                    const response = await fetch('/removeCoupon');
+                                                    if (response.ok) {
 
+                                                        swal.fire({
+                                                            title: 'Coupon removed',
+                                                            text: '',
+                                                            icon: "success",
+                                                            type: 'success',
+                                                            timer: 1500,
+                                                            timerProgressBar: true,
+                                                        }).then(() => {
+                                                            window.location.reload(); 
+                                                        });
+                                                    }
+
+                                                } catch (error) {
+                                                    // Handle network errors or other exceptions
+                                                    console.error('Error applying coupon:', error);
+                                                    // Optionally, you can display an error message to the user
+                                                }
+                                            }
 
 
 
                                         </script>
 
+                                        
     </main>
+
+    <style>
+        /* Custom styles for the modal */
+        #CouponModal {
+            background: rgba(0, 0, 0, 0.5);
+            /* Add a semi-transparent background */
+        }
+
+        .modal-content {
+            background-color: #fff;
+            /* Set a white background for the modal content */
+            border-radius: 10px;
+            /* Add border-radius for rounded corners */
+        }
+
+        .modal-header {
+            background-color: #088178;
+            /* Change header background color */
+            color: #fff;
+            /* Change header text color */
+            border-bottom: 1px solid #dee2e6;
+            /* Add a bottom border */
+        }
+
+        .modal-body {
+            padding: 20px;
+            /* Add padding to the modal body */
+        }
+
+        .card {
+            margin-bottom: 20px;
+            /* Add margin between cards */
+        }
+
+        /* Customize card appearance */
+        .card-body {
+            background-color: #f8f9fa;
+            /* Set a light background color */
+            border: 1px solid #dee2e6;
+            /* Add a border around the card */
+            border-radius: 8px;
+            /* Add border-radius for rounded corners */
+        }
+
+        .card-title {
+            color: #007bff;
+            /* Set card title color */
+        }
+
+        .card-text {
+            color: #3a7443;
+            /* Set card text color */
+        }
+
+        /* Style the close button in the modal header */
+        .close {
+            color: #088178;
+            /* Set close button text color */
+        }
+
+        .close:hover {
+            color: #fff;
+            /* Change close button text color on hover */
+        }
+
+        /* Optional: Style the modal footer buttons */
+        .modal-footer .btn {
+            color: #007bff;
+            /* Set button text color */
+        }
+
+        .modal-footer .btn-secondary {
+            color: white
+                /* Set secondary button text color */
+        }
+
+        .modal-footer .btn:hover {
+            text-decoration: underline;
+            /* Underline the button text on hover */
+        }
+    </style>
     <%- include("../partials/userfooters") %>

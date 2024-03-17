@@ -6,7 +6,7 @@ const Wishlist = require("../model/wishlistModel");
 const loadWishlist = async (req, res) => {
     try {
         const user = await User.findOne({ _id: req.session.user_id });
-        console.log("user", user);
+        // console.log("user", user);
 
         let wishlist = await Wishlist.findOne({ user: user._id }).populate('product');
 
@@ -14,9 +14,11 @@ const loadWishlist = async (req, res) => {
             wishlist = null
         }
 
-        console.log("wishlist", wishlist);
+        // console.log("wishlist", wishlist);
+        // Count the number of products in the wishlist
+        const productCount = wishlist ? wishlist.product.length : 0;
 
-        res.render('wishlist', { wishlist })
+        res.render('wishlist', { wishlist, productCount })
 
     } catch (error) {
         console.log(error.message);
@@ -90,9 +92,11 @@ const removeWishList = async (req, res) => {
 
 
 
+
 module.exports = {
     loadWishlist,
     addWishList,
-    removeWishList
+    removeWishList,
+   
 
 }

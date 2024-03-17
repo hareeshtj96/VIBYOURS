@@ -5,7 +5,7 @@ const ObjectID = mongoose.Schema.Types.ObjectId;
 const orderSchema = new mongoose.Schema({
     user: {
         type: ObjectID,
-        ref: 'user',
+        ref: 'User',
         required: true,
     },
     cart: {
@@ -20,7 +20,7 @@ const orderSchema = new mongoose.Schema({
     items: [{
         productId: {
             type: ObjectID,
-            ref: 'products',
+            ref: 'addProduct',
             required: true,
         },
         image: {
@@ -104,6 +104,13 @@ const orderSchema = new mongoose.Schema({
         reason: String,
 
     },],
+    coupon: {
+        type: String,
+    },
+    discountPrice: {
+        type: Number,
+        default: 0,
+    }
 
 
 },

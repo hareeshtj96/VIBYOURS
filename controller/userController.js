@@ -2,11 +2,17 @@ const User = require('../model/userModel');
 const generateOTP = require('../utils/otpUtils')
 const sendOTPEmail = require('../utils/emailUtils');
 const forgotOTPEmail = require('../utils/forgotOTP');
+const { generateReferralCode } = require("../utils/referral");
+const { pagination } = require("../utils/pagination");
 const addProduct = require("../model/productModel");
 const addCategory = require("../model/categoryModel");
+const Wishlist = require("../model/wishlistModel");
+const Review = require("../model/reviewModel");
+const Wallet = require("../model/walletModel");
 const Order = require("../model/orderModel");
 const bcrypt = require('bcrypt');
 const { name } = require('ejs');
+
 
 
 
@@ -17,7 +23,7 @@ const securePassword = async (password) => {
         return passwordHash;
     } catch (error) {
         console.log(error.message);
-        res.status(500).json({ message: "Internal Server Error"});
+        res.status(500).json({ message: "Internal Server Error" });
     }
 
 }
@@ -31,7 +37,7 @@ const loadRegister = async (req, res) => {
         res.render('register')
     } catch (error) {
         console.log('error.message')
-        res.status(500).json({ message: "Internal Server Error"});
+        res.status(500).json({ message: "Internal Server Error" });
 
     }
 
@@ -44,6 +50,8 @@ const insertUser = async (req, res) => {
         console.log('Generated OTP in insertUser:', otp);
 
         const email = req.body.email;
+
+        let newTransaction;
 
         //check if the email already exist
         const existingUser = await User.findOne({ email });
@@ -65,17 +73,45 @@ const insertUser = async (req, res) => {
 
         //send OTP via email
         const emailSent = await sendOTPEmail(req.body.email, otp);
+        if (req.body.refCode) {
+            const checkingReferral = await User.findOne({ referral: req.body.refCode });
+            if (!checkingReferral) {
+                return res.render("register", { message: "Invalid referral code" })
+            } else {
+                const userId = checkingReferral._id;
+                console.log("userId", userId);
+
+                let wallet = await Wallet.findOne({ user: userId });
+                if (!wallet) {
+                    wallet = new Wallet({
+                        user: userId,
+                        balance: 100,
+                        transactions: []
+                    });
+                } else {
+                    wallet.balance += 100;
+                }
+                const newTransaction = {
+                    user: userId,
+                    amount: 100,
+                    type: "Referral",
+                    description: `Referral Rewarded by ${name}`
+                };
+                wallet.transactions.push(newTransaction);
+                await wallet.save();
+            }
+        }
         if (emailSent) {
             res.redirect('/otp');
-
 
         }
 
     } catch (error) {
         console.log(error.message);
-        res.render('error', { message: "An error occurred during registration." });
+        res.status(500).json({ message: "An error occurred during registration." });
     }
 }
+
 
 //resend otp
 const resendOTP = async (req, res) => {
@@ -95,7 +131,7 @@ const resendOTP = async (req, res) => {
         }
     } catch (error) {
         console.log(error.message);
-        res.render('error', { message: "An error occurred while resending OTP." });
+        res.status(500).json({ message: "An error occurred during registration." });
     }
 }
 
@@ -113,6 +149,7 @@ const loadOtp = async (req, res) => {
 
     } catch (error) {
         console.log(error.message);
+        res.status(500).json({ message: "Internal Server Error" });
     }
 }
 //handling otp
@@ -124,6 +161,7 @@ const getOTP = async (req, res) => {
 
         if (enteredOTP === storedOTP) {
             const spassword = await securePassword(req.session.registrationData.password)
+            const referralCode = generateReferralCode(6);
             const user = new User({
                 name: req.session.registrationData.name,
                 email: req.session.registrationData.email,
@@ -131,10 +169,19 @@ const getOTP = async (req, res) => {
                 password: spassword,
                 is_admin: 0,
                 is_blocked: 0,
+                referral: referralCode,
             });
             user.is_verified = 1;
             const userData = await user.save();
-            res.redirect('/login')
+
+            // Sweet alert for successful registration
+            res.render('register', {
+                message: "Registration successful. Please log in to continue.",
+                showAlert: true, // Add this flag to indicate that a sweet alert should be displayed
+            });
+
+
+            // res.redirect('/login')
 
         } else {
             res.render('register', { message: "Incorrect OTP. please try again." });
@@ -156,7 +203,7 @@ const loadLogin = async (req, res) => {
         res.render('login')
     } catch (error) {
         console.log(error.message)
-        res.status(500).json({ message: "Internal Server Error"});
+        res.status(500).json({ message: "Internal Server Error" });
     }
 }
 
@@ -201,7 +248,7 @@ const verifyLogin = async (req, res) => {
 
     } catch (error) {
         console.log(error.message)
-        res.status(500).json({ message: "Internal Server Error"});
+        res.status(500).json({ message: "Internal Server Error" });
     }
 }
 
@@ -215,7 +262,7 @@ const loadforgotPassword = async (req, res) => {
         console.log("it is working")
     } catch (error) {
         console.log(error.message)
-        res.status(500).json({ message: "Internal Server Error"});
+        res.status(500).json({ message: "Internal Server Error" });
     }
 }
 
@@ -260,7 +307,7 @@ const loadPasswordReset = async (req, res) => {
         // console.log("hi hareesh")
     } catch (error) {
         console.log(error.message)
-        res.status(500).json({ message: "Internal Server Error"});
+        res.status(500).json({ message: "Internal Server Error" });
     }
 }
 
@@ -324,10 +371,10 @@ const loadDashboard = async (req, res) => {
         const page = parseInt(req.query.page) || 1;
         const pageSize = 9;
 
-        const skip = (page-1) * pageSize;
+        const skip = (page - 1) * pageSize;
 
         //querying for the total count of products
-        const totalProductsCount = await addProduct.countDocuments({  is_listed: 1})
+        const totalProductsCount = await addProduct.countDocuments({ is_listed: 1 })
 
         const productData = await addProduct.find({ is_listed: 1 }).skip(skip).limit(pageSize);
 
@@ -335,17 +382,56 @@ const loadDashboard = async (req, res) => {
 
         const userData = await User.findById({ _id: req.session.user_id });
 
-        if(productData.length>0){
+        let wishlist = await Wishlist.findOne({ user: userData }).populate('product');
+
+        const productCount = wishlist ? wishlist.product.length : 0;
+
+
+
+        if (productData.length > 0) {
             const totalPages = Math.ceil(totalProductsCount / pageSize);
-            res.render('dashboard', { user: userData, product: productData, category: categoryData, currentPage: page, totalPages: totalPages });
+            res.render('dashboard', { user: userData, product: productData, category: categoryData, currentPage: page, totalPages: totalPages, productCount });
         }
-        
+
     } catch (error) {
         console.log(error.message);
-        res.status(500).json({ message: "Internal Server Error"});
+        res.status(500).json({ message: "Internal Server Error" });
 
     }
 }
+
+
+// const loadDashboard = async (req, res) => {
+//     try {
+//         const page = parseInt(req.query.page) || 1;
+//         const pageSize = 9; // Set the page size to 9 products per page
+
+//         const totalProductsCount = await addProduct.countDocuments({ is_listed: 1 });
+//         const totalPages = Math.ceil(totalProductsCount / pageSize);
+
+//         const skip = (page - 1) * pageSize;
+
+//         const productData = await addProduct.find({ is_listed: 1 }).skip(skip).limit(pageSize);
+
+//         const categoryData = await addCategory.find({});
+//         const userData = await User.findById({ _id: req.session.user_id });
+//         let wishlist = await Wishlist.findOne({ user: userData }).populate('product');
+//         const productCount = wishlist ? wishlist.product.length : 0;
+
+//         res.render('dashboard', {
+//             user: userData,
+//             product: productData,
+//             category: categoryData,
+//             currentPage: page,
+//             totalPages: totalPages,
+//             productCount: productCount
+//         });
+//     } catch (error) {
+//         console.log(error.message);
+//         res.status(500).json({ message: "Internal Server Error" });
+//     }
+// }
+
 
 //user logout
 const userLogout = async (req, res) => {
@@ -357,7 +443,7 @@ const userLogout = async (req, res) => {
 
     } catch (error) {
         console.log(error.message);
-        res.status(500).json({ message: "Internal Server Error"});
+        res.status(500).json({ message: "Internal Server Error" });
 
     }
 }
@@ -369,11 +455,37 @@ const listIndividualProduct = async (req, res) => {
     try {
 
         const id = req.query.id;
+
+        // Validate productId format
+        if (!id || !/^[a-fA-F0-9]{24}$/.test(id)) {
+            const err = new Error('Invalid product ID');
+            err.status = 404;
+            throw err;
+        }
+
+        console.log('id', id)
         const userData = await User.findById(req.session.user_id)
-        const productData = await addProduct.findById({ _id: id, is_listed: 1 })
+        const productData = await addProduct.findById(id).where({ is_listed: 1 });
+
+
+        if (!productData) {
+            // If productData is null, it means the product with the given ID was not found
+            const err = new Error('Product not found');
+            err.status = 404;
+            throw err;
+        }
+
+        let wishlist = await Wishlist.findOne({ user: userData }).populate('product');
+
+        const productCount = wishlist ? wishlist.product.length : 0;
+
+
         const categoryData = await addCategory.find({})
+        const reviewData = await Review.find({ productId: id }).populate('userId');
+        // console.log("reviewData", reviewData);
+
         if (productData) {
-            res.render('productDetails', { user: userData, product: productData, category: categoryData })
+            res.render('productDetails', { user: userData, product: productData, category: categoryData, reviews: reviewData, productCount })
         } else {
             res.redirect('/home');
         }
@@ -381,7 +493,13 @@ const listIndividualProduct = async (req, res) => {
     } catch (error) {
 
         console.log(error.message);
-        res.status(500).json({ message: "Internal Server Error"});
+        if (error.status === 404) {
+            return res.status(404).render('error404');
+        } else {
+            return res.status(500).json({ message: "Internal Server Error" });
+
+        }
+
     }
 }
 
@@ -397,7 +515,7 @@ const load_home = async (req, res) => {
         res.render('home', { user: userData, product: productData, category: categoryData });
     } catch (error) {
         console.log(error.message);
-        res.status(500).json({ message: "Internal Server Error"});
+        res.status(500).json({ message: "Internal Server Error" });
 
     }
 }
@@ -411,6 +529,8 @@ const userProfile = async (req, res) => {
         const pageSize = 6;
         const skip = (page - 1) * pageSize;
 
+        let totalPages;
+
         // Fetch the total count of orders
         const totalOrdersCount = await Order.countDocuments({ user: userId });
 
@@ -419,13 +539,45 @@ const userProfile = async (req, res) => {
 
         const userData = await User.findById(userId);
 
-        if (orderData.length > 0) {
-            const totalPages = Math.ceil(totalOrdersCount / pageSize);
+        let wishlist = await Wishlist.findOne({ user: userData }).populate('product');
 
-            res.render('userProfile', { user: userData, orderData, currentPage: page, totalPages: totalPages });
+        const productCount = wishlist ? wishlist.product.length : 0;
+
+        let wallet = await Wallet.findOne({ user: userData._id });
+
+        if (req.query.wallet) {
+            const amount = Number(req.query.wallet) / 100;
+            if (!wallet) {
+                wallet = new Wallet({
+                    user: userData._id,
+                    balance: 0,
+                    transactions: []
+                });
+            }
+            wallet.balance += amount;
+            wallet.transactions.push({
+                amount: amount,
+                type: 'debit',
+                description: "Add to Wallet"
+            })
+            await wallet.save();
+        }
+
+        if (!wallet) {
+            wallet = {
+                transactions: []
+            }
+        }
+
+        wallet.transactions.sort((a, b) => b.updatedAt - a.updatedAt)
+
+        if (orderData.length > 0) {
+            totalPages = Math.ceil(totalOrdersCount / pageSize);
+
+            res.render('userProfile', { user: userData, orderData, currentPage: page, totalPages: totalPages, wallet, productCount });
         } else {
             // If there are no orders, still render the userProfile page
-            res.render('userProfile', { user: userData, orderData });
+            res.render('userProfile', { user: userData, orderData, currentPage: page, totalPages: totalPages, wallet, productCount });
         }
 
     } catch (error) {
@@ -514,6 +666,9 @@ const getEditAddress = async (req, res) => {
         const user = req.session.user_id;
 
 
+        let wishlist = await Wishlist.findOne({ user: user._id }).populate('product');
+
+        const productCount = wishlist ? wishlist.product.length : 0;
 
         // console.log("Address ID:", addressId);
 
@@ -539,7 +694,7 @@ const getEditAddress = async (req, res) => {
 
         // console.log("User Object:", user);
 
-        res.render("editAddress", { address: addressData, user })
+        res.render("editAddress", { address: addressData, user, productCount })
 
     } catch (error) {
         console.log(error.message);
@@ -630,7 +785,7 @@ const getDeleteAddress = async (req, res) => {
             .then((data) => res.redirect('/userProfile'))
     } catch (error) {
         console.log(error.message);
-        res.status(500).json({ message: "Internal Server Error"});
+        res.status(500).json({ message: "Internal Server Error" });
     }
 }
 
@@ -681,6 +836,281 @@ const userprofileResetPassword = async (req, res) => {
 
 
 
+//sort by case senstitive
+const sortByCaseSensitive = async (req, res) => {
+    try {
+        const caseSensitive = await addProduct.find({}).sort({ producttitle: 1 });
+
+        const { skip, page, pageSize, totalPages } = await pagination(req, res);
+
+        const category = await addCategory.find({});
+
+        const userData = req.session.user_id;
+
+        let wishlist = await Wishlist.findOne({ user: userData }).populate('product');
+
+        const productCount = wishlist ? wishlist.product.length : 0;
+
+        res.render('dashboard', { product: caseSensitive, totalPages, currentPage: page, category, productCount })
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({ message: "Invalid Server Error" })
+    }
+}
+
+//sort by caseInsensitive
+const sortByCaseInSensitive = async (req, res) => {
+    try {
+        const caseInSensitive = await addProduct.find({}).sort({ producttitle: -1 });
+
+        const { skip, page, pageSize, totalPages } = await pagination(req, res);
+
+        const category = await addCategory.find({});
+
+        const userData = req.session.user_id;
+
+        let wishlist = await Wishlist.findOne({ user: userData }).populate('product');
+
+        const productCount = wishlist ? wishlist.product.length : 0;
+
+        res.render('dashboard', { product: caseInSensitive, totalPages, currentPage: page, category, productCount })
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({ message: "Invalid Server Error" })
+    }
+}
+
+//sort by userRating
+const sortByRating = async (req, res) => {
+    console.log("hi........ in sortbyrating")
+    try {
+        const averageRating = await addProduct.find({}).sort({ rating: -1});
+
+        const { skip, page, pageSize, totalPages } = await pagination(req,res);
+
+        const category = await addCategory.find();
+
+        const userData = req.session.user_id;
+
+        let wishlist = await Wishlist.findOne({ user: userData }).populate('product');
+
+        const productCount = wishlist ? wishlist.product.length : 0;
+
+        res.render('dashboard', { product: averageRating, totalPages, currentPage: page, category, productCount })
+
+
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+};
+
+
+//sort by popularity
+const sortByPopularity = async (req, res) => {
+   
+    try {
+        const popularity = await addProduct.find({}).sort({ count: -1});
+
+        const { skip, page, pageSize, totalPages } = await pagination(req,res);
+
+        const category = await addCategory.find();
+
+        const userData = req.session.user_id;
+
+        let wishlist = await Wishlist.findOne({ user: userData }).populate('product');
+
+        const productCount = wishlist ? wishlist.product.length : 0;
+
+        res.render('dashboard', { product: popularity, totalPages, currentPage: page, category, productCount })
+
+
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+};
+
+
+// new Arrivals
+const newArrivals = async (req, res) => {
+    try {
+        const { skip, page, pageSize, totalPages } = await pagination(req, res);
+        const newArrivals = await addProduct.find().sort({ createdAt: -1, }).skip(skip).limit(pageSize);
+
+        const categories = await addCategory.find();
+
+        const userData = req.session.user_id;
+
+        let wishlist = await Wishlist.findOne({ user: userData }).populate('product');
+
+        const productCount = wishlist ? wishlist.product.length : 0;
+
+        res.render("dashboard", { product: newArrivals, totalPages, currentPage: page, categories, productCount })
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({ message: "Internal Server Error" })
+    }
+}
+
+
+//low to high sorting
+const lowToHigh = async (req, res) => {
+    try {
+        const { skip, page, pageSize, totalPages } = await pagination(req, res);
+        const lowtoHigh = await addProduct.find().sort({ sellingPrice: 1 }).skip(skip).limit(pageSize);
+
+        const categories = await addCategory.find();
+
+        const userData = req.session.user_id;
+
+        let wishlist = await Wishlist.findOne({ user: userData }).populate('product');
+
+        const productCount = wishlist ? wishlist.product.length : 0;
+
+        res.render("dashboard", { product: lowtoHigh, totalPages, currentPage: page, categories, productCount })
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+}
+
+
+
+//high to low
+const hightoLow = async (req, res) => {
+    try {
+        const { skip, page, pageSize, totalPages } = await pagination(req, res);
+        const hightoLow = await addProduct.find().sort({ sellingPrice: -1 }).skip(skip).limit(pageSize);
+
+        const categories = await addCategory.find();
+
+        const userData = req.session.user_id;
+
+        let wishlist = await Wishlist.findOne({ user: userData }).populate('product');
+
+        const productCount = wishlist ? wishlist.product.length : 0;
+
+        res.render("dashboard", { product: hightoLow, totalPages, currentPage: page, categories, productCount })
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({ message: "Internal Server Error" })
+    }
+}
+
+
+//searching products
+const searchProducts = async (req, res) => {
+    try {
+        const { productDetails } = req.body;
+        if( productDetails && productDetails.length > 0) {
+            const productSearch = await addProduct.find({
+                $or: [
+                    { producttitle: { $regex: new RegExp(productDetails, 'i') } },
+                    { brand: { $regex: new RegExp(productDetails, 'i') } } // Search by brand name
+                ]
+            });
+
+            if(productSearch && productSearch.length > 0) {
+                res.json({ status: true, productSearch });
+            } else {
+                res.json({ status: false, message: "No matching Products found!"});
+            }
+        } else {
+            res.json({ status: false, message: "No Product found!"});
+        }
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({ message: "Internal server Error" });
+    }
+};
+
+//browse Category
+const filterCategory = async (req, res) => {
+    try {
+        const { category } = req.query;
+        console.log("categoryid", category);
+        const { skip, page, pageSize, totalPages } = await pagination(req, res);
+        const categoryFitler = await addProduct.find({ category });
+        console.log("filter", categoryFitler);
+
+        const categoryData = await addCategory.find({});
+
+
+        const userData = req.session.user_id;
+
+        let wishlist = await Wishlist.findOne({ user: userData }).populate('product');
+
+        const productCount = wishlist ? wishlist.product.length : 0;
+
+        res.render("dashboard", { product: categoryFitler, totalPages, currentPage: page, category: categoryData, productCount })
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({ message: "Invalid Server Error" });
+    }
+}
+
+
+// user's product review
+const userReview = async (req, res) => {
+    try {
+        const {
+            productId,
+            name,
+            email,
+            rating,
+            comment,
+        } = req.body;
+
+        console.log("reqbody", req.body);
+
+
+
+        if (!productId || !rating || !comment || !name || !email) {
+            return res.status(400).json({ error: "Invalid request. Please provide all fields" })
+        }
+
+        // Save review 
+        const newReview = new Review({
+            productId,
+            userId: req.session.user_id, // Assuming you have a session with user_id
+            rating,
+            comment,
+            name,
+            email,
+        });
+
+        // console.log("newReview", newReview)
+        await newReview.save();
+
+        const review = await Review.find( {productId: productId})
+        let totalReview = 0;
+        review.forEach((rating)=> {
+            totalReview += rating.rating;
+        })
+
+        const productReview = Math.round(totalReview / review.length);
+
+        const ReviewCount = review.length;
+
+        await addProduct.findOneAndUpdate( 
+            { _id: productId},
+            {
+                $set: { rating: productReview},
+                $inc: { totalReview: ReviewCount}
+            },
+            { new: true }
+            
+            );
+
+
+        res.status(201).json({ message: "Review submitted successfully" })
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+}
+
 
 module.exports = {
     loadRegister,
@@ -703,6 +1133,16 @@ module.exports = {
     getEditAddress,
     updateEditAddress,
     getDeleteAddress,
-    userprofileResetPassword
+    userprofileResetPassword,
+    sortByCaseSensitive,
+    sortByCaseInSensitive,
+    searchProducts,
+    userReview,
+    sortByRating,
+    sortByPopularity,
+    newArrivals,
+    lowToHigh,
+    hightoLow,
+    filterCategory,
 
 };

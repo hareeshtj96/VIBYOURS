@@ -1,107 +1,151 @@
-<%- include("../partials/userheaders2")  %>
+<%- include("../partials/userheaders2") %>
 
 
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');body{font-family: 'Montserrat', sans-serif}.card{border:none}.logo{background-color: #080808}.totals tr td{font-size: 13px}.footer{background-color: #eeeeeea8}.footer span{font-size: 12px}.product-qty span{font-size: 12px;color: #dedbdb}
-.div-container{
-    background-color: #eeeeeea8
-}
-</style>
-<body>
-<div class="container mt-5 mb-5 ">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
 
-    <div class="row d-flex justify-content-center">
+        body {
+            font-family: 'Montserrat', sans-serif
+        }
 
-        <div class="col-md-8">
+        .card {
+            border: none
+        }
 
-            <div class="card div-container" >
+        .logo {
+            background-color: #080808
+        }
 
+        .totals tr td {
+            font-size: 13px
+        }
 
-                    <div class="text-left logo p-2 px-5 text-white">
+        .footer {
+            background-color: #eeeeeea8
+        }
 
-                        <p style="color: white;">VIBYOURS - Order confirmation</p>
+        .footer span {
+            font-size: 12px
+        }
 
-                       
-                        
+        .product-qty span {
+            font-size: 12px;
+            color: #dedbdb
+        }
 
-                    </div>
+        .div-container {
+            background-color: #eeeeeea8
+        }
+    </style>
 
-                    <div class="invoice p-5">
+    <body>
+        <div class="container mt-5 mb-5 ">
 
-                        <h5>Your order Confirmed!</h5>
+            <div class="row d-flex justify-content-center">
 
-                        <span class="font-weight-bold d-block mt-4">Hello, </span>
-                        <span>You order has been confirmed and will be shipped in next two days!</span>
+                <div class="col-md-8">
 
-                        <div class="payment border-top mt-3 mb-3 border-bottom table-responsive">
-
-                            <table class="table table-borderless">
-                                
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <div class="py-2">
-                                                
-
-                                                <%if(typeof orderData!=='undefined'){%>
-
-                                                <span class="d-block text-muted">Order Date</span>
-                                                 <span><%= orderData.orderDate %></span>
-                                                
-                                            </div>
-                                        </td>
-
-                                        <td>
-                                            <div class="py-2">
-
-                                                <span class="d-block text-muted">Order No</span>
-                                            <span><%= orderData.orderId %></span>
-                                                
-                                            </div>
-                                        </td>
-
-                                        <td>
-                                            <div class="py-2">
-
-                                                <span class="d-block text-muted">Payment</span>
-                                            <span>
-                                                COD
-                                                <!-- <img src="https://img.icons8.com/color/48/000000/mastercard.png" width="20" /></span> -->
-                                                
-                                            </div>
-                                        </td>
-
-                                        <td>
-                                            <div class="py-2">
-
-                                                <span class="d-block text-muted">Shiping Address</span>
-                                            <span><%= orderData.deliveryAddress.name %>
-                                                <%= orderData.deliveryAddress.houseName %>
-                                                <%= orderData.deliveryAddress.housename %>
-                                                <%= orderData.deliveryAddress.street %> 
-                                                <%= orderData.deliveryAddress.city %>
-                                                <%= orderData.deliveryAddress.state %>
-                                                <%= orderData.deliveryAddress.landmark %>
-                                                <%= orderData.deliveryAddress.locality %>
-                                                <%= orderData.deliveryAddress.country %>
-                                                <%= orderData.deliveryAddress.pincode %>
-                                                <%= orderData.deliveryAddress.phone %>
-                                                <%= orderData.deliveryAddress.mobile %>
-                                                <%= orderData.deliveryAddress.email %>
-                                            </span>
-                                                
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-
-                            </table>
+                    <div class="card div-container">
 
 
+                        <div class="text-left logo p-2 px-5 text-white">
 
+                            <p style="color: white;">VIBYOURS - Order confirmation</p>
 
-                            
                         </div>
+
+                        <div>
+                            <button class="btn btn-primary" id="downloadInvoice">Download Invoice</button>
+                        </div>
+
+                        <div class="invoice p-5" id="orderConfirmation">
+
+                            <h5>Your order Confirmed!</h5>
+
+                            <span class="font-weight-bold d-block mt-4">Hello, </span>
+                            <span>You order has been confirmed and will be shipped in next two days!</span>
+
+                            <div class="payment border-top mt-3 mb-3 border-bottom table-responsive">
+
+                                <table class="table table-borderless">
+
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div class="py-2">
+
+
+                                                    <%if(typeof orderData!=='undefined' ){%>
+
+                                                        <span class="d-block text-muted">Order Date</span>
+                                                        <span>
+                                                            <%= orderData.orderDate %>
+                                                        </span>
+
+                                                </div>
+                                            </td>
+
+                                            <td>
+                                                <div class="py-2">
+
+                                                    <span class="d-block text-muted">Order No</span>
+                                                    <span>
+                                                        <%= orderData.orderId %>
+                                                    </span>
+
+                                                </div>
+                                            </td>
+
+                                            <td>
+                                                <div class="py-2">
+
+                                                    <span class="d-block text-muted">Payment</span>
+                                                    <span>
+                                                        COD
+                                                        <!-- <img src="https://img.icons8.com/color/48/000000/mastercard.png" width="20" /></span> -->
+
+                                                </div>
+                                            </td>
+
+                                            <td>
+                                                <div class="py-2">
+
+                                                    <span class="d-block text-muted">Shiping Address</span>
+                                                    <span>
+                                                        <%= orderData.deliveryAddress.name %>
+                                                            <%= orderData.deliveryAddress.houseName %>
+                                                                <%= orderData.deliveryAddress.housename %>
+                                                                    <%= orderData.deliveryAddress.street %>
+                                                                        <%= orderData.deliveryAddress.city %>
+                                                                            <%= orderData.deliveryAddress.state %>
+                                                                                <%= orderData.deliveryAddress.landmark
+                                                                                    %>
+                                                                                    <%= orderData.deliveryAddress.locality
+                                                                                        %>
+                                                                                        <%= orderData.deliveryAddress.country
+                                                                                            %>
+                                                                                            <%= orderData.deliveryAddress.pincode
+                                                                                                %>
+                                                                                                <%= orderData.deliveryAddress.phone
+                                                                                                    %>
+                                                                                                    <%= orderData.deliveryAddress.mobile
+                                                                                                        %>
+                                                                                                        <%= orderData.deliveryAddress.email
+                                                                                                            %>
+                                                    </span>
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+
+
+
+
+
+                            </div>
 
 
 
@@ -110,46 +154,51 @@
 
                                 <table class="table table-borderless">
 
-                                <tbody>
-                                    <tr>
-                                        <td>Image</td>
-                                        <td>
-                                            Product name
-                                        </td>
-                                        <td>Quantity</td>
-                                        <td>price</td>
-                                    </tr>
-                                    <% for(let i=0; i<orderData.items.length; i++) {%>
-                                    <tr>
-                                        
-                                        <td class="product_thumb"><a href="/productdetails?id=<%=orderData.items[i].productId._id %>"><img
-                                                    src="uploads/<%= orderData.items[i].image%>"
-                                                    alt="" style="width: 60px;"></a></td>
-                                                    <% if (orderData && orderData.items && orderData.items[i]) { %>
-                                                        <td class="product_name">
-                                                          <a href="/productdetails?id=<%= orderData.items[i].productId._id %>">
-                                                            <%= orderData.items[i].productId.producttitle %>
-                                                          </a>
-                                                        </td>
-                                                      <% } %>
-                                                      
-                                        
+                                    <tbody>
+                                        <tr>
+                                            <td>Image</td>
                                             <td>
-                                        <div class="detail-qty  radius  m-auto">
-                                       
-                                        <span class="qty-val me-3"
-                                            id="qty-<%= orderData.items[i]._id  %>"><%= orderData.items[i].quantity %></span>
-                                        
-                                    </div>
-                                        </td>
-                                        <td class="product_total">Rs.<%= orderData.items[i].price%>.00</td>
-                                    </tr> <!-- End Cart Single Item-->
+                                                Product name
+                                            </td>
+                                            <td>Quantity</td>
+                                            <td>price</td>
+                                        </tr>
+                                        <% for(let i=0; i<orderData.items.length; i++) {%>
+                                            <tr>
 
-                                    <% } %>
-                                </tbody> 
-                                    
+                                                <td class="product_thumb"><a
+                                                        href="/productdetails?id=<%=orderData.items[i].productId._id %>"><img
+                                                            src="uploads/<%= orderData.items[i].image%>" alt=""
+                                                            style="width: 60px;"></a></td>
+                                                <% if (orderData && orderData.items && orderData.items[i]) { %>
+                                                    <td class="product_name">
+                                                        <a
+                                                            href="/productdetails?id=<%= orderData.items[i].productId._id %>">
+                                                            <%= orderData.items[i].productId.producttitle %>
+                                                        </a>
+                                                    </td>
+                                                    <% } %>
+
+
+                                                        <td>
+                                                            <div class="detail-qty  radius  m-auto">
+
+                                                                <span class="qty-val me-3"
+                                                                    id="qty-<%= orderData.items[i]._id  %>">
+                                                                    <%= orderData.items[i].quantity %>
+                                                                </span>
+
+                                                            </div>
+                                                        </td>
+                                                        <td class="product_total">Rs.<%= orderData.items[i].price%>.00
+                                                        </td>
+                                            </tr> <!-- End Cart Single Item-->
+
+                                            <% } %>
+                                    </tbody>
+
                                 </table>
-                                
+
 
 
                             </div>
@@ -169,7 +218,7 @@
                                                     <div class="text-left">
 
                                                         <span class="text-muted">Subtotal</span>
-                                                        
+
                                                     </div>
                                                 </td>
                                                 <td>
@@ -180,7 +229,7 @@
                                             </tr>
 
 
-                                             <!-- <tr>
+                                            <!-- <tr>
                                                 <td>
                                                     <div class="text-left">
 
@@ -196,7 +245,7 @@
                                             </tr> -->
 
 
-                                             <!-- <tr>
+                                            <!-- <tr>
                                                 <td>
                                                     <div class="text-left">
 
@@ -211,7 +260,7 @@
                                                 </td>
                                             </tr> -->
 
-<!-- 
+                                            <!-- 
                                              <tr>
                                                 <td>
                                                     <div class="text-left">
@@ -228,27 +277,28 @@
                                             </tr> -->
 
 
-                                             <tr class="border-top border-bottom">
+                                            <tr class="border-top border-bottom">
                                                 <td>
                                                     <div class="text-left">
 
                                                         <span class="font-weight-bold">Subtotal</span>
-                                                        
+
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <div class="text-right">
-                                                        <span class="font-weight-bold">Rs.<%=orderData.billTotal%>.00</span>
+                                                        <span class="font-weight-bold">Rs.<%=orderData.billTotal%>
+                                                                .00</span>
                                                     </div>
                                                 </td>
                                             </tr>
-                                            
+
                                         </tbody>
-                                        
+
                                     </table>
-                                    
+
                                 </div>
-                                
+
 
                                 <% } %>
                             </div>
@@ -256,34 +306,46 @@
 
                             <p>We will be sending shipping confirmation email when the item shipped successfully!</p>
                             <p class="font-weight-bold mb-0">Thanks for shopping with us!</p>
-                           
+
 
                             <br>
                             <br>
-                            <a href="" class="text-white btn btn-primary">Go back to my order</a>
 
-                        
+
+
+
+                        </div>
+                        <a href="" class="text-white btn btn-primary">Go back to my order</a>
+
+
+                        <div class="d-flex justify-content-between footer p-3">
+
+                            <span>Need Help? visit our <a href="#"> help center</a></span>
+                            <!-- <span>12 feb, 2024</span> -->
+
+                        </div>
+
+
+
 
                     </div>
 
+                </div>
 
-                    <div class="d-flex justify-content-between footer p-3">
-                        
-                        <span>Need Help? visit our <a href="#"> help center</a></span>
-                         <!-- <span>12 feb, 2024</span> -->
-                        
-                    </div>
+            </div>
 
-
-
-        
-    </div>
-            
         </div>
-        
-    </div>
-    
-</div>
 
 
-<%- include("../partials/userfooters")  %>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+
+        <script>
+            const pdfButton = document.getElementById('downloadInvoice')
+            pdfButton.addEventListener("click", () => {
+                const orderCofirmation = document.getElementById("orderConfirmation")
+                html2pdf().from(orderCofirmation).save();
+            })
+        </script>
+
+
+        <%- include("../partials/userfooters") %>
