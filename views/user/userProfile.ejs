@@ -4,7 +4,7 @@
         <div class="mobile-header-wrapper-inner">
             <div class="mobile-header-top">
                 <div class="mobile-header-logo">
-                    <a href="index.html"><img src="assets/imgs/theme/logo.svg" alt="logo" /></a>
+                    <a href="dashboard"><img src="assets/imgs/theme/logo.svg" alt="logo" /></a>
                 </div>
                 <div class="mobile-menu-close close-style-wrap close-style-position-inherit">
                     <button class="close-style search-close">
@@ -181,7 +181,7 @@
         <div class="page-header breadcrumb-wrap">
             <div class="container">
                 <div class="breadcrumb">
-                    <a href="index.html" rel="nofollow">Home</a>
+                    <a href="" rel="nofollow">Home</a>
                     <span></span> Pages <span></span> Account
                 </div>
             </div>
@@ -244,37 +244,57 @@
                                             <div class="card-body">
                                                 <div class="card">
                                                     <div class="card-body">
-                                                        <% if (orderData && orderData.length > 0) { %>
-                                                            <% orderData.forEach(order => { %>
-                                                                <div class="card mb-3">
-                                                                    <div class="row g-0">
-                                                                        <div class="col-md-8">
-                                                                            <div class="card-body">
-                                                                                <h5 class="card-title">Order ID: <%= order.orderId %></h5>
-                                                                                <p class="card-text">Date: <%= order.orderDate.toDateString() %></p>
-                                                                                <p class="card-text">Status: <span class="order-status <%= order.status.toLowerCase() %>"><%= order.status %></span></p>
-                                                                                <p class="card-text">Total: Rs. <%= order.billTotal %></p>
-                                                                                <a href="orderDetails?orderId=<%= order.orderId %>" class="btn btn-primary">View Details</a>
+                                                        <% if (orderData && orderData.length> 0) { %>
+                                                            <% orderData=orderData.sort((a, b)=> new Date(b.createdAt) -
+                                                                new Date(a.createdAt)); %>
+                                                                <% for (let i=0; i < orderData.length; i++) { %>
+                                                                    <% const order=orderData[i]; %>
+                                                                        <div class="card mb-3">
+                                                                            <div class="row g-0">
+                                                                                <div class="col-md-8">
+                                                                                    <div class="card-body">
+                                                                                        <h5 class="card-title">Order ID:
+                                                                                            <%= order.orderId %>
+                                                                                        </h5>
+                                                                                        <p class="card-text">Date: <%=
+                                                                                                order.orderDate.toDateString()
+                                                                                                %>
+                                                                                        </p>
+                                                                                        <p class="card-text">Status:
+                                                                                            <span
+                                                                                                class="order-status <%= order.status.toLowerCase() %>">
+                                                                                                <%= order.status %>
+                                                                                            </span></p>
+                                                                                        <p class="card-text">Total: Rs.
+                                                                                            <%= order.billTotal %>
+                                                                                        </p>
+                                                                                        <a href="orderDetails?orderId=<%= order.orderId %>"
+                                                                                            class="btn btn-primary">View
+                                                                                            Details</a>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-3">
+                                                                                    <a
+                                                                                        href="/productDetails?id=<%= order.items[0].productId._id  %>">
+                                                                                        <img src="/uploads/<%= order.items[0].image %>"
+                                                                                            class="img-fluid rounded-start"
+                                                                                            alt="Product Image">
+                                                                                    </a>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
-                                                                        <div class="col-md-3">
-                                                                            <a href="/productDetails?id=<%= order.items[0].productId._id  %>">
-                                                                                <img src="/uploads/<%= order.items[0].image %>" class="img-fluid rounded-start" alt="Product Image">
-                                                                            </a>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            <% }); %>
-                                                        <% } else { %>
-                                                            <div class="alert alert-warning" role="alert">
-                                                                No orders found.
-                                                            </div>
-                                                        <% } %>
+                                                                        <% } %>
+                                                                            <% } else { %>
+                                                                                <div class="alert alert-warning"
+                                                                                    role="alert">
+                                                                                    No orders found.
+                                                                                </div>
+                                                                                <% } %>
                                                     </div>
                                                 </div>
-                                                
-                                                
-                                                
+
+
+
 
                                                 <div class="pagination-area mt-30 mb-50">
                                                     <nav aria-label="Page navigation example">
@@ -369,64 +389,70 @@
                                             </div>
                                             <div class="card-body">
                                                 <% if(wallet !==null) { %>
-
                                                     <h5>Wallet Balance: Rs <%= wallet.balance %>
                                                     </h5>
                                                     <br>
-                                                    <div class="wallet-transactions"
+                                                    <div id="recentTransactionsList" class="wallet-transactions"
                                                         style="max-height: 200px; overflow-y: auto;">
                                                         <h5>Recent Transactions:</h5>
-                                                        <% if (wallet.transactions && wallet.transactions.length> 0) {
-                                                            %>
-                                                            <table class="table">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th>Type</th>
-                                                                        <th>Date</th>
-                                                                        <th>Time</th>
-                                                                        <th>Amount</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <% wallet.transactions.slice(-5).forEach(function(transaction)
-                                                                        { %>
+                                                        <% const
+                                                            recentTransactions=wallet.transactions.slice(-5).sort((a,
+                                                            b)=> new Date(b.updatedAt) - new Date(a.updatedAt)); %>
+                                                            <% if (recentTransactions.length> 0) { %>
+                                                                <table class="table">
+                                                                    <thead>
                                                                         <tr>
-                                                                            <td
-                                                                                class="<%= transaction.type === 'credit' ? 'text-success' : (transaction.type === 'Referral' ? 'text-info' : 'text-danger') %>">
-                                                                                <%= transaction.type==='credit'
-                                                                                    ? 'Credit' :
-                                                                                    (transaction.type==='Referral'
-                                                                                    ? 'Referral' : 'Debit' ) %>
-                                                                            </td>
-
-                                                                            <td>
-                                                                                <%= new
-                                                                                    Date(transaction.updatedAt).toLocaleDateString("en-US")
-                                                                                    %>
-                                                                            </td>
-                                                                            <td>
-                                                                                <%= new
-                                                                                    Date(transaction.updatedAt).toLocaleTimeString("en-US",
-                                                                                    { hour: '2-digit' ,
-                                                                                    minute: '2-digit' ,
-                                                                                    second: '2-digit' }) %>
-                                                                            </td>
-                                                                            <td>
-                                                                                <%= transaction.type==='credit' ? '+'
-                                                                                    : '-' %>INR <%= transaction.amount
-                                                                                        %>
-                                                                            </td>
+                                                                            <th>Type</th>
+                                                                            <th>Date</th>
+                                                                            <th>Time</th>
+                                                                            <th>Amount</th>
                                                                         </tr>
-                                                                        <% }); %>
-                                                                </tbody>
-                                                            </table>
-                                                            <% }} else { %>
-                                                                <p>No transactions found.</p>
-                                                                <% } %>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <% recentTransactions.forEach(function(transaction)
+                                                                            { %>
+                                                                            <tr>
+                                                                                <td
+                                                                                    class="<%= transaction.type === 'credit' ? 'text-success' : (transaction.type === 'Referral' ? 'text-info' : 'text-danger') %>">
+                                                                                    <%= transaction.type==='credit'
+                                                                                        ? 'Credit' :
+                                                                                        (transaction.type==='Referral'
+                                                                                        ? 'Referral' :
+                                                                                        (transaction.type==='Refund'
+                                                                                        ? 'Refund' : 'Debit' )) %>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <%= new
+                                                                                        Date(transaction.createdAt).toLocaleDateString("en-US")
+                                                                                        %>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <%= new
+                                                                                        Date(transaction.createdAt).toLocaleTimeString("en-US",
+                                                                                        { hour: '2-digit' ,
+                                                                                        minute: '2-digit' ,
+                                                                                        second: '2-digit' }) %>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <%= transaction.type==='credit'
+                                                                                        ? '+' : '-' %>INR <%=
+                                                                                            transaction.amount %>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <% }); %>
+                                                                    </tbody>
+                                                                </table>
+                                                                <% } else { %>
+                                                                    <p>No transactions found.</p>
+                                                                    <% } %>
                                                     </div>
+                                                    <% } else { %>
+                                                        <p>No wallet data found.</p>
+                                                        <% } %>
                                             </div>
                                         </div>
                                     </div>
+
 
 
 
@@ -1108,13 +1134,7 @@
 
     </script>
 
-
-
-
-
-
-
-
+    
 
 
 

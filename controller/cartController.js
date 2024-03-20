@@ -56,12 +56,12 @@ const getCartPage = async (req, res) => {
     }
 
     const coupon = await Coupon.find({});
-   
+
     const eligibleCoupons = coupon.filter(coupon => {
       return userCart.billTotal >= coupon.minimumAmount && userCart.billTotal <= coupon.maximumAmount && coupon.isActive
     })
 
-    
+
 
     res.render("addtoCart", { productData, userCart, coupon: eligibleCoupons, productCount });
   } catch (error) {
@@ -413,7 +413,6 @@ const doCheckOut = async (req, res) => {
       console.log("hiiii it reached cod");
       const orderData = new Order({
         user: user._id,
-        cart: userCart._id,
         items: selectedItems.map((item) => ({
           productId: item.productId,
           image: item.image,
@@ -539,7 +538,6 @@ const doCheckOut = async (req, res) => {
 
         const orderData = new Order({
           user: user._id,
-          cart: userCart._id,
           items: selectedItems.map((item) => ({
             productId: item.productId,
             image: item.image,
@@ -571,13 +569,13 @@ const doCheckOut = async (req, res) => {
 
       } catch (error) {
         console.error("Error in the 'else' block:", error);
-        if(error instanceof InsufficientBalanceError) {
-          res.status(400).json({ success: false, message: "Insufficient Wallet balance"})
+        if (error instanceof InsufficientBalanceError) {
+          res.status(400).json({ success: false, message: "Insufficient Wallet balance" })
         } else {
           res.status(500).json({ success: false, message: "Invalid Server Error" });
 
         }
-        
+
       }
 
 
@@ -642,7 +640,6 @@ const razorpayVerification = async (req, res) => {
 
     const orderData = new Order({
       user: user._id,
-      cart: userCart._id,
       orderid: req.body.razorpay_orderid,
       orderId: orderId,
       items: userCart.items.map((cartItem) => ({
@@ -722,7 +719,6 @@ const paypalVerification = async (req, res) => {
 
     const orderData = new Order({
       user: user._id,
-      cart: userCart._id,
       paypalorderId: paypalOrderId,
       payapalpayerid: payerID,
       orderId: orderId,
@@ -784,9 +780,9 @@ const orderConfirmation = async (req, res) => {
     const productData = await addProduct.find({});
 
     if (orderData) {
-      for(const item of orderData.items) {
+      for (const item of orderData.items) {
         const productId = item.productId;
-        await addProduct.findByIdAndUpdate(productId, { $inc: { count: 1}});
+        await addProduct.findByIdAndUpdate(productId, { $inc: { count: 1 } });
       }
     }
 
@@ -831,13 +827,46 @@ const cancelOrder = async (req, res) => {
 
     const orderData = await Order.findOneAndUpdate(
       { orderId: order_Id },
-      { $set: { status: "Cancelled" } },
+      { $set: { status: "Pending Cancel Order Request" } },
       { new: true }
     );
 
     console.log("orderData", orderData);
+
+
     if (orderData) {
+
+      const paymentMethod = orderData.paymentMethod;
+
+      if (paymentMethod === 'Cash on Delivery') {
+        return res.json({ status: "Order Cancelled"});
+      } else {
+
+        orderData.status = 'Cancelled';
+        orderData.paymentStatus = 'Refunded'; 
+
+        await orderData.save();
+
+        const walletId = orderData.user._id;
+        const wallet = await Wallet.findOne({ user: walletId }).populate('transactions')
+
+        if (wallet) {
+          const refundAmount = orderData.billTotal;
+          wallet.balance += refundAmount;
+
+          const transaction = {
+            amount: refundAmount,
+            type: 'Refund',
+          };
+          wallet.transactions.push(transaction);
+
+          await wallet.save();
+        }
+
+      }
+
       for (const placedProduct of orderData.items) {
+
         const placedProductId = placedProduct.productId;
 
         console.log("placedProductid", placedProductId);
@@ -863,9 +892,10 @@ const cancelOrder = async (req, res) => {
           product.size = updatedSize;
           await product.save();
         }
+
       }
       // console.log("jiiiiiiiiiiiiiii");
-      res.json({ status: "Order Cancelled" });
+      res.json({ status: "Order Cancelled and Refunded" });
     } else {
       res.status(404).json({ message: "Order not found" });
     }
@@ -887,12 +917,12 @@ const returnOrder = async (req, res) => {
       { orderId: order_Id },
       {
         $set: {
-          status: "Returned",
+          status: "Pending Return Request",
         },
         $push: {
           requests: {
             type: "Return",
-            status: "Returned",
+            status: "Pending",
             reason: reason,
           },
         },
@@ -904,6 +934,26 @@ const returnOrder = async (req, res) => {
 
     if (!updatedOrder) {
       return res.status(404).json({ message: "Order not found" });
+    }
+
+    updatedOrder.status = 'Returned';
+    updatedOrder.paymentStatus = 'Refunded'; 
+    await updatedOrder.save();
+
+    const walletId = updatedOrder.user._id;
+    const wallet = await Wallet.findOne({ user: walletId }).populate('transactions');
+
+    if(Wallet) {
+      const refundAmount =  updatedOrder.billTotal;
+      wallet.balance += refundAmount;
+
+      const transaction = {
+        amount: refundAmount,
+        type: 'Refund',
+      };
+      wallet.transactions.push(transaction);
+
+      await wallet.save();
     }
 
     for (const item of updatedOrder.items) {

@@ -1,6 +1,7 @@
 const User = require("../model/userModel");
 const addProduct = require("../model/productModel");
 const Wishlist = require("../model/wishlistModel");
+const { json } = require("body-parser");
 
 //load wishlist page
 const loadWishlist = async (req, res) => {
@@ -35,13 +36,20 @@ const addWishList = async (req, res) => {
         const user = await User.findOne({ _id: req.session.user_id });
 
         let wishlist = await Wishlist.findOne({ user: user._id });
+
+        
         if (!wishlist) {
             wishlist = new Wishlist({
                 user: user._id,
                 product: [id]
             });
-        } else {
-            wishlist.product.push(id);
+        }  else {
+            const isProductExist = wishlist.product.includes(id);
+            if(!isProductExist) {
+                wishlist.product.push(id);
+            } else {
+                return res.status(400).json({ message: "Product already exist in your wishlist" });
+            }
         }
 
         await wishlist.save();

@@ -8,10 +8,6 @@ const orderSchema = new mongoose.Schema({
         ref: 'User',
         required: true,
     },
-    cart: {
-        type: ObjectID,
-        ref: 'carts',
-    },
     orderId: {
         type: String,
         required: true,
@@ -51,7 +47,7 @@ const orderSchema = new mongoose.Schema({
 },
     paymentStatus: {
     type: String,
-    enum: ['Pending', 'Success', 'Failed'],
+    enum: ['Pending', 'Success', 'Failed', 'Refunded'],
     default: 'Pending',
 },
     deliveryAddress: {
@@ -83,7 +79,7 @@ const orderSchema = new mongoose.Schema({
 },
     status: {
     type: String,
-    enum: ['Pending', 'Processing', 'Shipped', 'Delivered', 'Canceled', 'Returned'],
+    enum: ['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled', 'Returned'],
     default: 'Pending'
 },
     reason: {

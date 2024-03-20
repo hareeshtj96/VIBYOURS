@@ -535,7 +535,7 @@ const userProfile = async (req, res) => {
         const totalOrdersCount = await Order.countDocuments({ user: userId });
 
         // Fetch a subset of orders based on pagination parameters
-        const orderData = await Order.find({ user: userId }).skip(skip).limit(pageSize);
+        const orderData = await Order.find({ user: userId }).sort({ createdAt: -1 }).skip(skip).limit(pageSize);
 
         const userData = await User.findById(userId);
 
@@ -835,175 +835,63 @@ const userprofileResetPassword = async (req, res) => {
 
 
 
-
-//sort by case senstitive
-const sortByCaseSensitive = async (req, res) => {
+const sortByProducts = async (req, res) => {
     try {
-        const caseSensitive = await addProduct.find({}).sort({ producttitle: 1 });
+        const {  sortBy } = req.query;
+        console.log("req.query", req.query);
+        let query = {};
 
-        const { skip, page, pageSize, totalPages } = await pagination(req, res);
+        
 
-        const category = await addCategory.find({});
+        let sortCriteria = {};
+        if (sortBy) {
+            switch (sortBy) {
+                case 'popularity':
+                    sortCriteria.count = -1;
+                    break;
+                case 'rating':
+                    sortCriteria.rating = -1;
+                    break;
+                case 'newArrivals':
+                    sortCriteria.createdAt = -1;
+                    break;
+                case 'lowToHigh':
+                    sortCriteria.sellingPrice = 1;
+                    break;
+                case 'highToLow':
+                    sortCriteria.sellingPrice = -1;
+                    break;
+                case 'aToZ':
+                    sortCriteria.producttitle = 1; 
+                    break;
+                case 'zToA':
+                    sortCriteria.producttitle = -1; 
+                    break;
+                default:
+                    // Default sorting criteria
+                    sortCriteria.sellingPrice = 1;
+                    break;
+            }
+        } else {
+            // Default sorting criteria
+            sortCriteria.sellingPrice = 1;
+        }
 
-        const userData = req.session.user_id;
-
-        let wishlist = await Wishlist.findOne({ user: userData }).populate('product');
-
-        const productCount = wishlist ? wishlist.product.length : 0;
-
-        res.render('dashboard', { product: caseSensitive, totalPages, currentPage: page, category, productCount })
-    } catch (error) {
-        console.log(error.message);
-        res.status(500).json({ message: "Invalid Server Error" })
-    }
-}
-
-//sort by caseInsensitive
-const sortByCaseInSensitive = async (req, res) => {
-    try {
-        const caseInSensitive = await addProduct.find({}).sort({ producttitle: -1 });
-
-        const { skip, page, pageSize, totalPages } = await pagination(req, res);
-
-        const category = await addCategory.find({});
-
-        const userData = req.session.user_id;
-
-        let wishlist = await Wishlist.findOne({ user: userData }).populate('product');
-
-        const productCount = wishlist ? wishlist.product.length : 0;
-
-        res.render('dashboard', { product: caseInSensitive, totalPages, currentPage: page, category, productCount })
-    } catch (error) {
-        console.log(error.message);
-        res.status(500).json({ message: "Invalid Server Error" })
-    }
-}
-
-//sort by userRating
-const sortByRating = async (req, res) => {
-    console.log("hi........ in sortbyrating")
-    try {
-        const averageRating = await addProduct.find({}).sort({ rating: -1});
-
-        const { skip, page, pageSize, totalPages } = await pagination(req,res);
-
-        const category = await addCategory.find();
-
-        const userData = req.session.user_id;
-
-        let wishlist = await Wishlist.findOne({ user: userData }).populate('product');
-
-        const productCount = wishlist ? wishlist.product.length : 0;
-
-        res.render('dashboard', { product: averageRating, totalPages, currentPage: page, category, productCount })
-
-
+        const products = await addProduct.find().sort(sortCriteria);
+        console.log("prodicts", products);
+        res.json(products);
     } catch (error) {
         console.log(error.message);
         res.status(500).json({ message: "Internal Server Error" });
     }
 };
-
-
-//sort by popularity
-const sortByPopularity = async (req, res) => {
-   
-    try {
-        const popularity = await addProduct.find({}).sort({ count: -1});
-
-        const { skip, page, pageSize, totalPages } = await pagination(req,res);
-
-        const category = await addCategory.find();
-
-        const userData = req.session.user_id;
-
-        let wishlist = await Wishlist.findOne({ user: userData }).populate('product');
-
-        const productCount = wishlist ? wishlist.product.length : 0;
-
-        res.render('dashboard', { product: popularity, totalPages, currentPage: page, category, productCount })
-
-
-    } catch (error) {
-        console.log(error.message);
-        res.status(500).json({ message: "Internal Server Error" });
-    }
-};
-
-
-// new Arrivals
-const newArrivals = async (req, res) => {
-    try {
-        const { skip, page, pageSize, totalPages } = await pagination(req, res);
-        const newArrivals = await addProduct.find().sort({ createdAt: -1, }).skip(skip).limit(pageSize);
-
-        const categories = await addCategory.find();
-
-        const userData = req.session.user_id;
-
-        let wishlist = await Wishlist.findOne({ user: userData }).populate('product');
-
-        const productCount = wishlist ? wishlist.product.length : 0;
-
-        res.render("dashboard", { product: newArrivals, totalPages, currentPage: page, categories, productCount })
-    } catch (error) {
-        console.log(error.message);
-        res.status(500).json({ message: "Internal Server Error" })
-    }
-}
-
-
-//low to high sorting
-const lowToHigh = async (req, res) => {
-    try {
-        const { skip, page, pageSize, totalPages } = await pagination(req, res);
-        const lowtoHigh = await addProduct.find().sort({ sellingPrice: 1 }).skip(skip).limit(pageSize);
-
-        const categories = await addCategory.find();
-
-        const userData = req.session.user_id;
-
-        let wishlist = await Wishlist.findOne({ user: userData }).populate('product');
-
-        const productCount = wishlist ? wishlist.product.length : 0;
-
-        res.render("dashboard", { product: lowtoHigh, totalPages, currentPage: page, categories, productCount })
-    } catch (error) {
-        console.log(error.message);
-        res.status(500).json({ message: "Internal Server Error" });
-    }
-}
-
-
-
-//high to low
-const hightoLow = async (req, res) => {
-    try {
-        const { skip, page, pageSize, totalPages } = await pagination(req, res);
-        const hightoLow = await addProduct.find().sort({ sellingPrice: -1 }).skip(skip).limit(pageSize);
-
-        const categories = await addCategory.find();
-
-        const userData = req.session.user_id;
-
-        let wishlist = await Wishlist.findOne({ user: userData }).populate('product');
-
-        const productCount = wishlist ? wishlist.product.length : 0;
-
-        res.render("dashboard", { product: hightoLow, totalPages, currentPage: page, categories, productCount })
-    } catch (error) {
-        console.log(error.message);
-        res.status(500).json({ message: "Internal Server Error" })
-    }
-}
 
 
 //searching products
 const searchProducts = async (req, res) => {
     try {
         const { productDetails } = req.body;
-        if( productDetails && productDetails.length > 0) {
+        if (productDetails && productDetails.length > 0) {
             const productSearch = await addProduct.find({
                 $or: [
                     { producttitle: { $regex: new RegExp(productDetails, 'i') } },
@@ -1011,13 +899,13 @@ const searchProducts = async (req, res) => {
                 ]
             });
 
-            if(productSearch && productSearch.length > 0) {
+            if (productSearch && productSearch.length > 0) {
                 res.json({ status: true, productSearch });
             } else {
-                res.json({ status: false, message: "No matching Products found!"});
+                res.json({ status: false, message: "No matching Products found!" });
             }
         } else {
-            res.json({ status: false, message: "No Product found!"});
+            res.json({ status: false, message: "No Product found!" });
         }
     } catch (error) {
         console.log(error.message);
@@ -1043,7 +931,7 @@ const filterCategory = async (req, res) => {
 
         const productCount = wishlist ? wishlist.product.length : 0;
 
-        res.render("dashboard", { product: categoryFitler, totalPages, currentPage: page, category: categoryData, productCount })
+        res.render("categoryFilter", { product: categoryFitler, totalPages, currentPage: page, category: categoryData, productCount })
     } catch (error) {
         console.log(error.message);
         res.status(500).json({ message: "Invalid Server Error" });
@@ -1083,9 +971,9 @@ const userReview = async (req, res) => {
         // console.log("newReview", newReview)
         await newReview.save();
 
-        const review = await Review.find( {productId: productId})
+        const review = await Review.find({ productId: productId })
         let totalReview = 0;
-        review.forEach((rating)=> {
+        review.forEach((rating) => {
             totalReview += rating.rating;
         })
 
@@ -1093,15 +981,15 @@ const userReview = async (req, res) => {
 
         const ReviewCount = review.length;
 
-        await addProduct.findOneAndUpdate( 
-            { _id: productId},
+        await addProduct.findOneAndUpdate(
+            { _id: productId },
             {
-                $set: { rating: productReview},
-                $inc: { totalReview: ReviewCount}
+                $set: { rating: productReview },
+                $inc: { totalReview: ReviewCount }
             },
             { new: true }
-            
-            );
+
+        );
 
 
         res.status(201).json({ message: "Review submitted successfully" })
@@ -1110,6 +998,62 @@ const userReview = async (req, res) => {
         res.status(500).json({ message: "Internal Server Error" });
     }
 }
+
+
+
+//sorting category and then filtering
+const filterAndSortByCategory = async (req, res) => {
+    try {
+        const { category, sortBy } = req.query;
+        console.log("req.query", req.query);
+        let query = {};
+
+        if (category) {
+            query.category = category;
+        }
+
+        let sortCriteria = {};
+        if (sortBy) {
+            switch (sortBy) {
+                case 'popularity':
+                    sortCriteria.count = -1;
+                    break;
+                case 'rating':
+                    sortCriteria.rating = -1;
+                    break;
+                case 'newArrivals':
+                    sortCriteria.createdAt = -1;
+                    break;
+                case 'lowToHigh':
+                    sortCriteria.sellingPrice = 1;
+                    break;
+                case 'highToLow':
+                    sortCriteria.sellingPrice = -1;
+                    break;
+                case 'aToZ':
+                    sortCriteria.producttitle = 1; 
+                    break;
+                case 'zToA':
+                    sortCriteria.producttitle = -1; 
+                    break;
+                default:
+                    // Default sorting criteria
+                    sortCriteria.sellingPrice = 1;
+                    break;
+            }
+        } else {
+            // Default sorting criteria
+            sortCriteria.sellingPrice = 1;
+        }
+
+        const products = await addProduct.find(query).sort(sortCriteria);
+        console.log("prodicts", products);
+        res.json(products);
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+};
 
 
 module.exports = {
@@ -1134,15 +1078,10 @@ module.exports = {
     updateEditAddress,
     getDeleteAddress,
     userprofileResetPassword,
-    sortByCaseSensitive,
-    sortByCaseInSensitive,
     searchProducts,
     userReview,
-    sortByRating,
-    sortByPopularity,
-    newArrivals,
-    lowToHigh,
-    hightoLow,
+    sortByProducts,
     filterCategory,
+    filterAndSortByCategory
 
 };

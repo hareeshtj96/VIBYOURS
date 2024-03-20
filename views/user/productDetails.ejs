@@ -34,7 +34,7 @@
         <div class="mobile-header-wrapper-inner">
             <div class="mobile-header-top">
                 <div class="mobile-header-logo">
-                    <a href="index.html"><img src="assets/imgs/theme/logo.svg" alt="logo" /></a>
+                    <a href="dashboard"><img src="assets/imgs/theme/logo.svg" alt="logo" /></a>
                 </div>
                 <div class="mobile-menu-close close-style-wrap close-style-position-inherit">
                     <button class="close-style search-close">
@@ -262,7 +262,7 @@
         <div class="page-header breadcrumb-wrap">
             <div class="container">
                 <div class="breadcrumb">
-                    <a href="index.html" rel="nofollow">Home</a>
+                    <a href="" rel="nofollow">Home</a>
                     <span></span> Fashion <span></span> Abstract Print Patchwork Dress
                 </div>
             </div>
@@ -394,7 +394,8 @@
                                         </div>
                                         <div class="clearfix product-price-cover">
                                             <div class="product-price primary-color float-left">
-                                                <ins><span class="text-brand">Rs.<%- product.sellingPrice %></span></ins>
+                                                <ins><span class="text-brand">Rs.<%- product.sellingPrice
+                                                            %></span></ins>
                                                 <!-- <ins><span class="old-price font-md ml-15">$200.00</span></ins>
                                                 <span class="save-price  font-md color3 ml-15">25% Off</span> -->
                                             </div>
@@ -472,7 +473,7 @@
                                             <li class="mb-5">
                                                 Tags: <a href="#" rel="tag">Clothes</a>
                                             </li>
-                                            
+
                                         </ul>
                                     </div>
                                     <!-- Detail Info -->
@@ -590,7 +591,7 @@
                                                                         type="email" placeholder="Email" />
                                                                 </div>
                                                             </div>
-                                                            <input type="hidden" id="productId"
+                                                            <input type="hidden" id="productId" name="productId"
                                                                 value="<%= product._id  %>" />
                                                         </div>
 
@@ -704,11 +705,21 @@
                     return response.text();
                 })
                 .then((data) => {
-                    Swal.fire({
-                        icon: "success",
-                        title: "Product added to wishlist",
-                        text: data,
-                    });
+                    if (data.message) {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error",
+                            text: data.message,
+                        })
+                    } else {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Product added to wishlist",
+                            text: data,
+                        });
+
+                    }
+
                 })
                 .catch((error) => {
                     console.error("Error:", error);
@@ -723,7 +734,8 @@
 
 
 
-        function sendReview() {
+        function sendReview(event) {
+            event.preventDefault();
             // Get the form data
             const comment = document.getElementById("comment").value.trim();
             const name = document.getElementById("name").value.trim();
@@ -776,6 +788,7 @@
                     if (response.ok) {
                         // Review submitted successfully
                         console.log("Review submitted successfully");
+                        document.getElementById("commentForm").reset();
                         iziToast.success({
                             title: "Success",
                             message: "Review submitted successfully",
@@ -799,6 +812,9 @@
                     // Handle the error, e.g., show an error message to the user
                 });
         }
+        document.getElementById("commentForm").addEventListener("submit", sendReview);
+
+
 
         function validateEmail(email) {
             // Regular expression for email validation

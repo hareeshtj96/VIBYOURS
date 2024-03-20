@@ -523,6 +523,18 @@ const filterSalesReport = async (req, res) => {
 }
 
 
+//chart statistics
+const chartStatistics = async(req, res) => {
+    try {
+        
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+}
+
+
+
 module.exports = {
     loadLogin,
     verfiyLogin,
@@ -541,6 +553,7 @@ module.exports = {
     createCoupon,
     couponListUnlist,
     adminsalesReport,
-    filterSalesReport
+    filterSalesReport,
+    chartStatistics
 
 }

@@ -61,23 +61,13 @@ user_route.get("/home", isLogin, userController.userLogout);
 //Product actions
 user_route.get("/productDetails", isLogin, userController.listIndividualProduct);
 
-user_route.get("/sortByCaseSensitive", isLogin, userController.sortByCaseSensitive);
-
-user_route.get("/sortByCaseInSensitive", isLogin, userController.sortByCaseInSensitive);
-
-user_route.get("/sortByUserRating", isLogin, userController.sortByRating);
-
-user_route.get("/sortByPopularity", isLogin, userController.sortByPopularity);
-
 user_route.post("/searchProducts", isLogin, userController.searchProducts);
 
-user_route.get("/newArrivals", isLogin, userController.newArrivals);
-
-user_route.get("/lowtoHigh", isLogin, userController.lowToHigh);
-
-user_route.get("/hightoLow", isLogin, userController.hightoLow);
+user_route.get("/sortByProducts", isLogin, userController.sortByProducts);
 
 user_route.get("/browseCategory", isLogin, userController.filterCategory);
+
+user_route.get("/filterandSortByCategory", isLogin, userController.filterAndSortByCategory);
 
 user_route.post("/userReview", isLogin, userController.userReview);
 

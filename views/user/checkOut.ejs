@@ -272,7 +272,7 @@
   <div class="page-header breadcrumb-wrap">
     <div class="container">
       <div class="breadcrumb">
-        <a href="index.html" rel="nofollow">Home</a>
+        <a href="" rel="nofollow">Home</a>
         <span></span> Shop <span></span> Checkout
       </div>
     </div>
@@ -893,7 +893,7 @@
 
       placeOrderBtn.disabled = true;
 
-      alert('checkout button clicked')
+     
 
 
       const selectedPaymentOptionElement = document.querySelector(
@@ -992,10 +992,7 @@
 
                 const rzp = new Razorpay(options);
                 rzp.on("payment.failed", function (response) {
-                  alert(
-                    "Payment failed:\n" + JSON.stringify(response, null, 2)
-                  );
-                  alert("Payment failed. Please try again.");
+                  
                 });
                 rzp.open();
 
@@ -1063,7 +1060,7 @@
                   convertedAmount = convertToUSD(amountInINR);
                   //   alert(JSON.stringify(convertedAmount, null, 2));
                 } else {
-                  alert("Amount in INR is null or undefined.");
+                  // alert("Amount in INR is null or undefined.");
                 }
 
                 const paypalOptions = {
@@ -1121,7 +1118,7 @@
 
                         .catch((error) => {
                           console.error("Server Response Error:", error); // Log error to console
-                          alert("Server Response Error:\n" + error.message);
+                          // alert("Server Response Error:\n" + error.message);
                           handlePaymentError(error);
                         });
                     });
@@ -1137,11 +1134,11 @@
               console.error(
                 "Error: Invalid response from the server (missing orderId)"
               );
-              alert("Error: Invalid response from the server");
+              // alert("Error: Invalid response from the server");
             }
           } catch (error) {
             console.error("Error:", error);
-            alert("Fetch Error: " + error.message);
+            // alert("Fetch Error: " + error.message);
           }
         } else {
           console.log(
@@ -1411,42 +1408,36 @@
                     .then((response) => response.json())
                     .then((data) => {
                       if (data.success) {
-                        alert("Razorpay payment verified successfully");
-                        alert(
-                          "Data before constructing URL: " +
-                            JSON.stringify(data, null, 2)
-                        );
-                        alert(
-                          "OrderId before constructing URL: " + data.orderId
-                        );
+                        // alert("Razorpay payment verified successfully");
+                        // alert(
+                        //   "Data before constructing URL: " +
+                        //     JSON.stringify(data, null, 2)
+                        // );
+                        // alert(
+                        //   "OrderId before constructing URL: " + data.orderId
+                        // );
 
                         window.location.href = `/orderConfirmation?orderId=${data.orderId}`;
                       } else {
-                        alert(
-                          "Error verifying Razorpay payment:\n" +
-                            (data.error || "unknown error")
-                        );
-                        alert(
-                          "Error verifying Razorpay payment. Please try again."
-                        );
+                        
                       }
                     })
                     .catch((error) => {
-                      alert(
-                        "Error processing Razorpay payment verification:\n" +
-                          error.message
-                      );
-                      alert(
-                        "Error processing Razorpay payment verification. Please try again."
-                      );
+                      // alert(
+                      //   "Error processing Razorpay payment verification:\n" +
+                      //     error.message
+                      // );
+                      // alert(
+                      //   "Error processing Razorpay payment verification. Please try again."
+                      // );
                     });
                 },
               };
 
               const rzp = new Razorpay(options);
               rzp.on("payment.failed", function (response) {
-                alert("Payment failed:\n" + JSON.stringify(response, null, 2));
-                alert("Payment failed. Please try again.");
+                // alert("Payment failed:\n" + JSON.stringify(response, null, 2));
+                // alert("Payment failed. Please try again.");
               });
               rzp.open();
             } else {
@@ -1456,11 +1447,11 @@
             console.error(
               "Error: Invalid response from the server (missing orderId)"
             );
-            alert("Error: Invalid response from the server");
+            // alert("Error: Invalid response from the server");
           }
         } catch (error) {
           console.error("Error:", error);
-          alert("Fetch Error: " + error.message);
+          // alert("Fetch Error: " + error.message);
         }
       } else {
         console.log(

@@ -301,7 +301,7 @@
             <div class="container">
                 <div class="header-wrap header-space-between position-relative">
                     <div class="logo logo-width-1 d-block d-lg-none">
-                        <a href="index.html"><img src="assets/imgs/theme/logo.svg" alt="logo"></a>
+                        <a href="dashboard"><img src="assets/imgs/theme/logo.svg" alt="logo"></a>
                     </div>
                     <div class="header-nav d-none d-lg-flex">
                         <div class="main-categori-wrap d-none d-lg-block">
@@ -930,20 +930,6 @@
                                 <li><a href="shop-grid-right.html">Accessories</a></li>
                             </ul>
                         </div> -->
-                        <!-- <div class="widget-category mb-30">
-                            <h5 class="section-title style-1 mb-30 wow fadeIn animated">Sort by</h5>
-                            <ul>
-                                <li><a href="/sortByPopularity">Popularity</a></li>
-                                <li><a href="/sortByUserRating">Average rating</a></li>
-                                <li><a href="/newArrivals">New Arrivals</a></li>
-                                <li><a href="/lowToHigh">Price: Low to High</a></li>
-                                <li><a href="/highToLow">Price: High to Low</a></li>
-                                <li><a href="/sortByCaseSensitive">aA - zZ</a></li>
-                                <li><a href="/sortByCaseInSensitive">zZ - aA</a></li>
-                            </ul>
-                        </div> -->
-
-
                         <div class="widget-category mb-30">
                             <h5 class="section-title style-1 mb-30 wow fadeIn animated">Sort by</h5>
                             <ul id="sortOptions">
@@ -957,6 +943,8 @@
                             </ul>
                         </div>
 
+
+
                         <!-- <div class="widget-category mb-30">
                             <h5 class="section-title style-1 mb-30 wow fadeIn animated">Price Range</h5>
                             <ul class="categories">
@@ -969,7 +957,7 @@
                         </div> -->
 
                     </div>
-                    <div class="col-lg-9">
+                    <div class="col-lg-9" >
                         <div class="dropdown tab-header">
                             <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton"
                                 data-bs-toggle="dropdown" aria-expanded="false">
@@ -985,6 +973,7 @@
                                 </ul>
                             </ul>
                         </div>
+                        <div  style="display: none;"></div>
                         <br>
 
 
@@ -1030,7 +1019,7 @@
                                                             <%= productItem.category %>
                                                         </a>
                                                     </div>
-                                                    <h2><a href="/productDetails?id=<%= productItem._id  %>">
+                                                    <h2><a href="#">
                                                             <%= productItem.producttitle %>
                                                         </a></h2>
 
@@ -1065,13 +1054,17 @@
 
                                 </div>
 
+
+
+
+
                                 <div class="pagination-area mt-30 mb-50">
                                     <nav aria-label="Page navigation example">
                                         <ul class="pagination justify-content-start">
                                             <!-- Previous Page Link -->
                                             <!-- Previous Page Link -->
                                             <li class="page-item <%= currentPage === 1 ? 'disabled' : '' %>">
-                                                <a class="page-link" href="/dashboard?page=<%= currentPage - 1 %>"
+                                                <a class="page-link" href="/browseCategory?page=<%= currentPage - 1 %>"
                                                     aria-label="Previous">
                                                     <span aria-hidden="true">&laquo;</span>
                                                 </a>
@@ -1080,7 +1073,7 @@
                                             <!-- Display Page Links Dynamically -->
                                             <% for (let i=1; i <=totalPages; i++) { %>
                                                 <li class="page-item <%= currentPage === i ? 'active' : '' %>">
-                                                    <a class="page-link" href="/dashboard?page=<%= i %>">
+                                                    <a class="page-link" href="/browseCategory?page=<%= i %>">
                                                         <%= i %>
                                                     </a>
                                                 </li>
@@ -1090,7 +1083,7 @@
                                                     <li
                                                         class="page-item <%= currentPage === totalPages ? 'disabled' : '' %>">
                                                         <a class="page-link"
-                                                            href="/dashboard?page=<%= currentPage + 1 %>"
+                                                            href="/browseCategory?page=<%= currentPage + 1 %>"
                                                             aria-label="Next">
                                                             <span aria-hidden="true">&raquo;</span>
                                                         </a>
@@ -1100,12 +1093,15 @@
                                     </nav>
                                 </div>
 
+
+
+
+
+
+
+
                             </div>
 
-
-
-
-                            <div class="row product-grid-4" id="productList1"></div>
 
                             <!--En tab one (Featured)-->
                             <div class="tab-pane fade" id="tab-two" role="tabpanel" aria-labelledby="tab-two">
@@ -2281,6 +2277,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
 
@@ -2360,21 +2357,15 @@
             });
         });
 
-
-
-
-
     </script>
-
-
 
 
     <script>
 
 
-        async function fetchProducts( sortBy) {
+        async function fetchProducts(category, sortBy) {
             try {
-                const response = await fetch(`/sortByproducts?sortBy=${sortBy}`);
+                const response = await fetch(`/filterandSortByCategory?category=${category}&sortBy=${sortBy}`);
                 const data = await response.json();
                 console.log("recieved data", data);
                 displayProducts(data);
@@ -2401,54 +2392,54 @@
                 productElement.classList = 'col-lg-4 col-md-4 col-sm-6 mb-30';
 
                 productElement.innerHTML = `
-            <div class="product-cart-wrap mb-30">
-            <div class="product-img-action-wrap">
-                <div class="product-img product-img-zoom">
-                    <a href="/productDetails?id=${productItem._id}">
-                        <img class="default-img" src="/uploads/${productItem.images[1]}" alt=""
-                            style="height: 400px; width: 400px;">
-                        <img class="hover-img" src="/uploads/${productItem.images[0]}" alt=""
-                            style="height: 350px; width: 420px;">
-                    </a>
+                <div class="product-cart-wrap mb-30">
+                <div class="product-img-action-wrap">
+                    <div class="product-img product-img-zoom">
+                        <a href="/productDetails?id=${productItem._id}">
+                            <img class="default-img" src="/uploads/${productItem.images[1]}" alt=""
+                                style="height: 400px; width: 400px;">
+                            <img class="hover-img" src="/uploads/${productItem.images[0]}" alt=""
+                                style="height: 350px; width: 420px;">
+                        </a>
+                    </div>
+                    <div class="product-action-1">
+                        <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal"
+                            data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
+                        <a aria-label="Add To Wishlist" class="action-btn hover-up" href="#"><i
+                                class="fi-rs-heart"></i></a>
+                        <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i
+                                class="fi-rs-shuffle"></i></a>
+                    </div>
+                    <!-- <div class="product-badges product-badges-position product-badges-mrg">
+                        <span class="hot">H</span>
+                    </div> -->
                 </div>
-                <div class="product-action-1">
-                    <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal"
-                        data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
-                    <a aria-label="Add To Wishlist" class="action-btn hover-up" href="#"><i
-                            class="fi-rs-heart"></i></a>
-                    <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i
-                            class="fi-rs-shuffle"></i></a>
-                </div>
-                <!-- <div class="product-badges product-badges-position product-badges-mrg">
-                    <span class="hot">H</span>
-                </div> -->
-            </div>
-            <div class="product-content-wrap">
-                <div class="product-category">
-                    <a href="#">${productItem.category}</a>
-                </div>
-                <h2><a href="#">${productItem.producttitle}</a></h2>
+                <div class="product-content-wrap">
+                    <div class="product-category">
+                        <a href="#">${productItem.category}</a>
+                    </div>
+                    <h2><a href="#">${productItem.producttitle}</a></h2>
 
-                <div class="product-price">
-                    <span>Rs. ${productItem.sellingPrice}</span>
-                    <span class="old-price">${productItem.price}</span>
-                </div>
+                    <div class="product-price">
+                        <span>Rs. ${productItem.sellingPrice}</span>
+                        <span class="old-price">${productItem.price}</span>
+                    </div>
 
-                <div class="product-quantity">
-                    <span>${productItem.size.map(sizeData => `${sizeData.size}: ${sizeData.quantity}`).join(', ')}</span>
-                </div>
-                
-                ${productItem.size.map(sizeData => {
+                    <div class="product-quantity">
+                        <span>${productItem.size.map(sizeData => `${sizeData.size}: ${sizeData.quantity}`).join(', ')}</span>
+                    </div>
+                    
+                    ${productItem.size.map(sizeData => {
                     if (sizeData.quantity === 0) {
                         return `<span class="out-of-stock"><strong>${sizeData.size}</strong> (Out of Stock)</span>`;
                     } else {
                         return '';
                     }
                 }).join('')}
+                </div>
             </div>
-        </div>
-                
-    `;
+                    
+        `;
 
                 // Create and append elements for product content inside productElement
 
@@ -2462,11 +2453,36 @@
             event.preventDefault();
             if (event.target.tagName === 'A') {
                 const sortBy = event.target.dataset.sort;
-                fetchProducts(sortBy);
+                const category = document.getElementById('dropdownMenuButton').innerText.trim(); 
+                fetchProducts(category, sortBy);
             }
         });
 
+        // Event listener for category selection
+        const categoryItems = document.querySelectorAll('.dropdown-menu a');
+        categoryItems.forEach(item => {
+            item.addEventListener('click', event => {
+                event.preventDefault();
+                const selectedCategory = event.target.innerText.trim();
+                document.getElementById('dropdownMenuButton').innerText = selectedCategory; 
+                const defaultSortBy = 'Popularity'; 
+                fetchProducts(selectedCategory, defaultSortBy);
+            });
+        });
+
+        // Initial fetch when page loads (assuming a default category and sort option)
+        document.addEventListener('DOMContentLoaded', () => {
+            const defaultCategoryElement = document.querySelector('.dropdown-menu .active a');
+            const defaultCategory = defaultCategoryElement ? defaultCategoryElement.innerText.trim() : 'T-shirt'; 
+            const defaultSortBy = 'Popularity';
+            fetchProducts(defaultCategory, defaultSortBy);
+        });
+
     </script>
+
+
+
+
 
 
 

@@ -3,7 +3,7 @@
         <div class="mobile-header-wrapper-inner">
             <div class="mobile-header-top">
                 <div class="mobile-header-logo">
-                    <a href="index.html"><img src="assets/imgs/theme/logo.svg" alt="logo"></a>
+                    <a href="dashboard"><img src="assets/imgs/theme/logo.svg" alt="logo"></a>
                 </div>
                 <div class="mobile-menu-close close-style-wrap close-style-position-inherit">
                     <button class="close-style search-close">
@@ -365,7 +365,7 @@
         <div class="page-header breadcrumb-wrap">
             <div class="container">
                 <div class="breadcrumb">
-                    <a href="index.html" rel="nofollow">Home</a>
+                    <a href="" rel="nofollow">Home</a>
                     <span></span> Shop
                     <span></span> Your Cart
                 </div>
@@ -451,16 +451,24 @@
                                 </tr>
                                 <% } %>
 
-                                    <div class="cart-action text-end">
+                                    <div class="cart-action d-flex justify-content-between align-items-center">
                                         <!-- <a href="#" class="btn mr-10 mb-sm-15"><i class="fi-rs-shuffle mr-10"></i>Update Cart</a> -->
                                         <a href="dashboard" class="btn"><i class="fi-rs-shopping-bag mr-10"></i>Continue
                                             Shopping</a>
+
+
+                                        <a href="checkOut" class="btn"><i class="fi-rs-box-alt mr-10"></i>
+                                            Proceed To
+                                            CheckOut</a>
+
+
                                     </div>
+
                                     <div class="divider center_icon mt-50 mb-50"><i class="fi-rs-fingerprint"></i></div>
                                     <div class="container">
                                         <div class="row">
                                             <div class="col-lg-6 col-md-12">
-                                                <form>
+                                                <!-- <form>
                                                     <div class="form-row row">
                                                         <div class="form-group col-lg-6">
                                                             <input required="required" placeholder="State / Country"
@@ -477,7 +485,7 @@
                                                                     class="fi-rs-shuffle mr-10"></i>Update</button>
                                                         </div>
                                                     </div>
-                                                </form>
+                                                </form> -->
                                                 <!-- <div class="mb-30 mt-50">
                                                     <div class="heading_s1 mb-3">
                                                         <h4>Apply Coupon</h4>
@@ -511,7 +519,7 @@
                                                                 <div class="coupon_code left" data-aos="fade-up"
                                                                     data-aos-delay="200">
                                                                     <div class="coupon_inner">
-                                                                        
+
 
                                                                         <% if (!userCart.isApplied) { %>
 
@@ -532,7 +540,7 @@
                                                                                     Coupon</button>
 
                                                                             </div>
-                                                                            <% } else  { %>
+                                                                            <% } else { %>
                                                                                 <p>Already a coupon applied!</p>
                                                                                 <button type="button"
                                                                                     class="btn btn-md btn-golden"
@@ -637,232 +645,228 @@
 
                                                             </tbody>
                                                         </table>
+
                                                     </div>
-                                                    <a href="checkOut" class="btn"><i class="fi-rs-box-alt mr-10"></i>
-                                                        Proceed To
-                                                        CheckOut</a>
+
+
                                                 </div>
                                             </div>
-
-
-                                        </div>
-                                    </div>
-                                    <div class="row mt-60">
-                                        <div class="row mt-60">
-                                            <div class="col-12">
-                                                <h3 class="section-title style-1 mb-30">You may also like </h3>
-                                            </div>
+                                            <div class="row mt-60">
+                                                <div class="row mt-60">
+                                                    <div class="col-12">
+                                                        <h3 class="section-title style-1 mb-30">You may also like </h3>
+                                                    </div>
 
 
 
-                                        </div>
+                                                </div>
 
-                                        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+                                                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
-                                        <script>
-                                            async function removeItem(itemId) {
-                                                try {
+                                                <script>
+                                                    async function removeItem(itemId) {
+                                                        try {
 
-                                                    const confirmation = await Swal.fire({
-                                                        title: 'Are you sure?',
-                                                        text: 'You won\'t be able to revert this!',
-                                                        icon: 'warning',
-                                                        showCancelButton: true,
-                                                        confirmButtonColor: '#3085d6',
-                                                        cancelButtonColor: '#d33',
-                                                        confirmButtonText: 'Yes, remove it!'
-                                                    });
-
-
-                                                    if (confirmation.isConfirmed) {
-                                                        const response = await fetch(`/removeItem?itemId=${itemId}`, {
-                                                            method: 'GET',
-                                                        });
-
-                                                        const result = await response.json();
-
-                                                        if (result.status === true) {
-
-                                                            Swal.fire({
-                                                                title: 'Deleted!',
-                                                                text: 'Your item has been deleted.',
-                                                                icon: 'success'
+                                                            const confirmation = await Swal.fire({
+                                                                title: 'Are you sure?',
+                                                                text: 'You won\'t be able to revert this!',
+                                                                icon: 'warning',
+                                                                showCancelButton: true,
+                                                                confirmButtonColor: '#3085d6',
+                                                                cancelButtonColor: '#d33',
+                                                                confirmButtonText: 'Yes, remove it!'
                                                             });
-                                                            // Reload the current page
-                                                            window.location.reload();
 
 
-                                                            console.log('Item removed successfully');
+                                                            if (confirmation.isConfirmed) {
+                                                                const response = await fetch(`/removeItem?itemId=${itemId}`, {
+                                                                    method: 'GET',
+                                                                });
+
+                                                                const result = await response.json();
+
+                                                                if (result.status === true) {
+
+                                                                    Swal.fire({
+                                                                        title: 'Deleted!',
+                                                                        text: 'Your item has been deleted.',
+                                                                        icon: 'success'
+                                                                    });
+                                                                    // Reload the current page
+                                                                    window.location.reload();
 
 
-                                                        } else {
+                                                                    console.log('Item removed successfully');
+
+
+                                                                } else {
+
+                                                                    Swal.fire({
+                                                                        title: 'Error!',
+                                                                        text: 'Failed to remove item.',
+                                                                        icon: 'error'
+                                                                    });
+
+                                                                    console.log('Failed to remove item');
+                                                                }
+                                                            }
+                                                        } catch (error) {
 
                                                             Swal.fire({
                                                                 title: 'Error!',
-                                                                text: 'Failed to remove item.',
+                                                                text: 'An error occurred while removing the item.',
                                                                 icon: 'error'
                                                             });
 
-                                                            console.log('Failed to remove item');
+                                                            console.error('Error removing item:', error);
                                                         }
-                                                    }
-                                                } catch (error) {
 
-                                                    Swal.fire({
-                                                        title: 'Error!',
-                                                        text: 'An error occurred while removing the item.',
-                                                        icon: 'error'
-                                                    });
-
-                                                    console.error('Error removing item:', error);
-                                                }
-
-                                            }
-
-
-
-
-                                            function changingQuantity(subtotal, currentQuantity, itemId, newQuantity, owner, productId, size, index, price) {
-
-
-                                                const Quantity = document.getElementById(`incrementQuantity${index}`).innerText;
-                                                const updatingQuantity = parseInt(Quantity) + parseInt(newQuantity);
-                                                const updateQty = document.getElementById(`incrementQuantity${index}`);
-                                                const subTotal = document.getElementById(`Subtotal${index}`);
-                                                const total = document.getElementById('grandTotal');
-                                                const itemsTotal = document.getElementById('total');
-
-                                                fetch("/changingQuantity", {
-                                                    method: "POST",
-                                                    headers: {
-                                                        "Content-Type": "application/json",
-                                                    },
-                                                    body: JSON.stringify({
-                                                        subtotal: subtotal,
-                                                        updatingQuantity: updatingQuantity,
-                                                        itemId: itemId,
-                                                        userId: owner,
-                                                        productId: productId,
-                                                        size: size,
-                                                        index: index,
-                                                    }),
-                                                })
-                                                    .then(response => {
-                                                        if (!response.ok) {
-                                                            throw new Error("Request failed");
-                                                        }
-                                                        return response.json();
-                                                    })
-                                                    .then(responseData => {
-                                                        if (responseData.status === "out of stock") {
-                                                            Swal.fire({
-                                                                title: "<span style='color: red;'>Out Of Stock</span>",
-                                                                html: "<span style='color: blue;'>Please keep in touch with us</span>",
-                                                                icon: "error",
-                                                                timer: 2000,
-                                                                showConfirmButton: false,
-                                                            });
-                                                        } else if (responseData.status === "maximumQuantity") {
-                                                            Swal.fire({
-                                                                title: "<span style='color: red;'>Maximum Quantity Reached</span>",
-                                                                html: "<span style='color: blue;'>You have reached the maximum allowed quantity</span>",
-                                                                icon: "warning",
-                                                                timer: 2000,
-                                                                showConfirmButton: false,
-                                                            });
-                                                        } else if (responseData.status === "ProductIsBlocked") {
-                                                            Swal.fire({
-                                                                title: "<span style='color: red;'>Product Blocked</span>",
-                                                                html: "<span style='color: blue;'>This product is currently unavailable</span>",
-                                                                icon: "warning",
-                                                                timer: 2000,
-                                                                showConfirmButton: false,
-                                                            });
-                                                        } else if (responseData.status === "success") {
-                                                            updateQty.innerHTML = updatingQuantity;
-                                                            subTotal.innerHTML = updatingQuantity * price;
-                                                            total.innerText = responseData.total;
-                                                            itemsTotal.innerText = responseData.total;
-
-
-                                                        }
-                                                    })
-                                                    .catch(error => {
-                                                        console.error(error);
-                                                    });
-                                            }
-
-
-
-                                        </script>
-
-
-                                        <script>
-
-                                            async function applycoupon() {
-                                                const code = document.getElementById('coupon').value;
-                                                // alert(code)
-                                                try {
-                                                    const response = await fetch(`/applyCouponInCart?code=${code}`);
-                                                    if (response.ok) {
-
-                                                        swal.fire({
-                                                            title: 'Coupon applied',
-                                                            text: '',
-                                                            icon: "success",
-                                                            type: 'success',
-                                                            timer: 1500,
-                                                            timerProgressBar: true,
-                                                        }).then(() => {
-                                                            window.location.reload(); // Reload the page after successful removal
-                                                        });
-                                                    } else {
-                                                        await Swal.fire({
-                                                            title: 'Error',
-                                                            text: 'Invalid Coupon code.',
-                                                            icon: 'Sorry',
-                                                            showConfirmButton: true
-                                                        });
-                                                    }
-                                                } catch (error) {
-                                                    // Handle network errors or other exceptions
-                                                    console.error('Error applying coupon:', error);
-                                                    // Optionally, you can display an error message to the user
-                                                }
-                                            }
-
-
-                                            async function removecoupon() {
-                                                alert("from removeCoupon")
-
-                                                try {
-                                                    const response = await fetch('/removeCoupon');
-                                                    if (response.ok) {
-
-                                                        swal.fire({
-                                                            title: 'Coupon removed',
-                                                            text: '',
-                                                            icon: "success",
-                                                            type: 'success',
-                                                            timer: 1500,
-                                                            timerProgressBar: true,
-                                                        }).then(() => {
-                                                            window.location.reload(); 
-                                                        });
                                                     }
 
-                                                } catch (error) {
-                                                    // Handle network errors or other exceptions
-                                                    console.error('Error applying coupon:', error);
-                                                    // Optionally, you can display an error message to the user
-                                                }
-                                            }
 
 
 
-                                        </script>
+                                                    function changingQuantity(subtotal, currentQuantity, itemId, newQuantity, owner, productId, size, index, price) {
 
-                                        
+
+                                                        const Quantity = document.getElementById(`incrementQuantity${index}`).innerText;
+                                                        const updatingQuantity = parseInt(Quantity) + parseInt(newQuantity);
+                                                        const updateQty = document.getElementById(`incrementQuantity${index}`);
+                                                        const subTotal = document.getElementById(`Subtotal${index}`);
+                                                        const total = document.getElementById('grandTotal');
+                                                        const itemsTotal = document.getElementById('total');
+
+                                                        fetch("/changingQuantity", {
+                                                            method: "POST",
+                                                            headers: {
+                                                                "Content-Type": "application/json",
+                                                            },
+                                                            body: JSON.stringify({
+                                                                subtotal: subtotal,
+                                                                updatingQuantity: updatingQuantity,
+                                                                itemId: itemId,
+                                                                userId: owner,
+                                                                productId: productId,
+                                                                size: size,
+                                                                index: index,
+                                                            }),
+                                                        })
+                                                            .then(response => {
+                                                                if (!response.ok) {
+                                                                    throw new Error("Request failed");
+                                                                }
+                                                                return response.json();
+                                                            })
+                                                            .then(responseData => {
+                                                                if (responseData.status === "out of stock") {
+                                                                    Swal.fire({
+                                                                        title: "<span style='color: red;'>Out Of Stock</span>",
+                                                                        html: "<span style='color: blue;'>Please keep in touch with us</span>",
+                                                                        icon: "error",
+                                                                        timer: 2000,
+                                                                        showConfirmButton: false,
+                                                                    });
+                                                                } else if (responseData.status === "maximumQuantity") {
+                                                                    Swal.fire({
+                                                                        title: "<span style='color: red;'>Maximum Quantity Reached</span>",
+                                                                        html: "<span style='color: blue;'>You have reached the maximum allowed quantity</span>",
+                                                                        icon: "warning",
+                                                                        timer: 2000,
+                                                                        showConfirmButton: false,
+                                                                    });
+                                                                } else if (responseData.status === "ProductIsBlocked") {
+                                                                    Swal.fire({
+                                                                        title: "<span style='color: red;'>Product Blocked</span>",
+                                                                        html: "<span style='color: blue;'>This product is currently unavailable</span>",
+                                                                        icon: "warning",
+                                                                        timer: 2000,
+                                                                        showConfirmButton: false,
+                                                                    });
+                                                                } else if (responseData.status === "success") {
+                                                                    updateQty.innerHTML = updatingQuantity;
+                                                                    subTotal.innerHTML = updatingQuantity * price;
+                                                                    total.innerText = responseData.total;
+                                                                    itemsTotal.innerText = responseData.total;
+
+
+                                                                }
+                                                            })
+                                                            .catch(error => {
+                                                                console.error(error);
+                                                            });
+                                                    }
+
+
+
+                                                </script>
+
+
+                                                <script>
+
+                                                    async function applycoupon() {
+                                                        const code = document.getElementById('coupon').value;
+                                                        // alert(code)
+                                                        try {
+                                                            const response = await fetch(`/applyCouponInCart?code=${code}`);
+                                                            if (response.ok) {
+
+                                                                swal.fire({
+                                                                    title: 'Coupon applied',
+                                                                    text: '',
+                                                                    icon: "success",
+                                                                    type: 'success',
+                                                                    timer: 1500,
+                                                                    timerProgressBar: true,
+                                                                }).then(() => {
+                                                                    window.location.reload(); // Reload the page after successful removal
+                                                                });
+                                                            } else {
+                                                                await Swal.fire({
+                                                                    title: 'Error',
+                                                                    text: 'Invalid Coupon code.',
+                                                                    icon: 'Sorry',
+                                                                    showConfirmButton: true
+                                                                });
+                                                            }
+                                                        } catch (error) {
+                                                            // Handle network errors or other exceptions
+                                                            console.error('Error applying coupon:', error);
+                                                            // Optionally, you can display an error message to the user
+                                                        }
+                                                    }
+
+
+                                                    async function removecoupon() {
+                                                        
+
+                                                        try {
+                                                            const response = await fetch('/removeCoupon');
+                                                            if (response.ok) {
+
+                                                                swal.fire({
+                                                                    title: 'Coupon removed',
+                                                                    text: '',
+                                                                    icon: "success",
+                                                                    type: 'success',
+                                                                    timer: 1500,
+                                                                    timerProgressBar: true,
+                                                                }).then(() => {
+                                                                    window.location.reload();
+                                                                });
+                                                            }
+
+                                                        } catch (error) {
+                                                            // Handle network errors or other exceptions
+                                                            console.error('Error applying coupon:', error);
+                                                            // Optionally, you can display an error message to the user
+                                                        }
+                                                    }
+
+
+
+                                                </script>
+
+
     </main>
 
     <style>

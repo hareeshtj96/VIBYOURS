@@ -32,6 +32,7 @@
             <option value="Shipped">Shipped</option>
             <option value="Delivered">Delivered</option>
             <option value="Cancelled">Cancelled</option>
+            <option value="Returned">Returned</option>
           </select>
           <button class="btn btn-primary" id="status">Save</button>
         </div>
@@ -112,27 +113,23 @@
     <div class="row">
       <div class="col-lg-12">
         <div class="table-responsive">
-          <% if (orderData && orderData.items) { %>
+          <% if (orderData && orderData.items && orderData.items.length > 0) { %>
           <table class="table table-striped">
             <thead>
               <tr>
-                <th>Product</th>
-                <th>Product Name</th>
-                <th>Unit Price</th>
-                <th>Quantity</th>
-                <th>Size</th>
-                <th>Total</th>
+                <th class="text-center">Product</th>
+                <th class="text-center">Product Name</th>
+                <th class="text-center">Unit Price</th>
+                <th class="text-center">Quantity</th>
+                <th class="text-center">Size</th>
+                <th class="text-center">Total</th>
               </tr>
             </thead>
             <tbody>
-              <% orderData.items.forEach(item=> { %>
+              <% orderData.items.forEach(item => { %>
               <tr>
                 <td class="text-center">
-                  <img
-                    src="/uploads/<%= item.image %>"
-                    width="80px"
-                    alt="Product Image"
-                  />
+                  <img src="/uploads/<%= item.image %>" width="80px" alt="Product Image" />
                 </td>
                 <td class="text-center"><%= item.productId.producttitle %></td>
                 <td class="text-center"><%= item.price %></td>
@@ -140,17 +137,24 @@
                 <td class="text-center"><%= item.size %></td>
                 <td class="text-center"><%= item.price * item.quantity %></td>
               </tr>
-              <% }) %>
+              <% }); %>
               <tr>
                 <td colspan="5" class="text-end fw-bold">Total Amount:</td>
                 <td class="text-center fw-bold"><%= orderData.billTotal %></td>
               </tr>
             </tbody>
           </table>
+          <% } else { %>
+          <p>No items found.</p>
           <% } %>
         </div>
       </div>
     </div>
+    
+    
+    
+
+
   </div>
   <% } %>
 </section>

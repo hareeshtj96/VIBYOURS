@@ -3,18 +3,18 @@
   <div class="content-header">
     <div>
       <h2 class="content-title card-title">Order List</h2>
-      <p>Lorem ipsum dolor sit amet.</p>
+      
     </div>
-    <div>
+    <!-- <div>
       <input
         type="text"
         placeholder="Search order ID"
         class="form-control bg-white"
       />
-    </div>
+    </div> -->
   </div>
   <div class="card mb-4">
-    <header class="card-header">
+    <!-- <header class="card-header">
       <div class="row gx-3">
         <div class="col-lg-4 col-md-6 me-auto">
           <input type="text" placeholder="Search..." class="form-control" />
@@ -35,7 +35,7 @@
           </select>
         </div>
       </div>
-    </header>
+    </header> -->
     <!-- card-header end// -->
     <div class="card-body">
       <div class="table-responsive">
@@ -45,7 +45,7 @@
               <th>#ID</th>
               <th scope="col">Name</th>
               <th scope="col">Email</th>
-              <th scope="col">Total</th>
+              <th scope="col">Total (Rs.)</th>
               <th scope="col">Order </th>
               <th scope="col">Payment </th>
               <!-- <th scope="col">Date</th> -->
@@ -67,14 +67,14 @@
               <td><%= orderData[i].billTotal %></td>
               <td>
                 <span
-                  class="badge rounded-pill <%= orderData[i].status === 'Confirmed' ? 'alert-primary' : orderData[i].status === 'Shipped' ? 'alert-info' : orderData[i].status === 'Delivered' ? 'alert-success' : orderData[i].status === 'Pending' ? 'alert-warning' : orderData[i].status === 'Cancelled' ? 'alert-danger' : orderData[i].status === 'Returned' ? 'alert-dark': '' %>"
+                  class="badge rounded-pill <%= orderData[i].status === 'Confirmed' ? 'alert-primary' : orderData[i].status === 'Shipped' ? 'alert-info' : orderData[i].status === 'Delivered' ? 'alert-success' : orderData[i].status === 'Pending' ? 'alert-warning' :   orderData[i].status === 'Pending Cancel Order Request' ? 'alert-primary' : orderData[i].status === 'Pending Return Request' ? 'alert-primary' :  orderData[i].status === 'Cancelled' ? 'alert-danger' : orderData[i].status === 'Returned' ? 'alert-dark': '' %>"
                 >
                   <%= orderData[i].status %>
                 </span>
               </td>
               <td>
                 <span
-                  class="badge rounded-pill <%= orderData[i].paymentStatus === 'Success' ? 'alert-success' : orderData[i].paymentStatus === 'Pending' ? 'alert-info' : orderData[i].paymentStatus === 'Failed'? 'alert-danger' : '' %>"
+                  class="badge rounded-pill <%= orderData[i].paymentStatus === 'Success' ? 'alert-success' : orderData[i].paymentStatus === 'Pending' ? 'alert-info' : orderData[i].paymentStatus === 'Refunded'? 'alert-danger' : orderData[i].paymentStatus === 'Failed'? 'alert-danger' : '' %>"
                 >
                   <%= orderData[i].paymentStatus %>
                 </span>
