@@ -100,8 +100,8 @@ const orderSchema = new mongoose.Schema({
         reason: String,
 
     },],
-    coupon: {
-        type: String,
+    couponID: {
+        type: ObjectID,
     },
     discountPrice: {
         type: Number,

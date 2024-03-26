@@ -63,6 +63,16 @@ admin_route.get('/salesReport', isLogin, adminController.adminsalesReport);
 
 admin_route.get('/filterSalesData', isLogin, adminController.filterSalesReport);
 
+admin_route.post('/chartStatistics', isLogin, adminController.chartStatistics);
+
+admin_route.get('/productOffer', isLogin, adminController.productOffers);
+
+admin_route.post('/updateSellingPrice', isLogin, adminController.updateProductSellingPrice);
+
+admin_route.get('/categoryOffer', isLogin, adminController.categoryOffers);
+
+admin_route.post('/updateCategoryOffer', isLogin, adminController.updateCategoryOffer);
+
 
 
 

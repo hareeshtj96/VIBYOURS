@@ -6,6 +6,7 @@ const { generateReferralCode } = require("../utils/referral");
 const { pagination } = require("../utils/pagination");
 const addProduct = require("../model/productModel");
 const addCategory = require("../model/categoryModel");
+const Cart = require("../model/cartModel");
 const Wishlist = require("../model/wishlistModel");
 const Review = require("../model/reviewModel");
 const Wallet = require("../model/walletModel");
@@ -539,6 +540,8 @@ const userProfile = async (req, res) => {
 
         const userData = await User.findById(userId);
 
+        const userCart = await Cart.findOne({ owner: req.session.user_id })
+
         let wishlist = await Wishlist.findOne({ user: userData }).populate('product');
 
         const productCount = wishlist ? wishlist.product.length : 0;
@@ -574,10 +577,10 @@ const userProfile = async (req, res) => {
         if (orderData.length > 0) {
             totalPages = Math.ceil(totalOrdersCount / pageSize);
 
-            res.render('userProfile', { user: userData, orderData, currentPage: page, totalPages: totalPages, wallet, productCount });
+            res.render('userProfile', { user: userData, orderData, currentPage: page, totalPages: totalPages, wallet, productCount, userCart });
         } else {
             // If there are no orders, still render the userProfile page
-            res.render('userProfile', { user: userData, orderData, currentPage: page, totalPages: totalPages, wallet, productCount });
+            res.render('userProfile', { user: userData, orderData, currentPage: page, totalPages: totalPages, wallet, productCount, userCart });
         }
 
     } catch (error) {
@@ -1056,6 +1059,31 @@ const filterAndSortByCategory = async (req, res) => {
 };
 
 
+//user Invoice
+const userInvoice = async(req, res) => {
+    try {
+
+        const orderId = req.query.orderId;
+
+        const orderData = await Order.findOne({ orderId: orderId }).populate({
+            path: "items.productId",
+            model: "addProduct",
+            select: "producttitle",
+          });;
+
+        
+        const userCart = await Cart.findOne({ owner: req.session.user_id });
+
+
+        res.render('userInvoice', {orderData: orderData, userCart});
+        
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+}
+
+
 module.exports = {
     loadRegister,
     insertUser,
@@ -1082,6 +1110,7 @@ module.exports = {
     userReview,
     sortByProducts,
     filterCategory,
-    filterAndSortByCategory
+    filterAndSortByCategory,
+    userInvoice
 
 };

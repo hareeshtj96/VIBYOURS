@@ -3,14 +3,14 @@ const mongoose = require('mongoose');
 const cartSchema = new mongoose.Schema({
     owner: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'users',
+        ref: 'User',
         required: true,
     },
 
     items: [{
         productId: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'product',
+            ref: 'addProduct',
             required: true
         },
         image: {
@@ -33,7 +33,11 @@ const cartSchema = new mongoose.Schema({
         }
         
     }],
-
+    finalPrice:{
+        type: Number,
+        required: true,
+        default:0
+    },
     billTotal: {
         type: Number,
         required: true,

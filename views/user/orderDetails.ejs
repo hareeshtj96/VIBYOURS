@@ -153,6 +153,11 @@
 
       <article class="card">
         <header class="card-header">Order details</header>
+        <% if(typeof orderData !== 'undefined' && orderData.status === 'Delivered') { %>
+          <div style="text-align: right;">
+              <a href="userInvoice?orderId=<%= orderData.orderId %>" class="btn btn-success">View Invoice</a>
+          </div>
+          <% } %>
         <div class="card-body">
           <% if(typeof orderData!=='undefined' ){ %>
             <h6>Order ID:<%=orderData.orderId%>

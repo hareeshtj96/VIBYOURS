@@ -45,18 +45,21 @@
 
                 <div class="col-md-8">
 
+                   
+
                     <div class="card div-container">
 
+                        <div>
+                            <button class="btn btn-primary" id="downloadOrder">Download Order</button>
+                        </div>
 
                         <div class="text-left logo-1 p-2 px-5 text-white">
-
+                            
                             <p style="color: white;">VIBYOURS - Order confirmation</p>
 
                         </div>
 
-                        <div>
-                            <button class="btn btn-primary" id="downloadInvoice">Download Invoice</button>
-                        </div>
+                        
 
                         <div class="invoice p-5" id="orderConfirmation">
 
@@ -216,77 +219,61 @@
                                                 <td>
                                                     <div class="text-left">
 
-                                                        <span class="text-muted">Subtotal</span>
+                                                        <span class="text-muted">SubTotal</span>
 
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <div class="text-right">
-                                                        <span>Rs.<%= orderData.billTotal%>.00</span>
+                                                        <span>&#8377;<%= orderData.billTotal + orderData.discountPrice %>.00</span>
                                                     </div>
                                                 </td>
                                             </tr>
 
 
-                                            <!-- <tr>
+                                            <tr>
                                                 <td>
                                                     <div class="text-left">
 
-                                                        <span class="text-muted">Shipping Fee</span>
+                                                        <span class="text-muted">Coupon Discount</span>
+
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="text-right">
+                                                        <span>-&#8377;<%= orderData.discountPrice%>.00</span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>
+                                                    <div class="text-left">
+
+                                                        <span class="text-muted">Delivery Charges</span>
                                                         
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <div class="text-right">
-                                                        <span>$22</span>
+                                                        <span>&#8377;50</span>
                                                     </div>
                                                 </td>
-                                            </tr> -->
+                                            </tr>
 
-
-                                            <!-- <tr>
-                                                <td>
-                                                    <div class="text-left">
-
-                                                        <span class="text-muted">Tax Fee</span>
-                                                        
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="text-right">
-                                                        <span>$7.65</span>
-                                                    </div>
-                                                </td>
-                                            </tr> -->
-
-                                            <!-- 
-                                             <tr>
-                                                <td>
-                                                    <div class="text-left">
-
-                                                        <span class="text-muted">Discount</span>
-                                                        
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="text-right">
-                                                        <span class="text-success">$168.50</span>
-                                                    </div>
-                                                </td>
-                                            </tr> -->
 
 
                                             <tr class="border-top border-bottom">
                                                 <td>
                                                     <div class="text-left">
 
-                                                        <span class="font-weight-bold">Subtotal</span>
+                                                        <span class="font-weight-bold">Total Amount</span>
 
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <div class="text-right">
-                                                        <span class="font-weight-bold">Rs.<%=orderData.billTotal%>
+                                                        <span class="font-weight-bold">&#8377;<%=userCart.finalPrice + 50 %>
                                                                 .00</span>
                                                     </div>
                                                 </td>
@@ -339,7 +326,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
 
         <script>
-            const pdfButton = document.getElementById('downloadInvoice')
+            const pdfButton = document.getElementById('downloadOrder')
             pdfButton.addEventListener("click", () => {
                 const orderCofirmation = document.getElementById("orderConfirmation")
                 html2pdf().from(orderCofirmation).save();

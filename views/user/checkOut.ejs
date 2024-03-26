@@ -1,722 +1,526 @@
 <%- include("../partials/userheaders2") %>
 
-<div class="mobile-header-active mobile-header-wrapper-style">
-  <div class="mobile-header-wrapper-inner">
-    <div class="mobile-header-top">
-      <div class="mobile-header-logo">
-        <a href="index.html"
-          ><img src="assets/imgs/theme/logo.svg" alt="logo"
-        /></a>
+  <div class="mobile-header-active mobile-header-wrapper-style">
+    <div class="mobile-header-wrapper-inner">
+      <div class="mobile-header-top">
+        <div class="mobile-header-logo">
+          <a href="index.html"><img src="assets/imgs/theme/logo.svg" alt="logo" /></a>
+        </div>
+        <div class="mobile-menu-close close-style-wrap close-style-position-inherit">
+          <button class="close-style search-close">
+            <i class="icon-top"></i>
+            <i class="icon-bottom"></i>
+          </button>
+        </div>
       </div>
-      <div
-        class="mobile-menu-close close-style-wrap close-style-position-inherit"
-      >
-        <button class="close-style search-close">
-          <i class="icon-top"></i>
-          <i class="icon-bottom"></i>
-        </button>
-      </div>
-    </div>
-    <div class="mobile-header-content-area">
-      <div class="mobile-search search-style-3 mobile-header-border">
-        <form action="#">
-          <input type="text" placeholder="Search for items…" />
-          <button type="submit"><i class="fi-rs-search"></i></button>
-        </form>
-      </div>
-      <div class="mobile-menu-wrap mobile-header-border">
-        <div class="main-categori-wrap mobile-header-border">
-          <a class="categori-button-active-2" href="#">
-            <span class="fi-rs-apps"></span> Browse Categories
-          </a>
-          <div class="categori-dropdown-wrap categori-dropdown-active-small">
-            <ul>
-              <li>
-                <a href="shop-grid-right.html"
-                  ><i class="evara-font-dress"></i>Women's Clothing</a
-                >
+      <div class="mobile-header-content-area">
+        <div class="mobile-search search-style-3 mobile-header-border">
+          <form action="#">
+            <input type="text" placeholder="Search for items…" />
+            <button type="submit"><i class="fi-rs-search"></i></button>
+          </form>
+        </div>
+        <div class="mobile-menu-wrap mobile-header-border">
+          <div class="main-categori-wrap mobile-header-border">
+            <a class="categori-button-active-2" href="#">
+              <span class="fi-rs-apps"></span> Browse Categories
+            </a>
+            <div class="categori-dropdown-wrap categori-dropdown-active-small">
+              <ul>
+                <li>
+                  <a href="shop-grid-right.html"><i class="evara-font-dress"></i>Women's Clothing</a>
+                </li>
+                <li>
+                  <a href="shop-grid-right.html"><i class="evara-font-tshirt"></i>Men's Clothing</a>
+                </li>
+                <li>
+                  <a href="shop-grid-right.html"><i class="evara-font-smartphone"></i> Cellphones</a>
+                </li>
+                <li>
+                  <a href="shop-grid-right.html"><i class="evara-font-desktop"></i>Computer & Office</a>
+                </li>
+                <li>
+                  <a href="shop-grid-right.html"><i class="evara-font-cpu"></i>Consumer Electronics</a>
+                </li>
+                <li>
+                  <a href="shop-grid-right.html"><i class="evara-font-home"></i>Home & Garden</a>
+                </li>
+                <li>
+                  <a href="shop-grid-right.html"><i class="evara-font-high-heels"></i>Shoes</a>
+                </li>
+                <li>
+                  <a href="shop-grid-right.html"><i class="evara-font-teddy-bear"></i>Mother & Kids</a>
+                </li>
+                <li>
+                  <a href="shop-grid-right.html"><i class="evara-font-kite"></i>Outdoor fun</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <!-- mobile menu start -->
+          <nav>
+            <ul class="mobile-menu">
+              <li class="menu-item-has-children">
+                <span class="menu-expand"></span><a href="index.html">Home</a>
+                <ul class="dropdown">
+                  <li><a href="index.html">Home 1</a></li>
+                  <li><a href="index-2.html">Home 2</a></li>
+                  <li><a href="index-3.html">Home 3</a></li>
+                  <li><a href="index-4.html">Home 4</a></li>
+                </ul>
               </li>
-              <li>
-                <a href="shop-grid-right.html"
-                  ><i class="evara-font-tshirt"></i>Men's Clothing</a
-                >
+              <li class="menu-item-has-children">
+                <span class="menu-expand"></span><a href="shop-grid-right.html">shop</a>
+                <ul class="dropdown">
+                  <li>
+                    <a href="shop-grid-right.html">Shop Grid – Right Sidebar</a>
+                  </li>
+                  <li>
+                    <a href="shop-grid-left.html">Shop Grid – Left Sidebar</a>
+                  </li>
+                  <li>
+                    <a href="shop-list-right.html">Shop List – Right Sidebar</a>
+                  </li>
+                  <li>
+                    <a href="shop-list-left.html">Shop List – Left Sidebar</a>
+                  </li>
+                  <li><a href="shop-fullwidth.html">Shop - Wide</a></li>
+                  <li class="menu-item-has-children">
+                    <span class="menu-expand"></span><a href="#">Single Product</a>
+                    <ul class="dropdown">
+                      <li>
+                        <a href="shop-product-right.html">Product – Right Sidebar</a>
+                      </li>
+                      <li>
+                        <a href="shop-product-left.html">Product – Left Sidebar</a>
+                      </li>
+                      <li>
+                        <a href="shop-product-full.html">Product – No sidebar</a>
+                      </li>
+                    </ul>
+                  </li>
+                  <li><a href="shop-filter.html">Shop – Filter</a></li>
+                  <li><a href="shop-wishlist.html">Shop – Wishlist</a></li>
+                  <li><a href="shop-cart.html">Shop – Cart</a></li>
+                  <li><a href="shop-checkout.html">Shop – Checkout</a></li>
+                  <li><a href="shop-compare.html">Shop – Compare</a></li>
+                </ul>
               </li>
-              <li>
-                <a href="shop-grid-right.html"
-                  ><i class="evara-font-smartphone"></i> Cellphones</a
-                >
+              <li class="menu-item-has-children">
+                <span class="menu-expand"></span><a href="#">Mega menu</a>
+                <ul class="dropdown">
+                  <li class="menu-item-has-children">
+                    <span class="menu-expand"></span><a href="#">Women's Fashion</a>
+                    <ul class="dropdown">
+                      <li><a href="shop-product-right.html">Dresses</a></li>
+                      <li>
+                        <a href="shop-product-right.html">Blouses & Shirts</a>
+                      </li>
+                      <li>
+                        <a href="shop-product-right.html">Hoodies & Sweatshirts</a>
+                      </li>
+                      <li><a href="shop-product-right.html">Women's Sets</a></li>
+                    </ul>
+                  </li>
+                  <li class="menu-item-has-children">
+                    <span class="menu-expand"></span><a href="#">Men's Fashion</a>
+                    <ul class="dropdown">
+                      <li><a href="shop-product-right.html">Jackets</a></li>
+                      <li>
+                        <a href="shop-product-right.html">Casual Faux Leather</a>
+                      </li>
+                      <li>
+                        <a href="shop-product-right.html">Genuine Leather</a>
+                      </li>
+                    </ul>
+                  </li>
+                  <li class="menu-item-has-children">
+                    <span class="menu-expand"></span><a href="#">Technology</a>
+                    <ul class="dropdown">
+                      <li>
+                        <a href="shop-product-right.html">Gaming Laptops</a>
+                      </li>
+                      <li>
+                        <a href="shop-product-right.html">Ultraslim Laptops</a>
+                      </li>
+                      <li><a href="shop-product-right.html">Tablets</a></li>
+                      <li>
+                        <a href="shop-product-right.html">Laptop Accessories</a>
+                      </li>
+                      <li>
+                        <a href="shop-product-right.html">Tablet Accessories</a>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
               </li>
-              <li>
-                <a href="shop-grid-right.html"
-                  ><i class="evara-font-desktop"></i>Computer & Office</a
-                >
+              <li class="menu-item-has-children">
+                <span class="menu-expand"></span><a href="blog-category-fullwidth.html">Blog</a>
+                <ul class="dropdown">
+                  <li>
+                    <a href="blog-category-grid.html">Blog Category Grid</a>
+                  </li>
+                  <li>
+                    <a href="blog-category-list.html">Blog Category List</a>
+                  </li>
+                  <li><a href="blog-category-big.html">Blog Category Big</a></li>
+                  <li>
+                    <a href="blog-category-fullwidth.html">Blog Category Wide</a>
+                  </li>
+                  <li class="menu-item-has-children">
+                    <span class="menu-expand"></span><a href="#">Single Product Layout</a>
+                    <ul class="dropdown">
+                      <li><a href="blog-post-left.html">Left Sidebar</a></li>
+                      <li><a href="blog-post-right.html">Right Sidebar</a></li>
+                      <li><a href="blog-post-fullwidth.html">No Sidebar</a></li>
+                    </ul>
+                  </li>
+                </ul>
               </li>
-              <li>
-                <a href="shop-grid-right.html"
-                  ><i class="evara-font-cpu"></i>Consumer Electronics</a
-                >
+              <li class="menu-item-has-children">
+                <span class="menu-expand"></span><a href="#">Pages</a>
+                <ul class="dropdown">
+                  <li><a href="page-about.html">About Us</a></li>
+                  <li><a href="page-contact.html">Contact</a></li>
+                  <li><a href="page-account.html">My Account</a></li>
+                  <li><a href="page-login-register.html">login/register</a></li>
+                  <li><a href="page-purchase-guide.html">Purchase Guide</a></li>
+                  <li><a href="page-privacy-policy.html">Privacy Policy</a></li>
+                  <li><a href="page-terms.html">Terms of Service</a></li>
+                  <li><a href="page-404.html">404 Page</a></li>
+                </ul>
               </li>
-              <li>
-                <a href="shop-grid-right.html"
-                  ><i class="evara-font-home"></i>Home & Garden</a
-                >
-              </li>
-              <li>
-                <a href="shop-grid-right.html"
-                  ><i class="evara-font-high-heels"></i>Shoes</a
-                >
-              </li>
-              <li>
-                <a href="shop-grid-right.html"
-                  ><i class="evara-font-teddy-bear"></i>Mother & Kids</a
-                >
-              </li>
-              <li>
-                <a href="shop-grid-right.html"
-                  ><i class="evara-font-kite"></i>Outdoor fun</a
-                >
+              <li class="menu-item-has-children">
+                <span class="menu-expand"></span><a href="#">Language</a>
+                <ul class="dropdown">
+                  <li><a href="#">English</a></li>
+                  <li><a href="#">French</a></li>
+                  <li><a href="#">German</a></li>
+                  <li><a href="#">Spanish</a></li>
+                </ul>
               </li>
             </ul>
+          </nav>
+          <!-- mobile menu end -->
+        </div>
+        <div class="mobile-header-info-wrap mobile-header-border">
+          <div class="single-mobile-header-info mt-30">
+            <a href="page-contact.html"> Our location </a>
+          </div>
+          <div class="single-mobile-header-info">
+            <a href="page-login-register.html">Log In / Sign Up </a>
+          </div>
+          <div class="single-mobile-header-info">
+            <a href="#">(+01) - 2345 - 6789 </a>
           </div>
         </div>
-        <!-- mobile menu start -->
-        <nav>
-          <ul class="mobile-menu">
-            <li class="menu-item-has-children">
-              <span class="menu-expand"></span><a href="index.html">Home</a>
-              <ul class="dropdown">
-                <li><a href="index.html">Home 1</a></li>
-                <li><a href="index-2.html">Home 2</a></li>
-                <li><a href="index-3.html">Home 3</a></li>
-                <li><a href="index-4.html">Home 4</a></li>
-              </ul>
-            </li>
-            <li class="menu-item-has-children">
-              <span class="menu-expand"></span
-              ><a href="shop-grid-right.html">shop</a>
-              <ul class="dropdown">
-                <li>
-                  <a href="shop-grid-right.html">Shop Grid – Right Sidebar</a>
-                </li>
-                <li>
-                  <a href="shop-grid-left.html">Shop Grid – Left Sidebar</a>
-                </li>
-                <li>
-                  <a href="shop-list-right.html">Shop List – Right Sidebar</a>
-                </li>
-                <li>
-                  <a href="shop-list-left.html">Shop List – Left Sidebar</a>
-                </li>
-                <li><a href="shop-fullwidth.html">Shop - Wide</a></li>
-                <li class="menu-item-has-children">
-                  <span class="menu-expand"></span
-                  ><a href="#">Single Product</a>
-                  <ul class="dropdown">
-                    <li>
-                      <a href="shop-product-right.html"
-                        >Product – Right Sidebar</a
-                      >
-                    </li>
-                    <li>
-                      <a href="shop-product-left.html"
-                        >Product – Left Sidebar</a
-                      >
-                    </li>
-                    <li>
-                      <a href="shop-product-full.html">Product – No sidebar</a>
-                    </li>
-                  </ul>
-                </li>
-                <li><a href="shop-filter.html">Shop – Filter</a></li>
-                <li><a href="shop-wishlist.html">Shop – Wishlist</a></li>
-                <li><a href="shop-cart.html">Shop – Cart</a></li>
-                <li><a href="shop-checkout.html">Shop – Checkout</a></li>
-                <li><a href="shop-compare.html">Shop – Compare</a></li>
-              </ul>
-            </li>
-            <li class="menu-item-has-children">
-              <span class="menu-expand"></span><a href="#">Mega menu</a>
-              <ul class="dropdown">
-                <li class="menu-item-has-children">
-                  <span class="menu-expand"></span
-                  ><a href="#">Women's Fashion</a>
-                  <ul class="dropdown">
-                    <li><a href="shop-product-right.html">Dresses</a></li>
-                    <li>
-                      <a href="shop-product-right.html">Blouses & Shirts</a>
-                    </li>
-                    <li>
-                      <a href="shop-product-right.html"
-                        >Hoodies & Sweatshirts</a
-                      >
-                    </li>
-                    <li><a href="shop-product-right.html">Women's Sets</a></li>
-                  </ul>
-                </li>
-                <li class="menu-item-has-children">
-                  <span class="menu-expand"></span><a href="#">Men's Fashion</a>
-                  <ul class="dropdown">
-                    <li><a href="shop-product-right.html">Jackets</a></li>
-                    <li>
-                      <a href="shop-product-right.html">Casual Faux Leather</a>
-                    </li>
-                    <li>
-                      <a href="shop-product-right.html">Genuine Leather</a>
-                    </li>
-                  </ul>
-                </li>
-                <li class="menu-item-has-children">
-                  <span class="menu-expand"></span><a href="#">Technology</a>
-                  <ul class="dropdown">
-                    <li>
-                      <a href="shop-product-right.html">Gaming Laptops</a>
-                    </li>
-                    <li>
-                      <a href="shop-product-right.html">Ultraslim Laptops</a>
-                    </li>
-                    <li><a href="shop-product-right.html">Tablets</a></li>
-                    <li>
-                      <a href="shop-product-right.html">Laptop Accessories</a>
-                    </li>
-                    <li>
-                      <a href="shop-product-right.html">Tablet Accessories</a>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-            </li>
-            <li class="menu-item-has-children">
-              <span class="menu-expand"></span
-              ><a href="blog-category-fullwidth.html">Blog</a>
-              <ul class="dropdown">
-                <li>
-                  <a href="blog-category-grid.html">Blog Category Grid</a>
-                </li>
-                <li>
-                  <a href="blog-category-list.html">Blog Category List</a>
-                </li>
-                <li><a href="blog-category-big.html">Blog Category Big</a></li>
-                <li>
-                  <a href="blog-category-fullwidth.html">Blog Category Wide</a>
-                </li>
-                <li class="menu-item-has-children">
-                  <span class="menu-expand"></span
-                  ><a href="#">Single Product Layout</a>
-                  <ul class="dropdown">
-                    <li><a href="blog-post-left.html">Left Sidebar</a></li>
-                    <li><a href="blog-post-right.html">Right Sidebar</a></li>
-                    <li><a href="blog-post-fullwidth.html">No Sidebar</a></li>
-                  </ul>
-                </li>
-              </ul>
-            </li>
-            <li class="menu-item-has-children">
-              <span class="menu-expand"></span><a href="#">Pages</a>
-              <ul class="dropdown">
-                <li><a href="page-about.html">About Us</a></li>
-                <li><a href="page-contact.html">Contact</a></li>
-                <li><a href="page-account.html">My Account</a></li>
-                <li><a href="page-login-register.html">login/register</a></li>
-                <li><a href="page-purchase-guide.html">Purchase Guide</a></li>
-                <li><a href="page-privacy-policy.html">Privacy Policy</a></li>
-                <li><a href="page-terms.html">Terms of Service</a></li>
-                <li><a href="page-404.html">404 Page</a></li>
-              </ul>
-            </li>
-            <li class="menu-item-has-children">
-              <span class="menu-expand"></span><a href="#">Language</a>
-              <ul class="dropdown">
-                <li><a href="#">English</a></li>
-                <li><a href="#">French</a></li>
-                <li><a href="#">German</a></li>
-                <li><a href="#">Spanish</a></li>
-              </ul>
-            </li>
-          </ul>
-        </nav>
-        <!-- mobile menu end -->
-      </div>
-      <div class="mobile-header-info-wrap mobile-header-border">
-        <div class="single-mobile-header-info mt-30">
-          <a href="page-contact.html"> Our location </a>
+        <div class="mobile-social-icon">
+          <h5 class="mb-15 text-grey-4">Follow Us</h5>
+          <a href="#"><img src="assets/imgs/theme/icons/icon-facebook.svg" alt="" /></a>
+          <a href="#"><img src="assets/imgs/theme/icons/icon-twitter.svg" alt="" /></a>
+          <a href="#"><img src="assets/imgs/theme/icons/icon-instagram.svg" alt="" /></a>
+          <a href="#"><img src="assets/imgs/theme/icons/icon-pinterest.svg" alt="" /></a>
+          <a href="#"><img src="assets/imgs/theme/icons/icon-youtube.svg" alt="" /></a>
         </div>
-        <div class="single-mobile-header-info">
-          <a href="page-login-register.html">Log In / Sign Up </a>
-        </div>
-        <div class="single-mobile-header-info">
-          <a href="#">(+01) - 2345 - 6789 </a>
-        </div>
-      </div>
-      <div class="mobile-social-icon">
-        <h5 class="mb-15 text-grey-4">Follow Us</h5>
-        <a href="#"
-          ><img src="assets/imgs/theme/icons/icon-facebook.svg" alt=""
-        /></a>
-        <a href="#"
-          ><img src="assets/imgs/theme/icons/icon-twitter.svg" alt=""
-        /></a>
-        <a href="#"
-          ><img src="assets/imgs/theme/icons/icon-instagram.svg" alt=""
-        /></a>
-        <a href="#"
-          ><img src="assets/imgs/theme/icons/icon-pinterest.svg" alt=""
-        /></a>
-        <a href="#"
-          ><img src="assets/imgs/theme/icons/icon-youtube.svg" alt=""
-        /></a>
       </div>
     </div>
   </div>
-</div>
-<main class="main">
-  <div class="page-header breadcrumb-wrap">
-    <div class="container">
-      <div class="breadcrumb">
-        <a href="" rel="nofollow">Home</a>
-        <span></span> Shop <span></span> Checkout
+  <main class="main">
+    <div class="page-header breadcrumb-wrap">
+      <div class="container">
+        <div class="breadcrumb">
+          <a href="" rel="nofollow">Home</a>
+          <span></span> Shop <span></span> Checkout
+        </div>
       </div>
     </div>
-  </div>
-  <section class="mt-50 mb-50">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-6 mb-sm-15">
-          <div class="toggle_info">
-            <span
-              ><i class="fi-rs-user mr-10"></i
-              ><span class="text-muted">Already have an account?</span>
-              <a
-                href="login"
-                data-bs-toggle="collapse"
-                class="collapsed"
-                aria-expanded="false"
-                >Click here to login</a
-              ></span
-            >
-          </div>
-          <div class="panel-collapse collapse login_form" id="loginform">
-            <div class="panel-body">
-              <p class="mb-30 font-sm">
-                If you have shopped with us before, please enter your details
-                below. If you are a new customer, please proceed to the Billing
-                &amp; Shipping section.
-              </p>
-              <form method="post">
-                <div class="form-group">
-                  <input
-                    type="text"
-                    name="email"
-                    placeholder="Username Or Email"
-                  />
-                </div>
-                <div class="form-group">
-                  <input
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                  />
-                </div>
-                <div class="login_footer form-group">
-                  <div class="chek-form">
-                    <div class="custome-checkbox">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        name="checkbox"
-                        id="remember"
-                        value=""
-                      />
-                      <label class="form-check-label" for="remember"
-                        ><span>Remember me</span></label
-                      >
-                    </div>
+    <section class="mt-50 mb-50">
+      <div class="container">
+        <!-- <div class="row"> -->
+        <!-- <div class="col-lg-6 mb-sm-15">
+            <div class="toggle_info">
+              <span><i class="fi-rs-user mr-10"></i><span class="text-muted">Already have an account?</span>
+                <a href="login" data-bs-toggle="collapse" class="collapsed" aria-expanded="false">Click here to
+                  login</a></span>
+            </div>
+            <div class="panel-collapse collapse login_form" id="loginform">
+              <div class="panel-body">
+                <p class="mb-30 font-sm">
+                  If you have shopped with us before, please enter your details
+                  below. If you are a new customer, please proceed to the Billing
+                  &amp; Shipping section.
+                </p>
+                <form method="post">
+                  <div class="form-group">
+                    <input type="text" name="email" placeholder="Username Or Email" />
                   </div>
-                  <a href="#">Forgot password?</a>
-                </div>
-                <div class="form-group">
-                  <button class="btn btn-md" name="login">Log in</button>
-                </div>
-              </form>
+                  <div class="form-group">
+                    <input type="password" name="password" placeholder="Password" />
+                  </div>
+                  <div class="login_footer form-group">
+                    <div class="chek-form">
+                      <div class="custome-checkbox">
+                        <input class="form-check-input" type="checkbox" name="checkbox" id="remember" value="" />
+                        <label class="form-check-label" for="remember"><span>Remember me</span></label>
+                      </div>
+                    </div>
+                    <a href="#">Forgot password?</a>
+                  </div>
+                  <div class="form-group">
+                    <button class="btn btn-md" name="login">Log in</button>
+                  </div>
+                </form>
+              </div>
             </div>
+          </div> -->
+        <!-- <div class="col-lg-6">
+            <div class="toggle_info">
+              <span><i class="fi-rs-label mr-10"></i><span class="text-muted">Have a coupon?</span>
+                <a href="#coupon" data-bs-toggle="collapse" class="collapsed" aria-expanded="false">Click here to enter
+                  your code</a></span>
+            </div>
+            <div class="panel-collapse collapse coupon_form" id="coupon">
+              <div class="panel-body">
+                <p class="mb-30 font-sm">
+                  If you have a coupon code, please apply it below.
+                </p>
+                <form method="post">
+                  <div class="form-group">
+                    <input type="text" placeholder="Enter Coupon Code..." />
+                  </div>
+                  <div class="form-group">
+                    <button class="btn btn-md" name="login">Apply Coupon</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div> -->
+        <!-- </div> -->
+        <div class="row">
+          <div class="col-12">
+            <div class="divider mt-50 mb-50"></div>
           </div>
         </div>
-        <div class="col-lg-6">
-          <div class="toggle_info">
-            <span
-              ><i class="fi-rs-label mr-10"></i
-              ><span class="text-muted">Have a coupon?</span>
-              <a
-                href="#coupon"
-                data-bs-toggle="collapse"
-                class="collapsed"
-                aria-expanded="false"
-                >Click here to enter your code</a
-              ></span
-            >
-          </div>
-          <div class="panel-collapse collapse coupon_form" id="coupon">
-            <div class="panel-body">
-              <p class="mb-30 font-sm">
-                If you have a coupon code, please apply it below.
-              </p>
-              <form method="post">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="mb-25">
+              <h4>Billing Details</h4>
+            </div>
+
+            <form method="post" id="address">
+              <!-- Radio button for selecting between new and saved address -->
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="addressOption" id="newAddressOption" value="new"
+                  checked />
+                <label class="form-check-label" for="newAddressOption">
+                  Enter New Address
+                </label>
+              </div>
+
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="addressOption" id="savedAddressOption"
+                  value="saved" />
+                <label class="form-check-label" for="savedAddressOption">
+                  Use Saved Address
+                </label>
+              </div>
+
+              <!-- Form fields for new address -->
+              <div class="form-group new-address" id="newAddressSection">
                 <div class="form-group">
-                  <input type="text" placeholder="Enter Coupon Code..." />
+                  <input type="text" required="" name="name" id="name" placeholder="Full name *"
+                    oninput="validateName(event)" onkeydown="return /[a-zA-Z ]/.test(event.key)" />
+                  <span id="nameError" class="error"></span>
+                </div>
+
+                <div class="form-group">
+                  <input type="text" name="houseName" id="houseName" required="" placeholder="House Name *"
+                    oninput="validateHouseName(event)" />
+                  <span id="houseNameError" class="error"></span>
                 </div>
                 <div class="form-group">
-                  <button class="btn btn-md" name="login">Apply Coupon</button>
+                  <input type="text" name="street" id="street" required="" placeholder="Street Address"
+                    oninput="validateStreet(event)" />
+                  <span id="streetError" class="error"></span>
                 </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-12">
-          <div class="divider mt-50 mb-50"></div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="mb-25">
-            <h4>Billing Details</h4>
-          </div>
-
-          <form method="post" id="address">
-            <!-- Radio button for selecting between new and saved address -->
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="addressOption"
-                id="newAddressOption"
-                value="new"
-                checked
-              />
-              <label class="form-check-label" for="newAddressOption">
-                Enter New Address
-              </label>
-            </div>
-
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="addressOption"
-                id="savedAddressOption"
-                value="saved"
-              />
-              <label class="form-check-label" for="savedAddressOption">
-                Use Saved Address
-              </label>
-            </div>
-
-            <!-- Form fields for new address -->
-            <div class="form-group new-address" id="newAddressSection">
-              <div class="form-group">
-                <input
-                  type="text"
-                  required=""
-                  name="name"
-                  id="name"
-                  placeholder="Full name *"
-                  oninput="validateName(event)"
-                  onkeydown="return /[a-zA-Z ]/.test(event.key)"
-                />
-                <span id="nameError" class="error"></span>
+                <div class="form-group">
+                  <input required="" id="city" type="text" name="city" placeholder="City / Town *"
+                    oninput="validateCity(event)" />
+                  <span id="cityError" class="error"></span>
+                </div>
+                <div class="form-group">
+                  <input required="" id="state" type="text" name="state" placeholder="State *"
+                    oninput="validateState(event)" />
+                  <span id="stateError" class="error"></span>
+                </div>
+                <div class="form-group">
+                  <input required="" id="country" type="text" name="country" placeholder="Country *"
+                    oninput="validateCountry(event)" />
+                  <span id="countryError" class="error"></span>
+                </div>
+                <div class="form-group">
+                  <input required="" type="text" name="pincode" id="pincode" placeholder="Postcode / ZIP *"
+                    oninput="validatePincode(event)"
+                    onkeydown="return /[0-9\b]/.test(event.key) && this.value.length < 6 || event.keyCode === 8" />
+                  <span id="pincodeError" class="error"></span>
+                </div>
+                <div class="form-group">
+                  <input required="" type="text" name="phone" id="mobile" placeholder="Phone *"
+                    oninput="validateMobile(event)" />
+                  <span id="mobileError" class="error"></span>
+                </div>
+                <div class="form-group">
+                  <input required="" type="text" name="Email" id="email" placeholder="Email address *"
+                    oninput="validateEmail(event)" />
+                  <span id="emailError" class="error"></span>
+                </div>
+                <a type="submit" id="placeOrderBtn" href="" class="btn btn-fill-out btn-block mt-30">Place Order</a>
               </div>
 
-              <div class="form-group">
-                <input
-                  type="text"
-                  name="houseName"
-                  id="houseName"
-                  required=""
-                  placeholder="House Name *"
-                  oninput="validateHouseName(event)"
-                />
-                <span id="houseNameError" class="error"></span>
-              </div>
-              <div class="form-group">
-                <input
-                  type="text"
-                  name="street"
-                  id="street"
-                  required=""
-                  placeholder="Street Address"
-                  oninput="validateStreet(event)"
-                />
-                <span id="streetError" class="error"></span>
-              </div>
-              <div class="form-group">
-                <input
-                  required=""
-                  id="city"
-                  type="text"
-                  name="city"
-                  placeholder="City / Town *"
-                  oninput="validateCity(event)"
-                />
-                <span id="cityError" class="error"></span>
-              </div>
-              <div class="form-group">
-                <input
-                  required=""
-                  id="state"
-                  type="text"
-                  name="state"
-                  placeholder="State *"
-                  oninput="validateState(event)"
-                />
-                <span id="stateError" class="error"></span>
-              </div>
-              <div class="form-group">
-                <input
-                  required=""
-                  id="country"
-                  type="text"
-                  name="country"
-                  placeholder="Country *"
-                  oninput="validateCountry(event)"
-                />
-                <span id="countryError" class="error"></span>
-              </div>
-              <div class="form-group">
-                <input
-                  required=""
-                  type="text"
-                  name="pincode"
-                  id="pincode"
-                  placeholder="Postcode / ZIP *"
-                  oninput="validatePincode(event)"
-                  onkeydown="return /[0-9\b]/.test(event.key) && this.value.length < 6 || event.keyCode === 8"
-                />
-                <span id="pincodeError" class="error"></span>
-              </div>
-              <div class="form-group">
-                <input
-                  required=""
-                  type="text"
-                  name="phone"
-                  id="mobile"
-                  placeholder="Phone *"
-                  oninput="validateMobile(event)"
-                />
-                <span id="mobileError" class="error"></span>
-              </div>
-              <div class="form-group">
-                <input
-                  required=""
-                  type="text"
-                  name="Email"
-                  id="email"
-                  placeholder="Email address *"
-                  oninput="validateEmail(event)"
-                />
-                <span id="emailError" class="error"></span>
-              </div>
-              <a
-                type="submit"
-                id="placeOrderBtn"
-                href=""
-                class="btn btn-fill-out btn-block mt-30"
-                >Place Order</a
-              >
-            </div>
-
-            <!-- Saved Address section -->
-            <div class="mb-20 saved-address-section" id="savedAddressSection">
-              <h5>Saved Address</h5>
-              <% if (savedAddresses && savedAddresses.length> 0) { %>
-              <!-- Display saved addresses as you did before -->
-              <% for (let i=0; i < savedAddresses.length; i++) { %>
-              <div class="card">
-                <div class="card-body">
-                  <input
-                    type="radio"
-                    name="selectedAddress"
-                    value="<%= savedAddresses[i]._id %>"
-                    style="
+              <!-- Saved Address section -->
+              <div class="mb-20 saved-address-section" id="savedAddressSection">
+                <h5>Saved Address</h5>
+                <% if (savedAddresses && savedAddresses.length> 0) { %>
+                  <!-- Display saved addresses as you did before -->
+                  <% for (let i=0; i < savedAddresses.length; i++) { %>
+                    <div class="card">
+                      <div class="card-body">
+                        <input type="radio" name="selectedAddress" value="<%= savedAddresses[i]._id %>" style="
                       position: absolute;
                       top: 0;
                       left: 0;
                       transform: scale(0.3);
-                    "
-                  />
-                  <h5 class="card-title">Address</h5>
-                  <div class="address-type">
-                    <p class="card-text">
-                      <%= savedAddresses[i].addressType %>
-                    </p>
-                  </div>
-                  <p class="card-text">
-                    <%= savedAddresses[i].name %>, <%= savedAddresses[i].mobile
-                    %>, <%= savedAddresses[i].pincode %>, <%=
-                    savedAddresses[i].locality %>, <%=
-                    savedAddresses[i].housename %>, <%= savedAddresses[i].city
-                    %>, <%= savedAddresses[i].state %>, <%=
-                    savedAddresses[i].landmark %>
-                  </p>
-                  <form action="" name="editAddressForm">
-                    <input
-                      type="hidden"
-                      name="addressId"
-                      value="<%= savedAddresses[i]._id %>"
-                    />
+                    " />
+                        <h5 class="card-title">Address</h5>
+                        <div class="address-type">
+                          <p class="card-text">
+                            <%= savedAddresses[i].addressType %>
+                          </p>
+                        </div>
+                        <p class="card-text">
+                          <%= savedAddresses[i].name %>, <%= savedAddresses[i].mobile %>, <%= savedAddresses[i].pincode
+                                %>, <%= savedAddresses[i].locality %>, <%= savedAddresses[i].housename %>, <%=
+                                      savedAddresses[i].city %>, <%= savedAddresses[i].state %>, <%=
+                                          savedAddresses[i].landmark %>
+                        </p>
+                        <form action="" name="editAddressForm">
+                          <input type="hidden" name="addressId" value="<%= savedAddresses[i]._id %>" />
 
-                    <a
-                      href="/editAddress?addressId=<%= savedAddresses[i]._id %>"
-                      class="btn btn-fill-out btn-success submit"
-                      name="submit"
-                      >Edit</a
-                    >
+                          <a href="/editAddress?addressId=<%= savedAddresses[i]._id %>"
+                            class="btn btn-fill-out btn-success submit" name="submit">Edit</a>
 
-                    <!-- <a href="#" onclick="confirmDelete('<%= savedAddresses[i]._id %>')"
+                          <!-- <a href="#" onclick="confirmDelete('<%= savedAddresses[i]._id %>')"
                                                         class="btn btn-fill-out btn-danger submit" name="submit"
                                                         style="background-color: red; color: white;">Delete</a> -->
-                  </form>
-                </div>
-              </div>
+                        </form>
+                      </div>
+                    </div>
 
-              <% } %> <% } else { %>
-              <p>No addresses found.</p>
-              <% } %>
-              <a
-                type="submit"
-                id="placeOrderBtn2"
-                href=""
-                class="btn btn-fill-out btn-block mt-30"
-                >Place Order</a
-              >
-            </div>
-          </form>
-        </div>
-
-        <div class="col-md-6">
-          <div class="order_review">
-            <div class="mb-20">
-              <h4>Your Orders</h4>
-            </div>
-            <div class="table-responsive order_table text-center">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th colspan="2">Product</th>
-                    <th>Total</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <% if (userCart.items.length === 0) { %>
-                  <!-- Show an empty row if there are no items in the cart -->
-                  <tr>
-                    <td colspan="3">No products in the cart</td>
-                  </tr>
-                  <% } else { %> <% for(let i=0; i < userCart.items.length; i++)
-                  { %>
-                  <tr>
-                    <td class="image product-thumbnail">
-                      <img
-                        src="/uploads/<%=userCart.items[i].image %>"
-                        alt="#"
-                      />
-                    </td>
-                    <td>
-                      <h5>
-                        <a
-                          href="/productDetails?id=<%= userCart.items[i].productId._id  %>"
-                        >
-                          <%= userCart.items[i].productId.producttitle %>
-                        </a>
-                      </h5>
-                      <span class="product-qty">
-                        * <%= userCart.items[i].quantity %></span
-                      >
-                    </td>
-                    <td><%= userCart.items[i].subTotal %></td>
-                  </tr>
-                  <% } %>
-                  <!-- Existing code for SubTotal, Shipping, and Total -->
-                  <tr>
-                    <th>SubTotal</th>
-                    <td class="product-subtotal" colspan="2">
-                      <%= userCart.billTotal %>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th>Shipping</th>
-                    <td colspan="2"><em>Free Shipping</em></td>
-                  </tr>
-                  <tr>
-                    <th>Total</th>
-                    <td colspan="2" class="product-subtotal">
-                      <span class="font-xl text-brand fw-900">
-                        <%= userCart.billTotal %>
-                      </span>
-                    </td>
-                  </tr>
-                  <% } %>
-                </tbody>
-              </table>
-            </div>
-            <div class="bt-1 border-color-1 mt-30 mb-30"></div>
-            <div class="payment_method">
-              <div class="mb-25">
-                <h5>Payment</h5>
+                    <% } %>
+                      <% } else { %>
+                        <p>No addresses found.</p>
+                        <% } %>
+                          <a type="submit" id="placeOrderBtn2" href="" class="btn btn-fill-out btn-block mt-30">Place
+                            Order</a>
               </div>
-              <div class="payment_option">
-                <div class="custome-radio">
-                  <input
-                    class="form-check-input"
-                    required=""
-                    type="radio"
-                    name="paymentOption"
-                    id="exampleRadios4"
-                    checked
-                    value="Cash on Delivery"
-                  />
-                  <label class="form-check-label" for="exampleRadios4"
-                    >Cash on Delivery</label
-                  >
+            </form>
+          </div>
+
+          <div class="col-md-6">
+            <div class="order_review">
+              <div class="mb-20">
+                <h4>Your Orders</h4>
+              </div>
+              <div class="table-responsive order_table text-center">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th colspan="2">Product</th>
+                      <th>Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% if (userCart.items.length===0) { %>
+                      <!-- Show an empty row if there are no items in the cart -->
+                      <tr>
+                        <td colspan="3">No products in the cart</td>
+                      </tr>
+                      <% } else { %>
+                        <% for(let i=0; i < userCart.items.length; i++) { %>
+                          <tr>
+                            <td class="image product-thumbnail">
+                              <img src="/uploads/<%=userCart.items[i].image %>" alt="#" />
+                            </td>
+                            <td>
+                              <h5>
+                                <a href="/productDetails?id=<%= userCart.items[i].productId._id  %>">
+                                  <%= userCart.items[i].productId.producttitle %>
+                                </a>
+                              </h5>
+                              <span class="product-qty">
+                                * <%= userCart.items[i].quantity %></span>
+                            </td>
+                            <td>
+                              <%= userCart.items[i].subTotal %>
+                            </td>
+                          </tr>
+                          <% } %>
+                            <!-- Existing code for SubTotal, Shipping, and Total -->
+                            <tr>
+                              <th>SubTotal</th>
+                              <td class="product-subtotal" colspan="2">&#8377;
+                                <%= userCart.billTotal %>
+                              </td>
+                            </tr>
+                            <tr>
+                              <th>Coupon Discount</th>
+                              <td class="product-subtotal" colspan="2">-&#8377;
+                                <%= userCart.discountPrice %>
+                              </td>
+                            </tr>
+                            <tr>
+                              <th>Delivery Charges</th>
+                              <td colspan="2"><em>&#8377;50</em></td>
+                            </tr>
+                            <tr>
+                              <th>Total</th>
+                              <td colspan="2" class="product-subtotal">
+                                <span class="font-xl text-brand fw-900">&#8377;
+                                  <%= userCart.finalPrice + 50 %>
+                                </span>
+                              </td>
+                            </tr>
+                            <% } %>
+                  </tbody>
+                </table>
+              </div>
+              <div class="bt-1 border-color-1 mt-30 mb-30"></div>
+              <div class="payment_method">
+                <div class="mb-25">
+                  <h5>Payment</h5>
                 </div>
-                <div class="custome-radio">
-                  <input
-                    class="form-check-input"
-                    required=""
-                    type="radio"
-                    name="paymentOption"
-                    id="exampleRadios7"
-                    value="Wallet"
-                  />
-                  <label class="form-check-label" for="exampleRadios7"
-                    >Wallet</label
-                  >
-                </div>
-                <div class="custome-radio">
-                  <input
-                    class="form-check-input"
-                    required=""
-                    type="radio"
-                    name="paymentOption"
-                    id="exampleRadios5"
-                    value="Online Payment"
-                  />
-                  <label class="form-check-label" for="exampleRadios5"
-                    >Online Payment</label
-                  >
-                </div>
-                <div class="custome-radio">
-                  <div id="paypal-container">
-                    <input
-                      class="form-check-input"
-                      required=""
-                      type="radio"
-                      name="paymentOption"
-                      id="exampleRadios6"
-                      value="Paypal"
-                    />
-                    <label class="form-check-label" for="exampleRadios6"
-                      >Paypal</label
-                    >
+                <div class="payment_option">
+                  <div class="custome-radio">
+                    <input class="form-check-input" required="" type="radio" name="paymentOption" id="exampleRadios4"
+                      checked value="Cash on Delivery" />
+                    <label class="form-check-label" for="exampleRadios4">Cash on Delivery</label>
+                  </div>
+                  <div class="custome-radio">
+                    <input class="form-check-input" required="" type="radio" name="paymentOption" id="exampleRadios7"
+                      value="Wallet" />
+                    <label class="form-check-label" for="exampleRadios7">Wallet</label>
+                  </div>
+                  <div class="custome-radio">
+                    <input class="form-check-input" required="" type="radio" name="paymentOption" id="exampleRadios5"
+                      value="Online Payment" />
+                    <label class="form-check-label" for="exampleRadios5">Online Payment</label>
+                  </div>
+                  <div class="custome-radio">
+                    <div id="paypal-container">
+                      <input class="form-check-input" required="" type="radio" name="paymentOption" id="exampleRadios6"
+                        value="Paypal" />
+                      <label class="form-check-label" for="exampleRadios6">Paypal</label>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -724,213 +528,698 @@
           </div>
         </div>
       </div>
-    </div>
-  </section>
-</main>
+    </section>
+  </main>
 
-<!-- Include Razorpay script in your HTML -->
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+  <!-- Include Razorpay script in your HTML -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
-<script
-  defer
-  src="https://www.paypal.com/sdk/js?client-id=Aew_9QXs6uIPPZ-D93id84JgWaJ0BUnd1bIRBQTtHZQDvLSyqvU8iFVHhbK5iCNkHm8XLerOl9JtLd5t"
-></script>
+  <script defer
+    src="https://www.paypal.com/sdk/js?client-id=Aew_9QXs6uIPPZ-D93id84JgWaJ0BUnd1bIRBQTtHZQDvLSyqvU8iFVHhbK5iCNkHm8XLerOl9JtLd5t"></script>
 
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const newAddressOption = document.getElementById("newAddressOption");
-    const savedAddressOption = document.getElementById("savedAddressOption");
-    const newAddressSection = document.getElementById("newAddressSection");
-    const savedAddressSection = document.getElementById("savedAddressSection");
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const newAddressOption = document.getElementById("newAddressOption");
+      const savedAddressOption = document.getElementById("savedAddressOption");
+      const newAddressSection = document.getElementById("newAddressSection");
+      const savedAddressSection = document.getElementById("savedAddressSection");
 
-    savedAddressSection.style.display = "none";
-
-    newAddressOption.addEventListener("change", function () {
-      newAddressSection.style.display = "block";
       savedAddressSection.style.display = "none";
+
+      newAddressOption.addEventListener("change", function () {
+        newAddressSection.style.display = "block";
+        savedAddressSection.style.display = "none";
+      });
+
+      savedAddressOption.addEventListener("change", function () {
+        newAddressSection.style.display = "none";
+        savedAddressSection.style.display = "block";
+      });
     });
 
-    savedAddressOption.addEventListener("change", function () {
-      newAddressSection.style.display = "none";
-      savedAddressSection.style.display = "block";
+    //saved address
+    //document.addEventListener("DOMContentLoaded", function () {
+    //     const placeOrderBtn = document.getElementById("placeOrderBtn2");
+
+    //     placeOrderBtn.addEventListener("click", async function (event) {
+    //       event.preventDefault();
+
+    //       const selectedPaymentOptionElement = document.querySelector(
+    //         'input[name="paymentOption"]:checked'
+    //       );
+
+    //       const selectedAddressRadio = document.querySelector(
+    //         'input[name="selectedAddress"]:checked'
+    //       );
+
+    //       if (selectedAddressRadio) {
+    //         const selectedAddressId = selectedAddressRadio.value;
+
+    //         if (selectedPaymentOptionElement) {
+    //           const selectedPaymentOption = selectedPaymentOptionElement.value;
+
+    //           try {
+    //             const response = await fetch("/checkOut", {
+    //               method: "POST",
+    //               headers: {
+    //                 "Content-Type": "application/json",
+    //               },
+    //               body: JSON.stringify({
+    //                 selectedAddress: selectedAddressId,
+    //                 paymentOption: selectedPaymentOption,
+    //               }),
+    //             });
+
+    //             if (!response.ok) {
+    //               throw new Error(`HTTP error! Status: ${response.status}`);
+    //             }
+
+    //             const data = await response.json();
+    //             if (data.orderId !== undefined && data.orderId !== null) {
+    //               if (selectedPaymentOption === "Online Payment") {
+    //                 const razorpayOrder = data;
+
+    //                 const convertedAmount = Math.round(
+    //                   parseFloat(razorpayOrder.order.amount) * 100
+    //                 );
+
+    //                 const options = {
+    //                   key: "rzp_test_NGuzvYo6A3U204",
+    //                   amount: convertedAmount,
+    //                   currency: data.currency,
+    //                   name: "VIBYOURS",
+    //                   description: "Order payment",
+    //                   order_id: data.id,
+    //                   handler: function (response) {
+
+    //                     const paymentData = {
+    //                       razorpay_paymentId: response.razorpay_paymentId,
+    //                       razorpay_orderid: data.order.id,
+    //                       razorpay_signature: response.razorpay_signature,
+    //                     };
+
+    //                     // Send payment details to server for verification
+    //                     fetch("/onlinePayment", {
+    //                       method: "POST",
+    //                       headers: {
+    //                         "Content-Type": "application/json",
+    //                       },
+    //                       body: JSON.stringify(paymentData),
+    //                     })
+    //                       .then((response) => response.json())
+    //                       .then((data) => {
+    //                         if (data.success) {
+    //                           // Now redirect to order confirmation page
+    //                           window.location.href = `/orderConfirmation?orderId=${data.orderId}`;
+    //                         } else {
+    //                           alert(
+    //                             "Error verifying Razorpay payment:\n" +
+    //                               (data.error || "unknown error")
+    //                           );
+    //                           alert(
+    //                             "Error verifying Razorpay payment. Please try again."
+    //                           );
+    //                         }
+    //                       })
+    //                       .catch((error) => {
+    //                         alert(
+    //                           "Error processing Razorpay payment verification:\n" +
+    //                             error.message
+    //                         );
+    //                         alert(
+    //                           "Error processing Razorpay payment verification. Please try again."
+    //                         );
+    //                       });
+    //                   },
+    //                 };
+
+    //                 const rzp = new Razorpay(options);
+    //                 rzp.on("payment.failed", function (response) {
+    //                   alert(
+    //                     "Payment failed:\n" + JSON.stringify(response, null, 2)
+    //                   );
+    //                   alert("Payment failed. Please try again.");
+    //                 });
+    //                 rzp.open();
+    //               } else {
+    //                 window.location.href = `/orderConfirmation?orderId=${data.orderId}`;
+    //               }
+    //             } else {
+    //               console.error(
+    //                 "Error: Invalid response from the server (missing orderId)"
+    //               );
+    //               alert("Error: Invalid response from the server");
+    //             }
+    //           } catch (error) {
+    //             console.error("Error:", error);
+    //             alert("Fetch Error: " + error.message);
+    //           }
+    //         } else {
+    //           console.log(
+    //             "Please select a payment option before placing the order."
+    //           );
+    //         }
+    //       } else {
+    //         console.log("Please select an address before placing the order.");
+    //       }
+    //     });
+    //   });
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const placeOrderBtn = document.getElementById("placeOrderBtn2");
+
+      placeOrderBtn.addEventListener("click", async function (event) {
+        event.preventDefault();
+
+        placeOrderBtn.disabled = true;
+
+
+
+
+        const selectedPaymentOptionElement = document.querySelector(
+          'input[name="paymentOption"]:checked'
+        );
+
+        const selectedAddressRadio = document.querySelector(
+          'input[name="selectedAddress"]:checked'
+        );
+
+        if (selectedAddressRadio) {
+          const selectedAddressId = selectedAddressRadio.value;
+
+          if (selectedPaymentOptionElement) {
+            const selectedPaymentOption = selectedPaymentOptionElement.value;
+
+            try {
+              const response = await fetch("/checkOut", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  selectedAddress: selectedAddressId,
+                  paymentOption: selectedPaymentOption,
+                }),
+              });
+
+              if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+              }
+
+              const data = await response.json();
+              if (data.orderId !== undefined && data.orderId !== null) {
+                if (selectedPaymentOption === "Online Payment") {
+                  const razorpayOrder = data;
+
+                  const convertedAmount = Math.round(
+                    parseFloat(razorpayOrder.order.amount) * 100
+                  );
+
+                  const options = {
+                    key: "rzp_test_NGuzvYo6A3U204",
+                    amount: convertedAmount,
+                    currency: data.currency,
+                    name: "VIBYOURS",
+                    description: "Order payment",
+                    order_id: data.id,
+                    handler: function (response) {
+                      const paymentData = {
+                        razorpay_paymentId: response.razorpay_paymentId,
+                        razorpay_orderid: data.order.id,
+                        razorpay_signature: response.razorpay_signature,
+                      };
+
+                      // Send payment details to server for verification
+                      fetch("/onlinePayment", {
+                        method: "POST",
+                        headers: {
+                          "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(paymentData),
+                      })
+                        .then((response) => response.json())
+                        .then((data) => {
+                          if (data.success) {
+                            Swal.fire({
+                              icon: "success",
+                              title: "Payment Verified",
+                              text: "Payment verification successful!",
+                            }).then(() => {
+                              // Redirect to order confirmation page
+                              window.location.href = `/orderConfirmation?orderId=${data.orderId}`;
+                            });
+                          } else {
+                            Swal.fire({
+                              icon: "error",
+                              title: "Payment Verification Failed",
+                              text:
+                                data.error ||
+                                "Unknown error during payment verification.",
+                            });
+                          }
+                        })
+                        .catch((error) => {
+                          Swal.fire({
+                            icon: "error",
+                            title: "Error",
+                            text:
+                              "Error processing payment verification:\n" +
+                              error.message,
+                          });
+                        });
+                    },
+                  };
+
+                  const rzp = new Razorpay(options);
+                  rzp.on("payment.failed", function (response) {
+                    const failedPaymentData = {
+                      razorpay_paymentId: response.razorpay_paymentId,
+                      razorpay_orderid: data.order.id,
+                      razorpay_signature: response.razorpay_signature,
+                    };
+                    
+                    // Send failed payment details to server for processing
+                    fetch("/failedPayment", {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
+                      body: JSON.stringify(failedPaymentData),
+                    })
+                      .then((response) => response.json())
+                      .then((data) => {
+                        if (data.success) {
+                          Swal.fire({
+                            icon: "error",
+                            title: "Payment Failed",
+                            text: "Payment failed, but order has been placed",
+                          }).then(() => {
+                            window.location.href = `/orderConfirmation?orderId=${data.orderId}`;
+                          });
+                        } else {
+                          Swal.fire({
+                            icon: "error",
+                            title: "Payment Failed",
+                            text: "Failed to process payment failure",
+                          });
+                        }
+                      })
+                      .catch((error) => {
+                        Swal.fire({
+                          icon: "error",
+                          title: "Error",
+                          text: "Error processing payment failure: \n" + error.message,
+                        });
+                      });
+
+                  });
+                  rzp.open();
+
+
+                } else if (selectedPaymentOption === 'Wallet') {
+                  const response = await fetch('/checkOut', {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                      selectedAddress: selectedAddressId,
+                      paymentOption: selectedPaymentOption
+                    })
+                  })
+
+                  if (response.ok) {
+                    const responseData = await response.json();
+                    if (responseData.success) {
+                      Swal.fire({
+                        icon: "success",
+                        title: "Payment Verified",
+                        text: "Payment verification successful!",
+                      }).then(() => {
+                        // Redirect to order confirmation page
+                        window.location.href = `/orderConfirmation?orderId=${responseData.orderId}`
+                      });
+
+                    } else {
+
+                    }
+                  } else if (response.status === 400) {
+                    Swal.fire({
+                      title: 'Attention',
+                      text: 'Insufficient Wallet balance',
+                      icon: 'warning',
+                      confirmButtonText: 'OK'
+                    })
+                  } else {
+
+
+                  }
+
+                }
+
+                else if (selectedPaymentOption === "Paypal") {
+                  // PayPal integration
+                  const paypalOrder = data.order;
+
+                  const purchaseUnit = paypalOrder?.purchase_units?.[0];
+                  const amountInINR = purchaseUnit?.amount?.value;
+
+                  const currencyCode = purchaseUnit?.amount?.currency_code;
+
+                  let convertedAmount;
+
+                  if (amountInINR) {
+                    const convertToUSD = (amountInINR) => {
+                      // Implement your currency conversion logic here
+                      // For simplicity, let's assume 1 INR = 0.014 USD
+                      const conversionRate = 0.014;
+                      return amountInINR * conversionRate;
+                    };
+
+                    convertedAmount = convertToUSD(amountInINR);
+                    //   alert(JSON.stringify(convertedAmount, null, 2));
+                  } else {
+                    // alert("Amount in INR is null or undefined.");
+                  }
+
+                  const paypalOptions = {
+                    createOrder: function (data, actions) {
+                      return actions.order.create({
+                        purchase_units: [
+                          {
+                            reference_id: "default",
+                            amount: {
+                              currency_code: "USD", // Change based on your currency
+                              value: convertedAmount.toFixed(2),
+                            },
+                          },
+                        ],
+                      });
+                    },
+
+                    onApprove: function (data, actions) {
+                      return actions.order.capture().then(function (details) {
+                        const paymentData = {
+                          paypalOrderId: data.orderID,
+                          payerID: data.payerID,
+                        };
+
+                        // Send PayPal details to the server for verification
+                        fetch("/paypalPayment", {
+                          method: "POST",
+                          headers: {
+                            "Content-Type": "application/json",
+                          },
+                          body: JSON.stringify(paymentData),
+                        })
+                          .then((response) => {
+                            if (!response.ok) {
+                              throw new Error(
+                                `HTTP error! Status: ${response.status}`
+                              );
+                            }
+
+                            //   alert(
+                            //     "Parsed Server Response:\n" +
+                            //       JSON.stringify(response, null, 2)
+                            //   );
+
+                            return response.json();
+                          })
+                          .then((data) => {
+                            console.log("Received Data from Server:", data); // Log data to console
+                            //   alert(
+                            //     "Parsed Server Response:\n" +
+                            //       JSON.stringify(data, null, 2)
+                            //   );
+                            handlePaymentVerification(data);
+                          })
+
+                          .catch((error) => {
+                            console.error("Server Response Error:", error); // Log error to console
+                            // alert("Server Response Error:\n" + error.message);
+                            handlePaymentError(error);
+                          });
+                      });
+                    },
+                  };
+
+                  paypal.Buttons(paypalOptions).render("#paypal-container");
+
+                } else {
+                  window.location.href = `/orderConfirmation?orderId=${data.orderId}`;
+                }
+              } else {
+                console.error(
+                  "Error: Invalid response from the server (missing orderId)"
+                );
+                // alert("Error: Invalid response from the server");
+              }
+            } catch (error) {
+              console.error("Error:", error);
+              // alert("Fetch Error: " + error.message);
+            }
+          } else {
+            console.log(
+              "Please select a payment option before placing the order."
+            );
+          }
+        } else {
+          console.log("Please select an address before placing the order.");
+        }
+      });
+      function handlePaymentVerification(data) {
+        if (data.success) {
+          Swal.fire({
+            icon: "success",
+            title: "Payment Verified",
+            text: "Payment verification successful!",
+          }).then(() => {
+            // Redirect to order confirmation page
+            window.location.href = `/orderConfirmation?orderId=${data.orderId}`;
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Payment Verification Failed",
+            text: data.error || "Unknown error during payment verification.",
+          });
+        }
+      }
+
+      function handlePaymentError(error) {
+        Swal.fire({
+          icon: "error",
+          title: "Payment Error",
+          text: "Error processing payment verification:\n" + error.message,
+        });
+      }
     });
-  });
 
-  //saved address
-  //document.addEventListener("DOMContentLoaded", function () {
-  //     const placeOrderBtn = document.getElementById("placeOrderBtn2");
+    // new Address
+    //   document
+    //     .getElementById("placeOrderBtn")
+    //     .addEventListener("click", function (e) {
+    //       e.preventDefault();
 
-  //     placeOrderBtn.addEventListener("click", async function (event) {
-  //       event.preventDefault();
+    //       const isNameValid = validateName();
+    //       const isMobileValid = validateMobile();
+    //       const isHousNameValid = validateHouseName();
+    //       const isStreetNameValid = validateStreet();
+    //       const isCityValid = validateCity();
+    //       const isStateValid = validateState();
+    //       const isCountryValid = validateCountry();
+    //       const isPincodeValid = validatePincode();
+    //       const isEmailValid = validateEmail();
 
-  //       const selectedPaymentOptionElement = document.querySelector(
-  //         'input[name="paymentOption"]:checked'
-  //       );
+    //       if (
+    //         isNameValid &&
+    //         isMobileValid &&
+    //         isHousNameValid &&
+    //         isStreetNameValid &&
+    //         isCityValid &&
+    //         isStateValid &&
+    //         isCountryValid &&
+    //         isPincodeValid &&
+    //         isEmailValid
+    //       ) {
+    //         try {
+    //           const selectedPaymentOption = document.querySelector(
+    //             'input[name="paymentOption"]:checked'
+    //           );
 
-  //       const selectedAddressRadio = document.querySelector(
-  //         'input[name="selectedAddress"]:checked'
-  //       );
+    //           const selectedName =
+    //             document.querySelector('input[name="name"]').value;
+    //           const selectedHouseName = document.querySelector(
+    //             'input[name="houseName"]'
+    //           ).value;
+    //           const selectedStreet = document.querySelector(
+    //             'input[name="street"]'
+    //           ).value;
+    //           const selectedCity =
+    //             document.querySelector('input[name="city"]').value;
+    //           const selectedState = document.querySelector(
+    //             'input[name="state"]'
+    //           ).value;
+    //           const selectedCountry = document.querySelector(
+    //             'input[name="country"]'
+    //           ).value;
+    //           const selectedPincode = document.querySelector(
+    //             'input[name="pincode"]'
+    //           ).value;
+    //           const selectedPhone = document.querySelector(
+    //             'input[name="phone"]'
+    //           ).value;
+    //           const selectedEmail = document.querySelector(
+    //             'input[name="Email"]'
+    //           ).value;
 
-  //       if (selectedAddressRadio) {
-  //         const selectedAddressId = selectedAddressRadio.value;
+    //           const data = {
+    //             paymentOption: selectedPaymentOption,
+    //             name: selectedName,
+    //             houseName: selectedHouseName,
+    //             street: selectedStreet,
+    //             city: selectedCity,
+    //             state: selectedState,
+    //             country: selectedCountry,
+    //             pincode: selectedPincode,
+    //             phone: selectedPhone,
+    //             email: selectedEmail,
+    //           };
 
-  //         if (selectedPaymentOptionElement) {
-  //           const selectedPaymentOption = selectedPaymentOptionElement.value;
+    //           fetch("/checkOut", {
+    //             method: "POST",
+    //             headers: {
+    //               "Content-Type": "application/json",
+    //             },
+    //             body: JSON.stringify(data),
+    //           })
+    //             .then((response) => {
+    //               if (!response.ok) {
+    //                 throw new Error(`HTTP error! Status: ${response.status}`);
+    //               }
+    //               return response.text();
+    //             })
+    //             .then((data) => {
+    //               try {
+    //                 const jsonData = JSON.parse(data);
+    //                 console.log("Success:", jsonData);
+    //                 if (jsonData.orderId) {
+    //                   window.location.href = `/orderConfirmation?orderId=${jsonData.orderId}`;
+    //                 } else {
+    //                   console.error(
+    //                     "Error: Invalid response from the server (missing orderId)"
+    //                   );
+    //                   alert("Error: Invalid response from the server");
+    //                 }
+    //               } catch (error) {
+    //                 console.error("Error parsing JSON:", error);
+    //                 alert("Error parsing JSON: " + error.message);
+    //               }
+    //             })
+    //             .catch((error) => {
+    //               console.error("Error:", error);
+    //               alert("Error: " + error.message);
+    //             });
+    //         } catch (error) {
+    //           console.error("Exception:", error);
+    //           alert("Exception: " + error.message);
+    //         }
+    //       }
+    //     });
 
-  //           try {
-  //             const response = await fetch("/checkOut", {
-  //               method: "POST",
-  //               headers: {
-  //                 "Content-Type": "application/json",
-  //               },
-  //               body: JSON.stringify({
-  //                 selectedAddress: selectedAddressId,
-  //                 paymentOption: selectedPaymentOption,
-  //               }),
-  //             });
+    document
+      .getElementById("placeOrderBtn")
+      .addEventListener("click", async function (event) {
+        event.preventDefault();
 
-  //             if (!response.ok) {
-  //               throw new Error(`HTTP error! Status: ${response.status}`);
-  //             }
+        const isNameValid = validateName();
+        const isMobileValid = validateMobile();
+        const isHousNameValid = validateHouseName();
+        const isStreetNameValid = validateStreet();
+        const isCityValid = validateCity();
+        const isStateValid = validateState();
+        const isCountryValid = validateCountry();
+        const isPincodeValid = validatePincode();
+        const isEmailValid = validateEmail();
 
-  //             const data = await response.json();
-  //             if (data.orderId !== undefined && data.orderId !== null) {
-  //               if (selectedPaymentOption === "Online Payment") {
-  //                 const razorpayOrder = data;
-
-  //                 const convertedAmount = Math.round(
-  //                   parseFloat(razorpayOrder.order.amount) * 100
-  //                 );
-
-  //                 const options = {
-  //                   key: "rzp_test_NGuzvYo6A3U204",
-  //                   amount: convertedAmount,
-  //                   currency: data.currency,
-  //                   name: "VIBYOURS",
-  //                   description: "Order payment",
-  //                   order_id: data.id,
-  //                   handler: function (response) {
-
-  //                     const paymentData = {
-  //                       razorpay_paymentId: response.razorpay_paymentId,
-  //                       razorpay_orderid: data.order.id,
-  //                       razorpay_signature: response.razorpay_signature,
-  //                     };
-
-  //                     // Send payment details to server for verification
-  //                     fetch("/onlinePayment", {
-  //                       method: "POST",
-  //                       headers: {
-  //                         "Content-Type": "application/json",
-  //                       },
-  //                       body: JSON.stringify(paymentData),
-  //                     })
-  //                       .then((response) => response.json())
-  //                       .then((data) => {
-  //                         if (data.success) {
-  //                           // Now redirect to order confirmation page
-  //                           window.location.href = `/orderConfirmation?orderId=${data.orderId}`;
-  //                         } else {
-  //                           alert(
-  //                             "Error verifying Razorpay payment:\n" +
-  //                               (data.error || "unknown error")
-  //                           );
-  //                           alert(
-  //                             "Error verifying Razorpay payment. Please try again."
-  //                           );
-  //                         }
-  //                       })
-  //                       .catch((error) => {
-  //                         alert(
-  //                           "Error processing Razorpay payment verification:\n" +
-  //                             error.message
-  //                         );
-  //                         alert(
-  //                           "Error processing Razorpay payment verification. Please try again."
-  //                         );
-  //                       });
-  //                   },
-  //                 };
-
-  //                 const rzp = new Razorpay(options);
-  //                 rzp.on("payment.failed", function (response) {
-  //                   alert(
-  //                     "Payment failed:\n" + JSON.stringify(response, null, 2)
-  //                   );
-  //                   alert("Payment failed. Please try again.");
-  //                 });
-  //                 rzp.open();
-  //               } else {
-  //                 window.location.href = `/orderConfirmation?orderId=${data.orderId}`;
-  //               }
-  //             } else {
-  //               console.error(
-  //                 "Error: Invalid response from the server (missing orderId)"
-  //               );
-  //               alert("Error: Invalid response from the server");
-  //             }
-  //           } catch (error) {
-  //             console.error("Error:", error);
-  //             alert("Fetch Error: " + error.message);
-  //           }
-  //         } else {
-  //           console.log(
-  //             "Please select a payment option before placing the order."
-  //           );
-  //         }
-  //       } else {
-  //         console.log("Please select an address before placing the order.");
-  //       }
-  //     });
-  //   });
-
-  document.addEventListener("DOMContentLoaded", function () {
-    const placeOrderBtn = document.getElementById("placeOrderBtn2");
-
-    placeOrderBtn.addEventListener("click", async function (event) {
-      event.preventDefault();
-
-      placeOrderBtn.disabled = true;
-
-     
-
-
-      const selectedPaymentOptionElement = document.querySelector(
-        'input[name="paymentOption"]:checked'
-      );
-
-      const selectedAddressRadio = document.querySelector(
-        'input[name="selectedAddress"]:checked'
-      );
-
-      if (selectedAddressRadio) {
-        const selectedAddressId = selectedAddressRadio.value;
-
-        if (selectedPaymentOptionElement) {
-          const selectedPaymentOption = selectedPaymentOptionElement.value;
-
+        if (
+          isNameValid &&
+          isMobileValid &&
+          isHousNameValid &&
+          isStreetNameValid &&
+          isCityValid &&
+          isStateValid &&
+          isCountryValid &&
+          isPincodeValid &&
+          isEmailValid
+        ) {
           try {
+            const selectedPaymentOption = document.querySelector(
+              'input[name="paymentOption"]:checked'
+            );
+            const selectedName =
+              document.querySelector('input[name="name"]').value;
+            const selectedHouseName = document.querySelector(
+              'input[name="houseName"]'
+            ).value;
+            const selectedStreet = document.querySelector(
+              'input[name="street"]'
+            ).value;
+            const selectedCity =
+              document.querySelector('input[name="city"]').value;
+            const selectedState = document.querySelector(
+              'input[name="state"]'
+            ).value;
+            const selectedCountry = document.querySelector(
+              'input[name="country"]'
+            ).value;
+            const selectedPincode = document.querySelector(
+              'input[name="pincode"]'
+            ).value;
+            const selectedPhone = document.querySelector(
+              'input[name="phone"]'
+            ).value;
+            const selectedEmail = document.querySelector(
+              'input[name="Email"]'
+            ).value;
+
+            const data = {
+              paymentOption: selectedPaymentOption
+                ? selectedPaymentOption.value
+                : null,
+              name: selectedName,
+              houseName: selectedHouseName,
+              street: selectedStreet,
+              city: selectedCity,
+              state: selectedState,
+              country: selectedCountry,
+              pincode: selectedPincode,
+              phone: selectedPhone,
+              email: selectedEmail,
+            };
+
             const response = await fetch("/checkOut", {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
               },
-              body: JSON.stringify({
-                selectedAddress: selectedAddressId,
-                paymentOption: selectedPaymentOption,
-              }),
+              body: JSON.stringify(data),
             });
 
             if (!response.ok) {
               throw new Error(`HTTP error! Status: ${response.status}`);
             }
 
-            const data = await response.json();
-            if (data.orderId !== undefined && data.orderId !== null) {
-              if (selectedPaymentOption === "Online Payment") {
-                const razorpayOrder = data;
+            const responseData = await response.json();
 
+            if (
+              responseData.orderId !== undefined &&
+              responseData.orderId !== null
+            ) {
+              if (data.paymentOption === "Online Payment") {
+                const razorpayOrder = responseData;
                 const convertedAmount = Math.round(
                   parseFloat(razorpayOrder.order.amount) * 100
                 );
@@ -938,18 +1227,17 @@
                 const options = {
                   key: "rzp_test_NGuzvYo6A3U204",
                   amount: convertedAmount,
-                  currency: data.currency,
+                  currency: razorpayOrder.currency,
                   name: "VIBYOURS",
                   description: "Order payment",
-                  order_id: data.id,
+                  order_id: razorpayOrder.id,
                   handler: function (response) {
                     const paymentData = {
                       razorpay_paymentId: response.razorpay_paymentId,
-                      razorpay_orderid: data.order.id,
+                      razorpay_orderid: razorpayOrder.order.id,
                       razorpay_signature: response.razorpay_signature,
                     };
 
-                    // Send payment details to server for verification
                     fetch("/onlinePayment", {
                       method: "POST",
                       headers: {
@@ -960,175 +1248,40 @@
                       .then((response) => response.json())
                       .then((data) => {
                         if (data.success) {
-                          Swal.fire({
-                            icon: "success",
-                            title: "Payment Verified",
-                            text: "Payment verification successful!",
-                          }).then(() => {
-                            // Redirect to order confirmation page
-                            window.location.href = `/orderConfirmation?orderId=${data.orderId}`;
-                          });
+                          // alert("Razorpay payment verified successfully");
+                          // alert(
+                          //   "Data before constructing URL: " +
+                          //     JSON.stringify(data, null, 2)
+                          // );
+                          // alert(
+                          //   "OrderId before constructing URL: " + data.orderId
+                          // );
+
+                          window.location.href = `/orderConfirmation?orderId=${data.orderId}`;
                         } else {
-                          Swal.fire({
-                            icon: "error",
-                            title: "Payment Verification Failed",
-                            text:
-                              data.error ||
-                              "Unknown error during payment verification.",
-                          });
+
                         }
                       })
                       .catch((error) => {
-                        Swal.fire({
-                          icon: "error",
-                          title: "Error",
-                          text:
-                            "Error processing payment verification:\n" +
-                            error.message,
-                        });
+                        // alert(
+                        //   "Error processing Razorpay payment verification:\n" +
+                        //     error.message
+                        // );
+                        // alert(
+                        //   "Error processing Razorpay payment verification. Please try again."
+                        // );
                       });
                   },
                 };
 
                 const rzp = new Razorpay(options);
                 rzp.on("payment.failed", function (response) {
-                  
+                  // alert("Payment failed:\n" + JSON.stringify(response, null, 2));
+                  // alert("Payment failed. Please try again.");
                 });
                 rzp.open();
-
-
-              } else if( selectedPaymentOption === 'Wallet') {
-                const response = await fetch('/checkOut', {
-                  method: "POST",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({
-                    selectedAddress: selectedAddressId,
-                    paymentOption: selectedPaymentOption
-                  })
-                })
-
-                if(response.ok) {
-                  const responseData = await response.json();
-                  if(responseData.success) {
-                    Swal.fire({
-                            icon: "success",
-                            title: "Payment Verified",
-                            text: "Payment verification successful!",
-                          }).then(() => {
-                            // Redirect to order confirmation page
-                            window.location.href = `/orderConfirmation?orderId=${responseData.orderId}`
-                          });
-                    
-                  } else {
-
-                  }
-                } else if(response.status === 400) {
-                  Swal.fire({
-                    title: 'Attention',
-                    text: 'Insufficient Wallet balance',
-                    icon: 'warning',
-                    confirmButtonText: 'OK'
-                  })
-                } else {
-                  
-                  
-                }
-
-              }
-              
-              else if (selectedPaymentOption === "Paypal") {
-                // PayPal integration
-                const paypalOrder = data.order;
-
-                const purchaseUnit = paypalOrder?.purchase_units?.[0];
-                const amountInINR = purchaseUnit?.amount?.value;
-
-                const currencyCode = purchaseUnit?.amount?.currency_code;
-
-                let convertedAmount;
-
-                if (amountInINR) {
-                  const convertToUSD = (amountInINR) => {
-                    // Implement your currency conversion logic here
-                    // For simplicity, let's assume 1 INR = 0.014 USD
-                    const conversionRate = 0.014;
-                    return amountInINR * conversionRate;
-                  };
-
-                  convertedAmount = convertToUSD(amountInINR);
-                  //   alert(JSON.stringify(convertedAmount, null, 2));
-                } else {
-                  // alert("Amount in INR is null or undefined.");
-                }
-
-                const paypalOptions = {
-                  createOrder: function (data, actions) {
-                    return actions.order.create({
-                      purchase_units: [
-                        {
-                          reference_id: "default",
-                          amount: {
-                            currency_code: "USD", // Change based on your currency
-                            value: convertedAmount.toFixed(2),
-                          },
-                        },
-                      ],
-                    });
-                  },
-
-                  onApprove: function (data, actions) {
-                    return actions.order.capture().then(function (details) {
-                      const paymentData = {
-                        paypalOrderId: data.orderID,
-                        payerID: data.payerID,
-                      };
-
-                      // Send PayPal details to the server for verification
-                      fetch("/paypalPayment", {
-                        method: "POST",
-                        headers: {
-                          "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify(paymentData),
-                      })
-                        .then((response) => {
-                          if (!response.ok) {
-                            throw new Error(
-                              `HTTP error! Status: ${response.status}`
-                            );
-                          }
-
-                          //   alert(
-                          //     "Parsed Server Response:\n" +
-                          //       JSON.stringify(response, null, 2)
-                          //   );
-
-                          return response.json();
-                        })
-                        .then((data) => {
-                          console.log("Received Data from Server:", data); // Log data to console
-                          //   alert(
-                          //     "Parsed Server Response:\n" +
-                          //       JSON.stringify(data, null, 2)
-                          //   );
-                          handlePaymentVerification(data);
-                        })
-
-                        .catch((error) => {
-                          console.error("Server Response Error:", error); // Log error to console
-                          // alert("Server Response Error:\n" + error.message);
-                          handlePaymentError(error);
-                        });
-                    });
-                  },
-                };
-
-                paypal.Buttons(paypalOptions).render("#paypal-container");
-
-              }  else {
-                window.location.href = `/orderConfirmation?orderId=${data.orderId}`;
+              } else {
+                window.location.href = `/orderConfirmation?orderId=${responseData.orderId}`;
               }
             } else {
               console.error(
@@ -1142,580 +1295,306 @@
           }
         } else {
           console.log(
-            "Please select a payment option before placing the order."
+            "Please fill in all the required fields with valid information."
           );
         }
-      } else {
-        console.log("Please select an address before placing the order.");
-      }
-    });
-    function handlePaymentVerification(data) {
-      if (data.success) {
-        Swal.fire({
-          icon: "success",
-          title: "Payment Verified",
-          text: "Payment verification successful!",
-        }).then(() => {
-          // Redirect to order confirmation page
-          window.location.href = `/orderConfirmation?orderId=${data.orderId}`;
-        });
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Payment Verification Failed",
-          text: data.error || "Unknown error during payment verification.",
-        });
-      }
-    }
-
-    function handlePaymentError(error) {
-      Swal.fire({
-        icon: "error",
-        title: "Payment Error",
-        text: "Error processing payment verification:\n" + error.message,
       });
-    }
-  });
 
-  // new Address
-  //   document
-  //     .getElementById("placeOrderBtn")
-  //     .addEventListener("click", function (e) {
-  //       e.preventDefault();
+    function validateName(e) {
+      const Username = document.getElementById("name").value.trim();
 
-  //       const isNameValid = validateName();
-  //       const isMobileValid = validateMobile();
-  //       const isHousNameValid = validateHouseName();
-  //       const isStreetNameValid = validateStreet();
-  //       const isCityValid = validateCity();
-  //       const isStateValid = validateState();
-  //       const isCountryValid = validateCountry();
-  //       const isPincodeValid = validatePincode();
-  //       const isEmailValid = validateEmail();
+      const titleError = document.getElementById("nameError");
 
-  //       if (
-  //         isNameValid &&
-  //         isMobileValid &&
-  //         isHousNameValid &&
-  //         isStreetNameValid &&
-  //         isCityValid &&
-  //         isStateValid &&
-  //         isCountryValid &&
-  //         isPincodeValid &&
-  //         isEmailValid
-  //       ) {
-  //         try {
-  //           const selectedPaymentOption = document.querySelector(
-  //             'input[name="paymentOption"]:checked'
-  //           );
+      const regex = /^[a-zA-Z]+$/;
 
-  //           const selectedName =
-  //             document.querySelector('input[name="name"]').value;
-  //           const selectedHouseName = document.querySelector(
-  //             'input[name="houseName"]'
-  //           ).value;
-  //           const selectedStreet = document.querySelector(
-  //             'input[name="street"]'
-  //           ).value;
-  //           const selectedCity =
-  //             document.querySelector('input[name="city"]').value;
-  //           const selectedState = document.querySelector(
-  //             'input[name="state"]'
-  //           ).value;
-  //           const selectedCountry = document.querySelector(
-  //             'input[name="country"]'
-  //           ).value;
-  //           const selectedPincode = document.querySelector(
-  //             'input[name="pincode"]'
-  //           ).value;
-  //           const selectedPhone = document.querySelector(
-  //             'input[name="phone"]'
-  //           ).value;
-  //           const selectedEmail = document.querySelector(
-  //             'input[name="Email"]'
-  //           ).value;
-
-  //           const data = {
-  //             paymentOption: selectedPaymentOption,
-  //             name: selectedName,
-  //             houseName: selectedHouseName,
-  //             street: selectedStreet,
-  //             city: selectedCity,
-  //             state: selectedState,
-  //             country: selectedCountry,
-  //             pincode: selectedPincode,
-  //             phone: selectedPhone,
-  //             email: selectedEmail,
-  //           };
-
-  //           fetch("/checkOut", {
-  //             method: "POST",
-  //             headers: {
-  //               "Content-Type": "application/json",
-  //             },
-  //             body: JSON.stringify(data),
-  //           })
-  //             .then((response) => {
-  //               if (!response.ok) {
-  //                 throw new Error(`HTTP error! Status: ${response.status}`);
-  //               }
-  //               return response.text();
-  //             })
-  //             .then((data) => {
-  //               try {
-  //                 const jsonData = JSON.parse(data);
-  //                 console.log("Success:", jsonData);
-  //                 if (jsonData.orderId) {
-  //                   window.location.href = `/orderConfirmation?orderId=${jsonData.orderId}`;
-  //                 } else {
-  //                   console.error(
-  //                     "Error: Invalid response from the server (missing orderId)"
-  //                   );
-  //                   alert("Error: Invalid response from the server");
-  //                 }
-  //               } catch (error) {
-  //                 console.error("Error parsing JSON:", error);
-  //                 alert("Error parsing JSON: " + error.message);
-  //               }
-  //             })
-  //             .catch((error) => {
-  //               console.error("Error:", error);
-  //               alert("Error: " + error.message);
-  //             });
-  //         } catch (error) {
-  //           console.error("Exception:", error);
-  //           alert("Exception: " + error.message);
-  //         }
-  //       }
-  //     });
-
-  document
-    .getElementById("placeOrderBtn")
-    .addEventListener("click", async function (event) {
-      event.preventDefault();
-
-      const isNameValid = validateName();
-      const isMobileValid = validateMobile();
-      const isHousNameValid = validateHouseName();
-      const isStreetNameValid = validateStreet();
-      const isCityValid = validateCity();
-      const isStateValid = validateState();
-      const isCountryValid = validateCountry();
-      const isPincodeValid = validatePincode();
-      const isEmailValid = validateEmail();
-
-      if (
-        isNameValid &&
-        isMobileValid &&
-        isHousNameValid &&
-        isStreetNameValid &&
-        isCityValid &&
-        isStateValid &&
-        isCountryValid &&
-        isPincodeValid &&
-        isEmailValid
-      ) {
-        try {
-          const selectedPaymentOption = document.querySelector(
-            'input[name="paymentOption"]:checked'
-          );
-          const selectedName =
-            document.querySelector('input[name="name"]').value;
-          const selectedHouseName = document.querySelector(
-            'input[name="houseName"]'
-          ).value;
-          const selectedStreet = document.querySelector(
-            'input[name="street"]'
-          ).value;
-          const selectedCity =
-            document.querySelector('input[name="city"]').value;
-          const selectedState = document.querySelector(
-            'input[name="state"]'
-          ).value;
-          const selectedCountry = document.querySelector(
-            'input[name="country"]'
-          ).value;
-          const selectedPincode = document.querySelector(
-            'input[name="pincode"]'
-          ).value;
-          const selectedPhone = document.querySelector(
-            'input[name="phone"]'
-          ).value;
-          const selectedEmail = document.querySelector(
-            'input[name="Email"]'
-          ).value;
-
-          const data = {
-            paymentOption: selectedPaymentOption
-              ? selectedPaymentOption.value
-              : null,
-            name: selectedName,
-            houseName: selectedHouseName,
-            street: selectedStreet,
-            city: selectedCity,
-            state: selectedState,
-            country: selectedCountry,
-            pincode: selectedPincode,
-            phone: selectedPhone,
-            email: selectedEmail,
-          };
-
-          const response = await fetch("/checkOut", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-          });
-
-          if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-          }
-
-          const responseData = await response.json();
-
-          if (
-            responseData.orderId !== undefined &&
-            responseData.orderId !== null
-          ) {
-            if (data.paymentOption === "Online Payment") {
-              const razorpayOrder = responseData;
-              const convertedAmount = Math.round(
-                parseFloat(razorpayOrder.order.amount) * 100
-              );
-
-              const options = {
-                key: "rzp_test_NGuzvYo6A3U204",
-                amount: convertedAmount,
-                currency: razorpayOrder.currency,
-                name: "VIBYOURS",
-                description: "Order payment",
-                order_id: razorpayOrder.id,
-                handler: function (response) {
-                  const paymentData = {
-                    razorpay_paymentId: response.razorpay_paymentId,
-                    razorpay_orderid: razorpayOrder.order.id,
-                    razorpay_signature: response.razorpay_signature,
-                  };
-
-                  fetch("/onlinePayment", {
-                    method: "POST",
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(paymentData),
-                  })
-                    .then((response) => response.json())
-                    .then((data) => {
-                      if (data.success) {
-                        // alert("Razorpay payment verified successfully");
-                        // alert(
-                        //   "Data before constructing URL: " +
-                        //     JSON.stringify(data, null, 2)
-                        // );
-                        // alert(
-                        //   "OrderId before constructing URL: " + data.orderId
-                        // );
-
-                        window.location.href = `/orderConfirmation?orderId=${data.orderId}`;
-                      } else {
-                        
-                      }
-                    })
-                    .catch((error) => {
-                      // alert(
-                      //   "Error processing Razorpay payment verification:\n" +
-                      //     error.message
-                      // );
-                      // alert(
-                      //   "Error processing Razorpay payment verification. Please try again."
-                      // );
-                    });
-                },
-              };
-
-              const rzp = new Razorpay(options);
-              rzp.on("payment.failed", function (response) {
-                // alert("Payment failed:\n" + JSON.stringify(response, null, 2));
-                // alert("Payment failed. Please try again.");
-              });
-              rzp.open();
-            } else {
-              window.location.href = `/orderConfirmation?orderId=${responseData.orderId}`;
-            }
-          } else {
-            console.error(
-              "Error: Invalid response from the server (missing orderId)"
-            );
-            // alert("Error: Invalid response from the server");
-          }
-        } catch (error) {
-          console.error("Error:", error);
-          // alert("Fetch Error: " + error.message);
-        }
+      if (Username == "") {
+        nameError.innerHTML = "Name is required";
+        setTimeout(function () {
+          nameError.innerHTML = "";
+        }, 3000);
+        return false;
+      } else if (event.key === " " || event.code === "Space") {
+        nameError.innerHTML = "Name cannot be just spaces";
+        setTimeout(function () {
+          nameError.innerHTML = "";
+        }, 3000);
+        return false;
+      } else if (!regex.test(Username.value)) {
+        nameError.innerHTML = "Name should only contain alphabets";
+        setTimeout(function () {
+          nameError.innerHTML = "";
+        }, 3000);
+        return false;
       } else {
-        console.log(
-          "Please fill in all the required fields with valid information."
-        );
+        nameError.innerHTML = "";
+        return true;
       }
+    }
+
+    function validateMobile(e) {
+      const MobileNumber = document.getElementById("mobile").value.trim();
+
+      const mobileError = document.getElementById("mobileError");
+
+      if (MobileNumber == "") {
+        mobileError.innerHTML = "Mobile Number is required";
+        setTimeout(function () {
+          mobileError.innerHTML = "";
+        }, 3000);
+        return false;
+      } else if (!/^[6-9]\d{9}$/.test(MobileNumber)) {
+        mobileError.innerHTML = "Invalid mobile number";
+        setTimeout(function () {
+          mobileError.innerHTML = "";
+        }, 3000);
+        return false;
+      } else if (event.key === " " || event.code === "Space") {
+        mobileError.innerHTML = "Mobile number cannot be just spaces";
+        setTimeout(function () {
+          mobileError.innerHTML = "";
+        }, 3000);
+
+        return false;
+      } else {
+        mobileError.innerHTML = "";
+        return true;
+      }
+    }
+
+    function validatePincode(e) {
+      const pincode = document.getElementById("pincode").value.trim();
+
+      const pincodeError = document.getElementById("pincodeError");
+
+      if (pincode == "") {
+        pincodeError.innerHTML = "Pincode is required";
+        setTimeout(function () {
+          pincodeError.innerHTML = "";
+        }, 3000);
+        return false;
+      } else if (event.key === " " || event.code === "Space") {
+        pincodeError.innerHTML = "Pincode cannot be just spaces";
+        setTimeout(function () {
+          pincodeError.innerHTML = "";
+        }, 3000);
+        return false;
+      } else {
+        pincodeError.innerHTML = "";
+        return true;
+      }
+    }
+
+    function validateStreet(e) {
+      const Street = document.getElementById("street").value.trim();
+
+      const streetError = document.getElementById("streetError");
+
+      if (Street == "") {
+        streetError.innerHTML = "Locality is required";
+        setTimeout(function () {
+          streetError.innerHTML = "";
+        }, 3000);
+        return false;
+      } else if (event.key === " " || event.code === "Space") {
+        streetError.innerHTML = "Locality cannot be just spaces";
+        setTimeout(function () {
+          streetError.innerHTML = "";
+        }, 3000);
+        return false;
+      } else {
+        streetError.innerHTML = "";
+        return true;
+      }
+    }
+
+    function validateCountry(e) {
+      const Country = document.getElementById("country").value.trim();
+
+      const countryError = document.getElementById("countryError");
+
+      if (Country == "") {
+        countryError.innerHTML = "This field is required";
+        setTimeout(function () {
+          countryError.innerHTML = "";
+        }, 3000);
+        return false;
+      } else if (event.key === " " || event.code === "Space") {
+        countryError.innerHTML = "This field cannot be just spaces";
+        setTimeout(function () {
+          countryError.innerHTML = "";
+        }, 3000);
+        return false;
+      } else {
+        countryError.innerHTML = "";
+        return true;
+      }
+    }
+
+    function validateEmail(e) {
+      var emailInput = document.getElementById("email").value.trim();
+      var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z]{2,}$/;
+      var emailError = document.getElementById("emailError");
+
+      if (!emailPattern.test(emailInput)) {
+        emailError.innerHTML =
+          "Invalid email format. Please enter a valid email address.";
+        setTimeout(function () {
+          emailError.innerHTML = "";
+        }, 3000);
+        return false;
+      } else if (emailInput == "") {
+        emailError.innerHTML = "it is required";
+        setTimeout(function () {
+          emailError.innerHTML = "";
+        }, 3000);
+        return false;
+      } else {
+        emailError.innerHTML = "";
+        return true;
+      }
+    }
+
+    function validateCity(e) {
+      const City = document.getElementById("city").value.trim();
+
+      const cityError = document.getElementById("cityError");
+
+      if (City == "") {
+        cityError.innerHTML = "City is required";
+        setTimeout(function () {
+          cityError.innerHTML = "";
+        }, 3000);
+        return false;
+      } else if (event.key === " " || event.code === "Space") {
+        cityError.innerHTML = "City cannot be just spaces";
+        setTimeout(function () {
+          cityError.innerHTML = "";
+        }, 3000);
+        return false;
+      } else {
+        cityError.innerHTML = "";
+        return true;
+      }
+    }
+
+    function validateState(e) {
+      const State = document.getElementById("state").value.trim();
+
+      const stateError = document.getElementById("stateError");
+
+      if (State == "") {
+        stateError.innerHTML = "State is required";
+        setTimeout(function () {
+          stateError.innerHTML = "";
+        }, 3000);
+        return false;
+      } else if (event.key === " " || event.code === "Space") {
+        stateError.innerHTML = "State cannot be just spaces";
+        setTimeout(function () {
+          stateError.innerHTML = "";
+        }, 3000);
+        return false;
+      } else {
+        stateError.innerHTML = "";
+        return true;
+      }
+    }
+
+    function validateHouseName(e) {
+      const HouseName = document.getElementById("houseName").value.trim();
+
+      const houseNameError = document.getElementById("houseNameError");
+
+      if (HouseName == "") {
+        houseNameError.innerHTML = "House Name is required";
+        setTimeout(function () {
+          houseNameError.innerHTML = "";
+        }, 3000);
+        return false;
+      } else if (event.key === " " || event.code === "Space") {
+        houseNameError.innerHTML = "Landmark cannot be just spaces";
+        setTimeout(function () {
+          houseNameError.innerHTML = "";
+        }, 3000);
+        return false;
+      } else {
+        houseNameError.innerHTML = "";
+        return true;
+      }
+    }
+  </script>
+
+  <script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const cashOnDeliveryRadio = document.getElementById("exampleRadios4");
+      const walletRadio = document.getElementById("exampleRadios7");
+      const onlinePaymentRadio = document.getElementById("exampleRadios5");
+      const paypalRadio = document.getElementById("exampleRadios6");
+
+      const subtotalElement = document.querySelector(".product-subtotal");
+
+      // Function to disable Cash on Delivery if subtotal is less than 1000
+      function updatePaymentOptions() {
+        const subtotal = parseFloat(subtotalElement.innerText);
+
+        if (subtotal < 1000) {
+          cashOnDeliveryRadio.disabled = true;
+        } else {
+          cashOnDeliveryRadio.disabled = false;
+        }
+      }
+
+      // Call the function initially to set the initial state of payment options
+      updatePaymentOptions();
+
+      // Event listener to check when the subtotal changes
+      subtotalElement.addEventListener("change", updatePaymentOptions);
+
+      // Event listener to handle radio button selection
+      document.querySelectorAll('input[type="radio"]').forEach((radio) => {
+        radio.addEventListener("change", function () {
+          if (radio.value === "Cash on Delivery" && radio.disabled) {
+            // If Cash on Delivery is selected but disabled, select another payment option
+            walletRadio.checked = true; // You can change this to select a different payment option if needed
+          }
+        });
+      });
     });
+  </script>
 
-  function validateName(e) {
-    const Username = document.getElementById("name").value.trim();
-
-    const titleError = document.getElementById("nameError");
-
-    const regex = /^[a-zA-Z]+$/;
-
-    if (Username == "") {
-      nameError.innerHTML = "Name is required";
-      setTimeout(function () {
-        nameError.innerHTML = "";
-      }, 3000);
-      return false;
-    } else if (event.key === " " || event.code === "Space") {
-      nameError.innerHTML = "Name cannot be just spaces";
-      setTimeout(function () {
-        nameError.innerHTML = "";
-      }, 3000);
-      return false;
-    } else if (!regex.test(Username.value)) {
-      nameError.innerHTML = "Name should only contain alphabets";
-      setTimeout(function () {
-        nameError.innerHTML = "";
-      }, 3000);
-      return false;
-    } else {
-      nameError.innerHTML = "";
-      return true;
+  <style>
+    .error {
+      color: red;
+      font-size: 14px;
+      margin-top: 5px;
     }
-  }
 
-  function validateMobile(e) {
-    const MobileNumber = document.getElementById("mobile").value.trim();
-
-    const mobileError = document.getElementById("mobileError");
-
-    if (MobileNumber == "") {
-      mobileError.innerHTML = "Mobile Number is required";
-      setTimeout(function () {
-        mobileError.innerHTML = "";
-      }, 3000);
-      return false;
-    } else if (!/^[6-9]\d{9}$/.test(MobileNumber)) {
-      mobileError.innerHTML = "Invalid mobile number";
-      setTimeout(function () {
-        mobileError.innerHTML = "";
-      }, 3000);
-      return false;
-    } else if (event.key === " " || event.code === "Space") {
-      mobileError.innerHTML = "Mobile number cannot be just spaces";
-      setTimeout(function () {
-        mobileError.innerHTML = "";
-      }, 3000);
-
-      return false;
-    } else {
-      mobileError.innerHTML = "";
-      return true;
+    .error-message {
+      color: red;
+      font-size: 16px;
+      margin-bottom: 10px;
     }
-  }
 
-  function validatePincode(e) {
-    const pincode = document.getElementById("pincode").value.trim();
+    .small-radio input[type="radio"] {
+      transform: scale(0.3);
 
-    const pincodeError = document.getElementById("pincodeError");
-
-    if (pincode == "") {
-      pincodeError.innerHTML = "Pincode is required";
-      setTimeout(function () {
-        pincodeError.innerHTML = "";
-      }, 3000);
-      return false;
-    } else if (event.key === " " || event.code === "Space") {
-      pincodeError.innerHTML = "Pincode cannot be just spaces";
-      setTimeout(function () {
-        pincodeError.innerHTML = "";
-      }, 3000);
-      return false;
-    } else {
-      pincodeError.innerHTML = "";
-      return true;
+      margin-right: 5px;
     }
-  }
 
-  function validateStreet(e) {
-    const Street = document.getElementById("street").value.trim();
-
-    const streetError = document.getElementById("streetError");
-
-    if (Street == "") {
-      streetError.innerHTML = "Locality is required";
-      setTimeout(function () {
-        streetError.innerHTML = "";
-      }, 3000);
-      return false;
-    } else if (event.key === " " || event.code === "Space") {
-      streetError.innerHTML = "Locality cannot be just spaces";
-      setTimeout(function () {
-        streetError.innerHTML = "";
-      }, 3000);
-      return false;
-    } else {
-      streetError.innerHTML = "";
-      return true;
+    .small-radio label {
+      font-size: 14px;
     }
-  }
 
-  function validateCountry(e) {
-    const Country = document.getElementById("country").value.trim();
+    .address-type {
+      background-color: #bbddd3;
 
-    const countryError = document.getElementById("countryError");
+      display: inline-block;
 
-    if (Country == "") {
-      countryError.innerHTML = "This field is required";
-      setTimeout(function () {
-        countryError.innerHTML = "";
-      }, 3000);
-      return false;
-    } else if (event.key === " " || event.code === "Space") {
-      countryError.innerHTML = "This field cannot be just spaces";
-      setTimeout(function () {
-        countryError.innerHTML = "";
-      }, 3000);
-      return false;
-    } else {
-      countryError.innerHTML = "";
-      return true;
+      padding: 10px;
+
+      border-radius: 5px;
     }
-  }
+  </style>
 
-  function validateEmail(e) {
-    var emailInput = document.getElementById("email").value.trim();
-    var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z]{2,}$/;
-    var emailError = document.getElementById("emailError");
-
-    if (!emailPattern.test(emailInput)) {
-      emailError.innerHTML =
-        "Invalid email format. Please enter a valid email address.";
-      setTimeout(function () {
-        emailError.innerHTML = "";
-      }, 3000);
-      return false;
-    } else if (emailInput == "") {
-      emailError.innerHTML = "it is required";
-      setTimeout(function () {
-        emailError.innerHTML = "";
-      }, 3000);
-      return false;
-    } else {
-      emailError.innerHTML = "";
-      return true;
-    }
-  }
-
-  function validateCity(e) {
-    const City = document.getElementById("city").value.trim();
-
-    const cityError = document.getElementById("cityError");
-
-    if (City == "") {
-      cityError.innerHTML = "City is required";
-      setTimeout(function () {
-        cityError.innerHTML = "";
-      }, 3000);
-      return false;
-    } else if (event.key === " " || event.code === "Space") {
-      cityError.innerHTML = "City cannot be just spaces";
-      setTimeout(function () {
-        cityError.innerHTML = "";
-      }, 3000);
-      return false;
-    } else {
-      cityError.innerHTML = "";
-      return true;
-    }
-  }
-
-  function validateState(e) {
-    const State = document.getElementById("state").value.trim();
-
-    const stateError = document.getElementById("stateError");
-
-    if (State == "") {
-      stateError.innerHTML = "State is required";
-      setTimeout(function () {
-        stateError.innerHTML = "";
-      }, 3000);
-      return false;
-    } else if (event.key === " " || event.code === "Space") {
-      stateError.innerHTML = "State cannot be just spaces";
-      setTimeout(function () {
-        stateError.innerHTML = "";
-      }, 3000);
-      return false;
-    } else {
-      stateError.innerHTML = "";
-      return true;
-    }
-  }
-
-  function validateHouseName(e) {
-    const HouseName = document.getElementById("houseName").value.trim();
-
-    const houseNameError = document.getElementById("houseNameError");
-
-    if (HouseName == "") {
-      houseNameError.innerHTML = "House Name is required";
-      setTimeout(function () {
-        houseNameError.innerHTML = "";
-      }, 3000);
-      return false;
-    } else if (event.key === " " || event.code === "Space") {
-      houseNameError.innerHTML = "Landmark cannot be just spaces";
-      setTimeout(function () {
-        houseNameError.innerHTML = "";
-      }, 3000);
-      return false;
-    } else {
-      houseNameError.innerHTML = "";
-      return true;
-    }
-  }
-</script>
-
-<style>
-  .error {
-    color: red;
-    font-size: 14px;
-    margin-top: 5px;
-  }
-
-  .error-message {
-    color: red;
-    font-size: 16px;
-    margin-bottom: 10px;
-  }
-
-  .small-radio input[type="radio"] {
-    transform: scale(0.3);
-
-    margin-right: 5px;
-  }
-
-  .small-radio label {
-    font-size: 14px;
-  }
-
-  .address-type {
-    background-color: #bbddd3;
-
-    display: inline-block;
-
-    padding: 10px;
-
-    border-radius: 5px;
-  }
-</style>
-
-<%- include("../partials/userfooters") %>
+  <%- include("../partials/userfooters") %>

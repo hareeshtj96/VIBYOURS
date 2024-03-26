@@ -5,6 +5,54 @@ const Wishlist = require("../model/wishlistModel");
 
 
 
+// const couponInCart = async (req, res) => {
+//     try {
+//         const code = req.query.code;
+//         const coupon = await Coupon.findOne({ code: code });
+//         const user = await User.findOne({ _id: req.session.user_id });
+//         const cart = await Cart.findOne({ owner: user._id });
+
+//         if (!coupon) {
+//             return res.status(404).send("Coupon not found")
+//         }
+
+//         if (!user) {
+//             return res.status(404).send("User not found");
+//         }
+//         if (coupon.maxUsers === 0 || coupon.usersUsed.includes(user._id) || cart.isApplied) {
+//             return res.status(400).send('Coupon not applicable');
+//         }
+
+//         if (!cart) {
+//             return res.status(404).send("Cart not found");
+//         }
+
+
+       
+
+//         let discountAmount = Math.round(cart.billTotal * (coupon.discountPercentage / 100));
+//         cart.billTotal -= discountAmount;
+
+//         cart.billTotal = Math.round(cart.billTotal);
+
+//         cart.isApplied = true;
+//         cart.discountPrice = discountAmount;
+//         cart.coupon = code;
+
+//         await cart.save();
+
+//         coupon.usersUsed.push(user._id);
+//         coupon.maxUsers--;
+//         await coupon.save();
+
+//         res.status(200).send('Coupon applied Successfully');
+//     } catch (error) {
+//         console.log(error.message);
+//         res.status(500).json({ message: "Internal Server Error" });
+//     }
+// }
+
+
 const couponInCart = async (req, res) => {
     try {
         const code = req.query.code;
@@ -27,17 +75,15 @@ const couponInCart = async (req, res) => {
             return res.status(404).send("Cart not found");
         }
 
-
-
         let discountAmount = Math.round(cart.billTotal * (coupon.discountPercentage / 100));
-        cart.billTotal -= discountAmount;
+        cart.finalPrice = cart.billTotal - discountAmount;
 
-        cart.billTotal = Math.round(cart.billTotal);
+        cart.finalPrice = Math.round(cart.finalPrice);
 
         cart.isApplied = true;
         cart.discountPrice = discountAmount;
         cart.coupon = code;
-
+       
         await cart.save();
 
         coupon.usersUsed.push(user._id);
@@ -65,6 +111,9 @@ const removeCoupon = async (req, res) => {
 
 
         userCart.billTotal = userCart.items.reduce((total, item) => total + item.subTotal, 0);
+
+
+        userCart.finalPrice = userCart.items.reduce((total, item) => total + item.subTotal, 0);
 
         userCart.isApplied = false;
         userCart.coupon = 'nil';

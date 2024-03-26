@@ -71,6 +71,8 @@ user_route.get("/filterandSortByCategory", isLogin, userController.filterAndSort
 
 user_route.post("/userReview", isLogin, userController.userReview);
 
+user_route.get("/userInvoice", isLogin, userController.userInvoice);
+
 //userProfile actions
 user_route.get("/userProfile", isLogin, userController.userProfile);
 
@@ -103,6 +105,12 @@ user_route.get("/orderConfirmation", isLogin, cartController.orderConfirmation);
 user_route.post("/onlinePayment", cartController.razorpayVerification);
 
 user_route.post("/paypalPayment", cartController.paypalVerification);
+
+user_route.post("/failedPayment", cartController.paymentFailed);
+
+user_route.post("/retryPayment", cartController.retryPayment);
+
+user_route.post("/retryOnlinePayment", cartController.paymentVerification);
 
 user_route.get("/orderDetails", isLogin, cartController.getOrderDetails);
 

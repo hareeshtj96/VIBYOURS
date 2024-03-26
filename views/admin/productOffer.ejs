@@ -1,0 +1,164 @@
+<%- include("../partials/adminheaders" ) %>
+    <section class="content-main">
+        <div class="content-header">
+            <h2 class="content-title">Product Offers</h2>
+
+        </div>
+        <div class="card mb-4">
+            <!-- <header class="card-header">
+                    <div class="row gx-3">
+                        <div class="col-lg-4 col-md-6 me-auto">
+                            <input type="text" placeholder="Search..." class="form-control">
+                        </div>
+                        <div class="col-lg-2 col-6 col-md-3">
+                            <select class="form-select">
+                                <option>Show 20</option>
+                                <option>Show 30</option>
+                                <option>Show 40</option>
+                                <option>Show all</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-2 col-6 col-md-3">
+                            <select class="form-select">
+                                <option>Status: all</option>
+                                <option>Active only</option>
+                                <option>Disabled</option>
+                            </select>
+                        </div>
+                    </div>
+                </header>  -->
+            <div class="card-body">
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4">
+
+                    <% for (let i = 0; i < productData.length; i++) { %>
+                        <div class="col">
+                            <div class="card card-user">
+                                <div class="product-img product-img-zoom">
+                                    <a><img class="default-img" src="/uploads/<%= productData[i].images[1] %>" alt=""
+                                            style="height: 320px; width: 320px;"></a>
+                                </div>
+                                <div class="card-body">
+                                    <div class="card-text">
+                                        <form id="form<%= productData[i]._id %>" onchange="return validateSellingPrice('<%= productData[i]._id %>')">
+                                            <p id="price<%= productData[i]._id %>" class="m-0">Price: <%= productData[i].price %></p>
+                                            <br>
+                                            <p class="m-0"><strong>Selling Price:</strong></p>
+                                            <input type="number" class="form-control" placeholder="Enter selling price"
+                                                name="sellingPrice" id="sellingPrice<%= productData[i]._id %>"
+                                                value="<%= productData[i].sellingPrice %>"
+                                                onkeydown="return /[0-9\b]/i.test(event.key) || event.keyCode === 8">
+
+                                            <p id="SellingpriceError<%= productData[i]._id %>" class="error"></p>
+
+                                            <button class="btn btn-sm btn-brand rounded font-sm mt-15"
+                                                onclick="updateSellingPrice(event, '<%= productData[i]._id %>')"
+                                                type="button">Update</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> <!-- col.// -->
+                    <% } %>
+                    
+
+
+                </div> <!-- row.// -->
+            </div> <!-- card-body end// -->
+        </div> <!-- card end// -->
+
+
+
+
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+
+    <script>
+        async function updateSellingPrice(event, productId) {
+            event.preventDefault();
+            const sellingPrice = document.getElementById("sellingPrice" + productId).value;
+            try {
+                const response = await fetch('/admin/updateSellingPrice', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ productId, sellingPrice })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+
+                if (data.message == "Selling price updated successfully") {
+
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "Selling price updated",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                } else {
+                    throw new Error('Invalid server response format.');
+                }
+            } catch (error) {
+                console.error('Error updating selling price:', error);
+                Swal.fire({
+                    position: "top-end",
+                    icon: "error",
+                    title: error,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+        }
+    </script>
+
+
+
+<script>
+    function validateSellingPrice(productId) {
+        const priceText = document.getElementById('price' + productId).innerText.trim();
+        const price = parseFloat(priceText.split(':')[1]);
+
+        const sellingPriceInput = document.getElementById('sellingPrice' + productId);
+        const sellingPrice = parseFloat(sellingPriceInput.value);
+
+        const errorElement = document.getElementById('SellingpriceError' + productId);
+        errorElement.innerHTML = '';
+
+        if (isNaN(sellingPrice) || sellingPrice <= 0) {
+            errorElement.innerHTML = 'Selling price must be a positive number.';
+            setTimeout(function() {
+                    errorElement.innerHTML = '';
+                }, 3000);
+            return false;
+        } else if (sellingPrice > price) {
+            errorElement.innerHTML = 'Selling price cannot be greater than the price.';
+            setTimeout(function() {
+                    errorElement.innerHTML = '';
+                }, 3000);
+            return false; 
+        }
+
+        return true;
+    }
+</script>
+
+
+
+
+
+    <style>
+        .error {
+            color: red;
+        }
+    </style>
+
+    <%- include("../partials/adminfooters") %>

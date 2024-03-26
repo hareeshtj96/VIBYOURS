@@ -411,17 +411,17 @@
                                                     </p>
                                                 </td>
                                                 <td class="price" id="Price<%=i%>" data-title="Price"><span>
-                                                        <%=productData[i].price %>
+                                                        <%=productData[i].sellingPrice %>
                                                     </span></td>
                                                 <td class="text-center" data-title="Stock">
 
                                                     <button class="btn btn-sm increment-button" style="width: 1px;"
-                                                        onclick="changingQuantity('<%= userCart.items[i].subTotal %>','<%= userCart.items[i].quantity %>','<%= userCart.items[i]._id %>', +1 ,'<%= userCart.owner %>','<%= productData[i]._id %>','<%= userCart.items[i].size %>','<%=i%>','<%= productData[i].price %>')">+</button>
+                                                        onclick="changingQuantity('<%= userCart.items[i].subTotal %>','<%= userCart.items[i].quantity %>','<%= userCart.items[i]._id %>', +1 ,'<%= userCart.owner %>','<%= productData[i]._id %>','<%= userCart.items[i].size %>','<%=i%>','<%= productData[i].sellingPrice %>')">+</button>
                                                     <span class="qty-val" id="incrementQuantity<%=i%>">
                                                         <%= userCart.items[i].quantity %>
                                                     </span>
                                                     <button class="btn btn-sm increment-button" style="width: 1px;"
-                                                        onclick="changingQuantity('<%= userCart.items[i].subTotal %>','<%= userCart.items[i].quantity %>','<%= userCart.items[i]._id %>', -1 , '<%= userCart.owner %>','<%= productData[i]._id %>','<%= userCart.items[i].size %>','<%=i%>','<%= productData[i].price %>')">-</button>
+                                                        onclick="changingQuantity('<%= userCart.items[i].subTotal %>','<%= userCart.items[i].quantity %>','<%= userCart.items[i]._id %>', -1 , '<%= userCart.owner %>','<%= productData[i]._id %>','<%= userCart.items[i].size %>','<%=i%>','<%= productData[i].sellingPrice %>')">-</button>
 
                                                 </td>
                                                 <td class="price" data-title="Size"><span>
@@ -615,30 +615,45 @@
                                                         <table class="table">
                                                             <tbody>
                                                                 <% if (userCart.items.length> 0) { %>
+                                                                    
                                                                     <tr>
                                                                         <td class="cart_total_label">Cart Subtotal</td>
-                                                                        <td class="cart_total_amount"><span
+                                                                        <td class="cart_total_amount">&#8377;<span
                                                                                 class="font-lg fw-900 text-brand"
                                                                                 id="total">
                                                                                 <%= userCart.billTotal %>
                                                                             </span></td>
                                                                     </tr>
                                                                     <% } %>
+                                                                    <% if (userCart.items.length> 0) { %>
+                                                                    <tr>
+                                                                        <td class="cart_total_label">Coupon discount</td>
+                                                                        <td class="cart_total_amount">-&#8377;<span
+                                                                                class="font-lg fw-900 text-brand"
+                                                                                id="total">
+                                                                                <%= userCart.discountPrice %>
+                                                                            </span></td>
+                                                                    </tr>
+                                                                    <% } %>
+                                                                    <% if (userCart.items.length> 0) { %>
                                                                         <tr>
-                                                                            <td class="cart_total_label">Shipping</td>
-                                                                            <td class="cart_total_amount"><i
-                                                                                    class="ti-gift mr-5"></i> Free
-                                                                                Shipping</td>
+                                                                            <td class="cart_total_label">Delivery Charges</td>
+                                                                            <td class="cart_total_amount">&#8377;<span
+                                                                                class="font-lg fw-900 text-brand"
+                                                                                id="total">
+                                                                                50
+                                                                            </span></td>
                                                                         </tr>
+                                                                        <% } %>
                                                                         <% if (userCart.items.length> 0) { %>
                                                                             <tr>
-                                                                                <td class="cart_total_label">Total</td>
-                                                                                <td class="cart_total_amount">
-                                                                                    <strong><span
+                                                                                <td class="cart_total_label">Total Amount</td>
+                                                                                <td class="cart_total_amount">&#8377;
+                                                                                    <span
                                                                                             class="font-xl fw-900 text-brand"
                                                                                             id="grandTotal">
-                                                                                            <%= userCart.billTotal %>
-                                                                                                <span></strong>
+                                                                                             <%=  userCart.finalPrice + 50 %>
+                                                                                                <span>
                                                                                 </td>
                                                                             </tr>
                                                                             <% } %>
@@ -785,7 +800,7 @@
                                                                 } else if (responseData.status === "success") {
                                                                     updateQty.innerHTML = updatingQuantity;
                                                                     subTotal.innerHTML = updatingQuantity * price;
-                                                                    total.innerText = responseData.total;
+                                                                    total.innerText = responseData.total +50;
                                                                     itemsTotal.innerText = responseData.total;
 
 

@@ -1,0 +1,173 @@
+<%- include("../partials/adminheaders" ) %>
+    <section class="content-main">
+        <div class="content-header">
+            <h2 class="content-title">Category Offers</h2>
+
+        </div>
+        <div class="card mb-4">
+            <!-- <header class="card-header">
+                    <div class="row gx-3">
+                        <div class="col-lg-4 col-md-6 me-auto">
+                            <input type="text" placeholder="Search..." class="form-control">
+                        </div>
+                        <div class="col-lg-2 col-6 col-md-3">
+                            <select class="form-select">
+                                <option>Show 20</option>
+                                <option>Show 30</option>
+                                <option>Show 40</option>
+                                <option>Show all</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-2 col-6 col-md-3">
+                            <select class="form-select">
+                                <option>Status: all</option>
+                                <option>Active only</option>
+                                <option>Disabled</option>
+                            </select>
+                        </div>
+                    </div>
+                </header>  -->
+            <div class="card-body">
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4">
+
+                    <% for( let i=0; i < categoryData.length; i++ ) { %>
+                        <div class="col">
+                            <div class="card card-user">
+                                <div class="product-img product-img-zoom">
+
+
+                                </div>
+                                <div class="card-body">
+                                    <div class="card-text">
+                                        <form id="form">
+                                            <p id="price" class="m-0">
+                                            </p>
+                                            <br>
+
+                                            <p class="category-name"><strong>
+                                                    <%= categoryData[i].name %>
+                                                </strong></p>
+                                            <br>
+
+                                            <p><strong>Apply offer </strong></p>
+
+                                            <input type="number" class="form-control" placeholder="Enter offer amount"
+                                                name="offerPrice" id="offerPrice" value=""
+                                                onchange="validateOfferPrice()"
+                                                onkeydown="return /[0-9\b]/i.test(event.key) || event.keyCode === 8">
+                                            <p id="offerpriceError" class="error"></p>
+
+
+                                            <button class="btn btn-sm btn-brand rounded font-sm mt-15"
+                                                onclick="updateofferPrice(event, '<%= categoryData[i].name %>')"
+                                                type="submit">Update</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> <!-- col.// -->
+
+                        <% } %>
+
+
+
+
+                </div> <!-- row.// -->
+            </div> <!-- card-body end// -->
+        </div> <!-- card end// -->
+
+
+
+
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+    <script>
+        async function updateofferPrice(event, category) {
+            event.preventDefault(); // Prevent the default form submission behavior
+            const offerPriceInput = document.getElementById("offerPrice");
+            const offerPrice = offerPriceInput.value;
+
+            try {
+                const response = await fetch('/admin/updateCategoryOffer', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ category, offerPrice })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                if (data.message == "offer prices updated Successfully") {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "Offer price updated",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                } else {
+                    throw new Error('Invalid server response format.');
+                }
+
+            } catch (error) {
+                console.error('Error updating offer price:', error);
+                Swal.fire({
+                    position: "top-end",
+                    icon: "error",
+                    title: error,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+        }
+    </script>
+
+
+    <script>
+        function validateOfferPrice() {
+            var offerPrice = parseFloat(document.getElementById('offerPrice').value);
+            var errorElement = document.getElementById('offerpriceError');
+            errorElement.innerHTML = '';
+
+            if (isNaN(offerPrice) || offerPrice < 0) {
+                errorElement.innerHTML = 'Offer price must be a positive number.';
+                setTimeout(function() {
+                    errorElement.innerHTML = '';
+                }, 3000);
+                document.getElementById('offerPrice').value = ''; 
+            } else if (offerPrice > 500) {
+                errorElement.innerHTML = 'Offer price cannot be greater than 500 Rs.';
+                setTimeout(function() {
+                    errorElement.innerHTML = '';
+                }, 3000);
+                document.getElementById('offerPrice').value = ''; 
+            }
+        }
+
+    </script>
+
+
+    <style>
+        .error {
+            color: red;
+        }
+
+        .category-name {
+            background-color: #088178;
+
+            padding: 5px;
+
+            color: white;
+
+        }
+    </style>
+
+    <%- include("../partials/adminfooters") %>

@@ -10,6 +10,7 @@ const mongoose = require('mongoose');
 
 
 
+
 //login page rendering
 const loadLogin = async (req, res) => {
     // console.log("loadlogin is working")
@@ -82,7 +83,7 @@ const loadHome = async (req, res) => {
         endOfMonth.setMonth(endOfMonth.getMonth() + 1);
         endOfMonth.setDate(0);
         endOfMonth.setHours(23, 59, 59, 999);
-        
+
         const monthlySales = await Order.aggregate([
             {
                 $match: {
@@ -99,7 +100,96 @@ const loadHome = async (req, res) => {
         ]);
 
         console.log("monthly sales", monthlySales);
-        res.render('adminHome', { totalSales, monthlySales });
+
+        const orderData = await Order.findOne({ user: req.session.user_id });
+
+
+        let bestSellingProduct = [];
+
+        const bestSellingProductDetails = await Order.aggregate([
+            {
+                $match: { status: "Delivered" },
+            },
+            {
+                $unwind: "$items",
+            },
+            {
+                $group: {
+                    _id: "$items.productId",
+                    sum: { $sum: "$items.quantity" },
+                },
+            },
+            { $sort: { sum: -1 } },
+            {
+                $group: {
+                    _id: null,
+                    topSellingProduct: { $push: "$_id" },
+                },
+            },
+            {
+                $limit: 10,
+            }
+        ])
+
+        if (bestSellingProductDetails.length > 0) {
+            bestSellingProduct = bestSellingProductDetails[0].topSellingProduct
+        }
+
+        const productData = await addProduct.find({
+            _id: { $in: bestSellingProduct },
+        }).populate("category");
+
+        //top selling category
+        const topSellingCategory = await addProduct.aggregate([
+            {
+                $match: {
+                    _id: { $in: bestSellingProduct },
+                },
+            },
+            {
+                $group: {
+                    _id: "$category",
+                    totalQuantity: { $sum: 1 },
+                },
+            },
+            {
+                $sort: { totalQuantity: -1 },
+            },
+            {
+                $limit: 5
+            },
+        ]);
+
+        //top selling brand
+        const topSellingBrand = await addProduct.aggregate([
+            {
+                $match: {
+                    _id: { $in: bestSellingProduct },
+                },
+            },
+            {
+                $group: {
+                    _id: "$brand",
+                    totalQuantity: { $sum: 1 },
+                },
+            },
+            {
+                $sort: { totalQuantity: -1 },
+            },
+            {
+                $limit: 5
+            },
+        ]);
+
+
+
+        const topCategoryNames = topSellingCategory.map(category => category._id);
+
+        const topCategory = await addCategory.find({ name: { $in: topCategoryNames } });
+
+        res.render('adminHome', { totalSales, monthlySales, topCategory, productData, topBrands: topSellingBrand, orderData });
+
+
     } catch (error) {
         console.log("loadHome", error.message);
         res.status(500).json({ message: "Internal Server Error" });
@@ -524,8 +614,179 @@ const filterSalesReport = async (req, res) => {
 
 
 //chart statistics
-const chartStatistics = async(req, res) => {
+const chartStatistics = async (req, res) => {
     try {
+
+        let loadOrders = await Order.find({});
+
+        function ordersByDay(orders) {
+            const ordersByDay = {
+                Sunday: 0,
+                Monday: 0,
+                Tuesday: 0,
+                Wednesday: 0,
+                Thursday: 0,
+                Friday: 0,
+                Saturday: 0,
+            };
+
+            orders.forEach((order) => {
+                const orderDate = new Date(order.orderDate);
+                const dayOfWeek = orderDate.getDay();
+
+                switch (dayOfWeek) {
+                    case 0:
+                        ordersByDay["Sunday"]++;
+                        break;
+                    case 1:
+                        ordersByDay["Monday"]++;
+                        break;
+                    case 2:
+                        ordersByDay["Tuesday"]++;
+                        break;
+                    case 3:
+                        ordersByDay["Wednesday"]++;
+                        break;
+                    case 4:
+                        ordersByDay["Thursday"]++;
+                        break;
+                    case 5:
+                        ordersByDay["Friday"]++;
+                        break;
+                    case 6:
+                        ordersByDay["Saturday"]++;
+                        break;
+                    default:
+                        break;
+                }
+            });
+
+            return ordersByDay;
+        }
+
+        const countOrdersByDay = ordersByDay(loadOrders);
+
+        console.log("count orders by day", countOrdersByDay);
+
+        function countOrdersByMonth(orders) {
+            const monthNames = [
+                "January", "February", "March", "April",
+                "May", "June", "July", "August",
+                "September", "October", "November", "December"
+            ];
+
+            const ordersByMonth = {};
+
+            monthNames.forEach(month => {
+                ordersByMonth[month] = 0;
+            });
+
+            orders.forEach((order) => {
+                const orderDate = new Date(order.orderDate);
+                const month = orderDate.getMonth();
+                ordersByMonth[monthNames[month]]++;
+            });
+
+            return ordersByMonth;
+        }
+
+        const ordersForYearByMonth = countOrdersByMonth(loadOrders);
+
+        console.log("orders for year by month", ordersForYearByMonth);
+
+        function calculateRevenueByMonth(orders) {
+            const monthNames = [
+                "January", "February", "March", "April",
+                "May", "June", "July", "August",
+                "September", "October", "November", "December"
+            ];
+
+            const revenueMonthly = {};
+
+            monthNames.forEach(month => {
+                revenueMonthly[month] = 0;
+            });
+
+            orders.forEach((order) => {
+                const orderDate = new Date(order.orderDate);
+                const month = orderDate.getMonth();
+
+                if (order.status === "Delivered") {
+                    revenueMonthly[monthNames[month]] += order.billTotal;
+                }
+            });
+
+            return revenueMonthly;
+        }
+
+        const revenueForYearByMonth = calculateRevenueByMonth(loadOrders);
+
+        console.log("revenue for year by month", revenueForYearByMonth);
+
+        res.status(200).json({
+            dataCurrentWeek: countOrdersByDay,
+            dataCurrentYear: ordersForYearByMonth,
+            revenueCurrentYear: revenueForYearByMonth,
+        });
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+};
+
+
+//product offers
+const productOffers = async(req, res) => {
+    try {
+
+        const productData = await addProduct.find({})
+
+        res.render("productOffer", {productData});
+        
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+}
+
+//update product offer
+const updateProductSellingPrice = async (req, res) => {
+    console.log("hi//////");
+    try {
+        const { productId, sellingPrice } = req.body;
+
+        console.log("Received productId:", productId);
+        console.log("Received sellingPrice:", sellingPrice);
+
+        // Validate productId as a valid ObjectId
+        if (!mongoose.Types.ObjectId.isValid(productId)) {
+            return res.status(400).json({ message: 'Invalid productId' });
+        }
+
+        const updatedProduct = await addProduct.findByIdAndUpdate(productId, { sellingPrice });
+
+        console.log("Updated product:", updatedProduct);
+
+        if (!updatedProduct) {
+            return res.status(404).json({ message: 'Product not found' });
+        }
+
+        res.status(200).json({ message: 'Selling price updated successfully' });
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+};
+
+
+
+//category offer
+const categoryOffers = async(req, res) => {
+    try {
+
+        const categoryData = await addCategory.find({});
+
+        res.render('categoryOffer', {categoryData});
         
     } catch (error) {
         console.log(error.message);
@@ -534,6 +795,43 @@ const chartStatistics = async(req, res) => {
 }
 
 
+//update category offer
+const updateCategoryOffer = async(req, res) => {
+  
+    try {
+        const { category, offerPrice } = req.body;
+
+        console.log("request body", req.body)
+
+        const productsToUpdate = await addProduct.find({ category: category});
+        if(!productsToUpdate) {
+            return res.status(404).json({ message: "Category not found" });
+
+        }
+
+         const offerAmount = parseFloat(offerPrice);
+         console.log("offerAmount", offerAmount);
+
+         // Iterate through each product to update sellingPrice
+         for (const product of productsToUpdate) {
+          
+             const productPrice = parseFloat(product.price);
+
+             const newSellingPrice = productPrice - offerAmount;
+
+             console.log("new sellingprice", newSellingPrice);
+ 
+             if (newSellingPrice < product.sellingPrice) {
+                 product.sellingPrice = newSellingPrice;
+                 await product.save();
+             }
+         }
+        return res.status(200).json({ message: "offer prices updated Successfully" });
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({message:"Internal Server Error"});
+    }
+}
 
 module.exports = {
     loadLogin,
@@ -554,6 +852,10 @@ module.exports = {
     couponListUnlist,
     adminsalesReport,
     filterSalesReport,
-    chartStatistics
+    chartStatistics,
+    productOffers,
+    updateProductSellingPrice,
+    categoryOffers,
+    updateCategoryOffer
 
 }
