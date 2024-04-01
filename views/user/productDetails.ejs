@@ -696,40 +696,42 @@
                 });
         }
 
+
+
         function addToWishlist(productId) {
             fetch(`/addToWishlist?id=${productId}`)
                 .then((response) => {
-                    if (!response.ok) {
+                    if (response.status === 200) {
+                        return response.json(); 
+                    } else if (response.status === 401) {
+                        return response.json().then((data) => {
+                            iziToast.error({
+                                title: 'Product already exists',
+                                message: data.message,
+                            });
+                        });
+                    } else {
                         throw new Error(`HTTP error! Status: ${response.status}`);
                     }
-                    return response.text();
                 })
                 .then((data) => {
-                    if (data.message) {
-                        Swal.fire({
-                            icon: "error",
-                            title: "Product already exists",
-                            text: data.message,
-                        })
-                    } else {
-                        Swal.fire({
-                            icon: "success",
-                            title: "Product added to wishlist",
-                            text: data,
+                    if (data && data.message === 'Product added to wishlist Successfully!') {
+                        iziToast.success({
+                            title: 'Product added to wishlist',
+                            message: 'Product added successfully!',
                         });
-
                     }
-
                 })
                 .catch((error) => {
                     console.error("Error:", error);
-                    Swal.fire({
-                        icon: "error",
-                        title: "Error",
-                        text: "Failed to add product to wishlist",
+                    iziToast.error({
+                        title: 'Error',
+                        message: 'Failed to add product to wishlist',
                     });
                 });
         }
+
+
 
 
 

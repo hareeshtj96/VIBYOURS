@@ -46,12 +46,12 @@ const addWishList = async (req, res) => {
             if(!isProductExist) {
                 wishlist.product.push(id);
             } else {
-                return res.status(400).json({ message: "Product already exist in your wishlist" });
+                return res.status(401).json({ message: "Product already exist in your wishlist" });
             }
         }
 
         await wishlist.save();
-        res.status(200).send('Product added to wishlist Successfully!');
+        res.status(200).json({ message: 'Product added to wishlist Successfully!', added: true  });
 
     } catch (error) {
         console.log(error.message);
