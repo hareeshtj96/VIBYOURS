@@ -527,7 +527,7 @@ const adminsalesReport = async (req, res) => {
 
 //sort sales report
 const filterSalesReport = async (req, res) => {
-    console.log('hi........... it is in filter sales')
+    // console.log('hi........... it is in filter sales')
     try {
         const { sortBy, date } = req.query;
 
@@ -739,9 +739,19 @@ const chartStatistics = async (req, res) => {
 const productOffers = async(req, res) => {
     try {
 
-        const productData = await addProduct.find({})
+        const page = parseInt(req.query.page) || 1;
 
-        res.render("productOffer", {productData});
+        const pageSize = 8;
+
+        const skip = (page - 1) * pageSize;
+
+        const totalProducts= await addProduct.countDocuments({});
+
+        const totalPages = Math.ceil(totalProducts / pageSize);
+       
+        const productData = await addProduct.find({}).skip(skip).limit(pageSize);
+
+        res.render("productOffer", {productData, currentPage: page, totalPages });
         
     } catch (error) {
         console.log(error.message);

@@ -26,7 +26,7 @@
                         <th>Customer</th>
                         <th>Product</th>
                         <th>Quantity Sold</th>
-                        <th>Unit Price (Rs)</th>
+                        <th>Price (Rs)</th>
                         <th>Coupon (Amount)</th>
                         <th>Total Sales (Rs)</th>
                     </tr>
@@ -71,15 +71,15 @@
                                                                                         %>
                                                                                 </td>
                                                                                 <td>
-                                                                                    <%= groupedItems[productTitle].price
-                                                                                        %>
+                                                                                    <%= order.billTotal +
+                                                                                        order.discountPrice %>
                                                                                 </td>
                                                                                 <td>
                                                                                     <%= order.discountPrice %>
                                                                                 </td>
+                                                                                
                                                                                 <td>
-                                                                                    <%= groupedItems[productTitle].price
-                                                                                        - order.discountPrice %>
+                                                                                    <%= order.billTotal + 50%>
                                                                                 </td>
                                                                                 <!-- Assuming total sales is the same as total price -->
                                                                                 <% }); %>
@@ -94,8 +94,13 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td colspan="7" class="text-end"><strong>Total Sales:</strong></td>
+                        <td colspan="7" class="text-end"><strong>Total Sales: &#8377;</strong></td>
                         <td id="totalSales"></td>
+
+                    </tr>
+                    <tr>
+                        <td colspan="7" class="text-end"><strong>Total Coupon Discount: &#8377;</strong></td>
+                        <td id="Coupon"></td>
                     </tr>
                 </tfoot>
             </table>
@@ -148,7 +153,7 @@
                 }
             });
 
-            if(salesCount === 0 ){
+            if (salesCount === 0) {
                 totalSales = 0;
             }
 
@@ -159,6 +164,42 @@
         calculateTotalSales();
 
 
+        // Function to calculate total coupon discount
+        function calculateTotalCouponDiscount() {
+            const salesTableBody = document.getElementById('salesTableBody');
+            const totalCouponDiscountElement = document.getElementById('Coupon');
+
+            let totalCoupon = 0;
+            let couponCount = 0;
+
+            salesTableBody.querySelectorAll('tr').forEach(row => {
+                const totalCouponCell = row.querySelector('td:nth-last-child(2)'); // Target the last but one cell
+                if (totalCouponCell) {
+                    totalCoupon += parseFloat(totalCouponCell.textContent);
+                    couponCount++;
+                }
+            });
+
+            if (couponCount === 0) {
+                totalCoupon = 0;
+            }
+
+            totalCouponDiscountElement.textContent = totalCoupon.toFixed(2); // Assuming 2 decimal places for currency
+        }
+
+        // Call the function to calculate total coupon discount initially
+        calculateTotalCouponDiscount();
+
+        // Create a MutationObserver to watch for changes in the sales table body
+        const observer = new MutationObserver(() => {
+            calculateTotalCouponDiscount(); // Calculate total coupon discount when table content changes
+        });
+
+        // Configure and start observing the sales table body for changes
+        observer.observe(document.getElementById('salesTableBody'), {
+            childList: true, // Observe changes in child nodes (rows)
+            subtree: true, // Include all descendants of the target node
+        });
 
 
 
@@ -321,15 +362,15 @@
             tableBody.innerHTML = '';
 
             let totalSales = 0;
-            
+
 
             if (data && data.length > 0) {
                 data.forEach(order => {
                     order.items.forEach(item => {
 
-                        const totalPrice = (item.quantity * item.price) - order.discountPrice; // Calculate total price
+                        const totalPrice = (order.billTotal + 50);
                         totalSales += totalPrice;
-                        
+
 
 
                         const row = document.createElement('tr');
@@ -339,9 +380,9 @@
                         <td>${order.user.name}</td>
                         <td>${item.productId.producttitle}</td>
                         <td>${item.quantity}</td>
-                        <td>${item.price}</td>
+                        <td>${order.billTotal + order.discountPrice}</td>
                         <td>${order.discountPrice}</td>
-                        <td>${item.quantity * item.price - order.discountPrice}</td>
+                        <td>${order.billTotal + 50}</td>
                     `;
                         tableBody.appendChild(row);
                     })

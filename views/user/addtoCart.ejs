@@ -22,7 +22,7 @@
                 <div class="mobile-menu-wrap mobile-header-border">
                     <div class="main-categori-wrap mobile-header-border">
                         <a class="categori-button-active-2" href="#">
-                            <span class="fi-rs-apps"></span> Browse Categories
+                            <span class="fi-rs-apps"></span> VIBYOURS
                         </a>
                         <div class="categori-dropdown-wrap categori-dropdown-active-small">
                             <ul>
@@ -428,8 +428,9 @@
 
                                                         <%=userCart.items[i].size %>
                                                     </span></td>
-                                                <td class="text-right" id="Subtotal<%=i%>" data-title="Subtotal"><span>
-                                                        <%= userCart.items[i].subTotal %>
+                                                <td class="text-right" id="Subtotal<%=i%>" data-title="Subtotal"><span
+                                                        id="subtotalValue<%= i  %>">
+                                                        <%= productData[i].sellingPrice  %>
                                                     </span></td>
                                                 <td class="action" data-title="Remove">
                                                     <a href="#" onclick="removeItem('<%= productData[i]._id %>')"
@@ -615,7 +616,7 @@
                                                         <table class="table">
                                                             <tbody>
                                                                 <% if (userCart.items.length> 0) { %>
-                                                                    
+
                                                                     <tr>
                                                                         <td class="cart_total_label">Cart Subtotal</td>
                                                                         <td class="cart_total_amount">&#8377;<span
@@ -625,38 +626,48 @@
                                                                             </span></td>
                                                                     </tr>
                                                                     <% } %>
-                                                                    <% if (userCart.items.length> 0) { %>
-                                                                    <tr>
-                                                                        <td class="cart_total_label">Coupon discount</td>
-                                                                        <td class="cart_total_amount">-&#8377;<span
-                                                                                class="font-lg fw-900 text-brand"
-                                                                                id="total">
-                                                                                <%= userCart.discountPrice %>
-                                                                            </span></td>
-                                                                    </tr>
-                                                                    <% } %>
-                                                                    <% if (userCart.items.length> 0) { %>
-                                                                        <tr>
-                                                                            <td class="cart_total_label">Delivery Charges</td>
-                                                                            <td class="cart_total_amount">&#8377;<span
-                                                                                class="font-lg fw-900 text-brand"
-                                                                                id="total">
-                                                                                50
-                                                                            </span></td>
-                                                                        </tr>
-                                                                        <% } %>
                                                                         <% if (userCart.items.length> 0) { %>
                                                                             <tr>
-                                                                                <td class="cart_total_label">Total Amount</td>
-                                                                                <td class="cart_total_amount">&#8377;
-                                                                                    <span
-                                                                                            class="font-xl fw-900 text-brand"
-                                                                                            id="grandTotal">
-                                                                                             <%=  userCart.finalPrice + 50 %>
-                                                                                                <span>
-                                                                                </td>
+                                                                                <td class="cart_total_label">Coupon
+                                                                                    discount</td>
+                                                                                <td class="cart_total_amount">
+                                                                                    -&#8377;<span
+                                                                                        class="font-lg fw-900 text-brand"
+                                                                                        id="total">
+                                                                                        <%= userCart.discountPrice %>
+                                                                                    </span></td>
                                                                             </tr>
                                                                             <% } %>
+                                                                                <% if (userCart.items.length> 0) { %>
+                                                                                    <tr>
+                                                                                        <td class="cart_total_label">
+                                                                                            Delivery Charges</td>
+                                                                                        <td class="cart_total_amount">
+                                                                                            &#8377;<span
+                                                                                                class="font-lg fw-900 text-brand"
+                                                                                                id="total">
+                                                                                                50
+                                                                                            </span></td>
+                                                                                    </tr>
+                                                                                    <% } %>
+                                                                                        <% if (userCart.items.length> 0)
+                                                                                            { %>
+                                                                                            <tr>
+                                                                                                <td
+                                                                                                    class="cart_total_label">
+                                                                                                    Total Amount</td>
+                                                                                                <td
+                                                                                                    class="cart_total_amount">
+                                                                                                    &#8377;
+                                                                                                    <span
+                                                                                                        class="font-xl fw-900 text-brand"
+                                                                                                        id="grandTotal">
+                                                                                                        <%= userCart.finalPrice
+                                                                                                            + 50 %>
+                                                                                                            <span>
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                            <% } %>
 
                                                             </tbody>
                                                         </table>
@@ -800,7 +811,7 @@
                                                                 } else if (responseData.status === "success") {
                                                                     updateQty.innerHTML = updatingQuantity;
                                                                     subTotal.innerHTML = updatingQuantity * price;
-                                                                    total.innerText = responseData.total +50;
+                                                                    total.innerText = responseData.total + 50;
                                                                     itemsTotal.innerText = responseData.total;
 
 
@@ -852,7 +863,7 @@
 
 
                                                     async function removecoupon() {
-                                                        
+
 
                                                         try {
                                                             const response = await fetch('/removeCoupon');
@@ -880,6 +891,10 @@
 
 
                                                 </script>
+
+
+
+                                                
 
 
     </main>

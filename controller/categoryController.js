@@ -16,9 +16,8 @@ const createCategory = async (req, res) => {
   const { name, description, is_blocked } = req.body;
 
   try {
-    const lowercaseName = name.toLowerCase();
-
-    const existingCategory = await addCategory.findOne({ name: lowercaseName });
+    
+    const existingCategory = await addCategory.findOne({ name: { $regex: new RegExp(`^${name}$`, 'i') }  });
 
     if (existingCategory) {
       return res
@@ -90,7 +89,7 @@ const updateCategory = async (req, res) => {
 
     
       const existingCategory = await addCategory.findOne({
-        name: req.body.name,
+        name: { $regex: new RegExp(`^${name}$`, 'i') },
         _id: { $ne: categoryDataId },
       });
 

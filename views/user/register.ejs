@@ -48,6 +48,11 @@
                                 <p id="passwordError" class="error"></p>
                             </div>
                             <div class="form-group">
+                                <input type="password" id="confirmPassword" name="confirmPassword"
+                                    placeholder="Confirm Password" onblur="validateConfirmPassword()">
+                                <p id="confirmPasswordError" class="error"></p>
+                            </div>
+                            <div class="form-group">
                                 <input type="text" id="mobile" name="mobile" placeholder="mobile"
                                     onblur="validateMobile()">
                                 <p id="mobileError" class="error"></p>
@@ -82,7 +87,7 @@
                                     </p>
                                     <% } %>
 
-                                        <% if (typeof showAlert !== 'undefined' && showAlert) { %>
+                                        <% if (typeof showAlert !=='undefined' && showAlert) { %>
                                             <script>
                                                 // Show IziToast success message
                                                 iziToast.success({
@@ -165,13 +170,28 @@
                 var passwordError = document.getElementById('passwordError');
 
                 if (!passwordPattern.test(passwordInput)) {
-                    passwordError.innerHTML = 'Invalid password format. Password must be at least 6 characters, including alphabets and numerics, with no space.';
+                    passwordError.innerHTML = 'Invalid password format. Password must be at least 6 characters.';
 
                 } else {
                     passwordError.innerHTML = '';
 
                 }
             }
+
+            function validateConfirmPassword() {
+                var passwordInput = document.getElementById('password').value.trim();
+                var confirmPasswordInput = document.getElementById('confirmPassword').value.trim();
+                var confirmPasswordError = document.getElementById('confirmPasswordError');
+
+                // Check if passwords match
+                if (passwordInput !== confirmPasswordInput) {
+                    confirmPasswordError.innerHTML = 'Passwords do not match';
+                } else {
+                    confirmPasswordError.innerHTML = '';
+                }
+            }
+
+
 
 
             function validateMobile() {
@@ -202,9 +222,10 @@
                 validateName();
                 validateEmail();
                 validatePassword();
+                validateConfirmPassword()
                 validateMobile()
 
-                if (mobileError.innerHTML || passwordError.innerHTML || emailError.innerHTML || nameError.innerHTML) {
+                if (mobileError.innerHTML || passwordError.innerHTML || confirmPasswordError.innerHTML || emailError.innerHTML || nameError.innerHTML) {
                     event.preventDefault();
 
 

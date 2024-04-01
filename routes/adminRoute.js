@@ -31,7 +31,7 @@ admin_route.use(bodyParser.urlencoded({ extended: true }));
 
 admin_route.get('/', isLogout, adminController.loadLogin);
 
-admin_route.post('/', adminController.verfiyLogin);
+admin_route.post('/', isLogout,adminController.verfiyLogin);
 
 admin_route.get('/adminHome', isLogin, adminController.loadHome);
 

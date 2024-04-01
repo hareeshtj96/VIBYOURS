@@ -348,15 +348,15 @@
         .getElementById("submitBtn")
         .addEventListener("click", function (event) {
           event.preventDefault();
-
+    
           const categoryName = document
             .getElementById("categoryName")
             .value.trim();
-
+    
           const description = document
             .getElementById("description")
             .value.trim();
-
+    
           if (!categoryName) {
             Swal.fire({
               icon: "error",
@@ -365,15 +365,15 @@
             });
             return;
           }
-
+    
           const formData = {
             name: categoryName,
             description: description, // You can add description if needed
           };
-
+    
           checkExistingCategory(formData);
         });
-
+    
       function checkExistingCategory(formData) {
         fetch(`/admin/editCategory?id=<%= category._id %>&name=${formData.name}`, {
           method: "POST",
@@ -383,12 +383,9 @@
           body: JSON.stringify(formData),
         })
           .then((response) => {
-            
             if (!response.ok) {
-              
               throw new Error(`HTTP error! Status: ${response.status}`);
             }
-
             return response.json();
           })
           .then((data) => {
@@ -425,7 +422,13 @@
           })
           .catch((error) => {
             console.error("An unexpected error occurred:", error);
-            alert("An unexpected error occurred: " + error.message);
+            // Display the error message using SweetAlert
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "This category name already exists.",
+              confirmButtonText: "OK",
+            });
           });
       }
     </script>

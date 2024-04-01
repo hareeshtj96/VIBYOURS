@@ -61,7 +61,7 @@ const getCartPage = async (req, res) => {
       return userCart.billTotal >= coupon.minimumAmount && userCart.billTotal <= coupon.maximumAmount && coupon.isActive
     })
 
-
+ 
 
     res.render("addtoCart", { productData, userCart, coupon: eligibleCoupons, productCount });
   } catch (error) {
@@ -194,11 +194,8 @@ const removeItem = async (req, res) => {
   try {
     const itemId = req.query.itemId;
 
-    // console.log("itemId", itemId);
-
     const userId = req.session.user_id;
 
-    // console.log("userId", userId);
 
     const userCart = await Cart.findOne({ owner: userId });
 
@@ -235,6 +232,9 @@ const removeItem = async (req, res) => {
     res.status(500).json({ status: false, message: "Internal server error." });
   }
 };
+
+
+
 
 
 //changing quantity

@@ -26,7 +26,7 @@
                         <div class="header-info">
                             <ul>
                                 <li><i class="fi-rs-smartphone"></i> <a href="#">(+01) - 2345 - 6789</a></li>
-                                <li><i class="fi-rs-marker"></i><a href="page-contact.html">Our location</a></li>
+                                <li><i class="fi-rs-marker"></i><a href="#contactSection">Our location</a></li>
                             </ul>
                         </div>
                     </div>
@@ -34,11 +34,11 @@
                         <div class="text-center">
                             <div id="news-flash" class="d-inline-block">
                                 <ul>
-                                    <li>Get great devices up to 50% off <a href="shop-grid-right.html">View details</a>
+                                    <!-- <li>Get great devices up to 50% off <a href="shop-grid-right.html">View details</a>
                                     </li>
                                     <li>Supper Value Deals - Save more with coupons</li>
                                     <li>Trendy 25silver jewelry, save up 35% off today <a
-                                            href="shop-grid-right.html">Shop now</a></li>
+                                            href="shop-grid-right.html">Shop now</a></li> -->
                                 </ul>
                             </div>
                         </div>
@@ -74,7 +74,7 @@
                         class="main-menu main-menu-grow main-menu-padding-1 main-menu-lh-1 main-menu-mrg-1 hm3-menu-padding d-none d-lg-block hover-boder">
                         <nav>
                             <ul>
-                                <li><a class="active" href="index.html">Home></i></a>
+                                <li><a class="active" href="#">Home></i></a>
                                     <!-- <ul class="sub-menu">
                                         <li><a href="index.html">Home 1</a></li>
                                         <li><a href="index-2.html">Home 2</a></li>
@@ -82,7 +82,7 @@
                                         <li><a href="index-4.html">Home 4</a></li>
                                     </ul> -->
                                 </li>
-                                <li><a href="shop-grid-right.html">Shop <i class="fi-rs-angle-down"></i></a>
+                                <li><a href="#">Shop</a>
                                     <!-- <ul class="sub-menu">
                                         <li><a href="shop-grid-right.html">Shop Grid – Right Sidebar</a></li>
                                         <li><a href="shop-grid-left.html">Shop Grid – Left Sidebar</a></li>
@@ -176,7 +176,7 @@
                                         </li>
                                     </ul>
                                 </li> -->
-                                <li><a href="#">Pages <i class="fi-rs-angle-down"></i></a>
+                                <!-- <li><a href="#">Pages <i class="fi-rs-angle-down"></i></a>
                                     <ul class="sub-menu">
                                         <li><a href="page-about.html">About Us</a></li>
                                         <li><a href="page-contact.html">Contact</a></li>
@@ -187,17 +187,17 @@
                                         <li><a href="page-terms.html">Terms of Service</a></li>
                                         <li><a href="page-404.html">404 Page</a></li>
                                     </ul>
-                                </li>
-                                <li>
+                                </li> -->
+                                <!-- <li>
                                     <a href="page-contact.html">Contact</a>
-                                </li>
+                                </li> -->
                             </ul>
                         </nav>
                     </div>
                     <div class="header-action-right">
                         <div class="search-style-2">
                             <form action="#">
-                                <select class="select-active">
+                                <!-- <select class="select-active">
                                     <option>Search in</option>
                                     <option>Women's Clothing</option>
                                     <option>Men's Clothing</option>
@@ -209,7 +209,7 @@
                                     <option>Luggage & Bags</option>
                                     <option>Shoes</option>
                                     <option>Mother & Kids</option>
-                                </select>
+                                </select> -->
                                 <input type="text" placeholder="Search for items…">
                             </form>
                         </div>
@@ -217,13 +217,13 @@
                             <div class="header-action-icon-2">
                                 <a href="">
                                     <img class="svgInject" alt="Evara" src="assets/imgs/theme/icons/icon-heart.svg">
-                                    
+
                                 </a>
                             </div>
                             <div class="header-action-icon-2">
                                 <a class="mini-cart-icon" href="login">
                                     <img alt="Evara" src="assets/imgs/theme/icons/icon-cart.svg">
-                                   
+
                                 </a>
                                 <!-- <div class="cart-dropdown-wrap cart-dropdown-hm2">
                                     <ul>
@@ -500,12 +500,14 @@
                                                 <form method="post" onsubmit="return validateForm(event)">
                                                     <div class="form-group">
                                                         <input type="email" id="email" name="email"
-                                                            placeholder="Your Email" onblur="validateEmail()" value="hareeshtj1996@gmail.com">
+                                                            placeholder="Your Email" onblur="validateEmail()"
+                                                            value="hareeshtj1996@gmail.com">
                                                         <p id="emailError" class="error"></p>
                                                     </div>
                                                     <div class="form-group">
                                                         <input type="password" id="password" name="password"
-                                                            placeholder="Password" onblur="validatePassword()" value="hareesh123">
+                                                            placeholder="Password" onblur="validatePassword()"
+                                                            value="hareesh123">
                                                         <p id="passwordError" class="error"></p>
                                                     </div>
                                                     <div class="login_footer form-group">
@@ -560,13 +562,13 @@
 
                                     if (!emailPattern.test(emailInput)) {
                                         emailError.innerHTML = 'Invalid email format. Please enter a valid email address.';
-                                        setTimeout(function() {
+                                        setTimeout(function () {
                                             emailError.innerHTML = ''
                                         }, 3000);
 
                                     } else if (emailInput == "") {
                                         emailError.innerHTML = 'it is required';
-                                        setTimeout(function() {
+                                        setTimeout(function () {
                                             emailError.innerHTML = ''
                                         }, 3000);
                                     } else {
@@ -582,7 +584,7 @@
 
                                     if (!passwordPattern.test(passwordInput)) {
                                         passwordError.innerHTML = 'Invalid password format.';
-                                        setTimeout(function() {
+                                        setTimeout(function () {
                                             passwordError.innerHTML = ''
                                         }, 3000);
 
@@ -616,6 +618,7 @@
                             </script>
 
                             
+
                             <style>
                                 .error {
                                     color: red;

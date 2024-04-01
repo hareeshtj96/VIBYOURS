@@ -64,7 +64,7 @@
                 <%= orderData[i].deliveryAddress.email %> <%=
                 orderData[i].deliveryAddress.mobile %>
               </td>
-              <td><%= orderData[i].billTotal %></td>
+              <td><%= orderData[i].billTotal  + 50 %></td>
               <td>
                 <span
                   class="badge rounded-pill <%= orderData[i].status === 'Confirmed' ? 'alert-primary' : orderData[i].status === 'Shipped' ? 'alert-info' : orderData[i].status === 'Delivered' ? 'alert-success' : orderData[i].status === 'Pending' ? 'alert-warning' :   orderData[i].status === 'Pending Cancel Order Request' ? 'alert-primary' : orderData[i].status === 'Pending Return Request' ? 'alert-primary' :  orderData[i].status === 'Cancelled' ? 'alert-danger' : orderData[i].status === 'Returned' ? 'alert-dark': '' %>"

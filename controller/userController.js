@@ -44,15 +44,20 @@ const loadRegister = async (req, res) => {
 
 }
 
+//insert new user
 const insertUser = async (req, res) => {
 
     try {
         const otp = generateOTP();
         console.log('Generated OTP in insertUser:', otp);
 
-        const email = req.body.email;
+        const { name, email, password, confirmPassword, mobile } = req.body;
 
         let newTransaction;
+
+        if(password !== confirmPassword) {
+            return res.status(400).json({message:"Password not match!"})
+        }
 
         //check if the email already exist
         const existingUser = await User.findOne({ email });
@@ -63,15 +68,17 @@ const insertUser = async (req, res) => {
         // Save OTP and data in session
 
         req.session.registrationData = {
-            name: req.body.name,
+            name: name,
             email: email,
-            mobile: req.body.mobile,
-            password: req.body.password,
+            mobile: mobile,
+            password: password,
+            confirmPassword: confirmPassword,
             otp: otp,
             is_admin: 0,
             is_blocked: 0,
         };
 
+        
         //send OTP via email
         const emailSent = await sendOTPEmail(req.body.email, otp);
         if (req.body.refCode) {
@@ -201,7 +208,13 @@ const getOTP = async (req, res) => {
 //user login
 const loadLogin = async (req, res) => {
     try {
-        res.render('login')
+
+        if(req.session.user_id) {
+            res.redirect('/dashboard');
+        } else {
+            res.render('login');
+        }
+       
     } catch (error) {
         console.log(error.message)
         res.status(500).json({ message: "Internal Server Error" });
