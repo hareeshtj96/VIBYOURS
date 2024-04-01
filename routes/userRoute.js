@@ -84,7 +84,7 @@ user_route.post("/editAddress",isBlocked, isLogin, userController.updateEditAddr
 
 user_route.get("/deleteAddress",isBlocked, isLogin, userController.getDeleteAddress);
 
-user_route.post('/userprofileResetPassword', isLogin, userController.userprofileResetPassword);
+user_route.put('/userprofileResetPassword', isLogin, userController.userprofileResetPassword);
 
 //cart actions
 user_route.get("/cart",isBlocked, isLogin, cartController.getCartPage);
@@ -114,7 +114,7 @@ user_route.post("/retryOnlinePayment",isBlocked, isLogin, cartController.payment
 
 user_route.get("/orderDetails",isBlocked, isLogin, cartController.getOrderDetails);
 
-user_route.post("/cancelOrder",isBlocked, isLogin, cartController.cancelOrder);
+user_route.patch("/cancelOrder",isBlocked, isLogin, cartController.cancelOrder);
 
 user_route.post("/returnOrder",isBlocked, isLogin, cartController.returnOrder);
 

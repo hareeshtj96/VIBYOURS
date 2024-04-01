@@ -233,7 +233,7 @@
                                     class="text-primary material-icons md-monetization_on"></i></span>
                             <div class="text">
                                 <h6 class="mb-1 card-title">Revenue</h6>
-                                <span>Rs.<%= totalSales[0].total %></span>
+                                <span>Rs.<%= totalSales[0]? totalSales[0].total : 0 %></span>
                                 <span class="text-sm">
                                     Shipping fees are not included
                                 </span>
@@ -275,7 +275,7 @@
                             <span class="icon icon-sm rounded-circle bg-info-light"><i
                                     class="text-info material-icons md-shopping_basket"></i></span>
                             <div class="text">
-                                <h6 class="mb-1 card-title">Monthly Earning</h6> <span>Rs.<%= monthlySales[0].totalSales
+                                <h6 class="mb-1 card-title">Monthly Earning</h6> <span>Rs.<%= monthlySales[0].totalSales ? monthlySales[0].totalSales : 0
                                         %></span>
                                 <span class="text-sm">
                                     Based in your local time.
@@ -462,7 +462,7 @@
                                                 <%= product._id%>
                                             </td>
                                             <td>
-                                                <%= product.producttitle%>
+                                                <%= product.productTitle%>
                                             </td>
                                             <td><img src="/uploads/<%= product.images[0] %>" class="img-thumbnail"
                                                     alt="Product Image" style="max-width: 70px; height: 70px;"></td>

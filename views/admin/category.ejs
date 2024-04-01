@@ -268,13 +268,7 @@
             <h2 class="content-title card-title">Categories</h2>
             <p></p>
           </div>
-          <div>
-            <input
-              type="text"
-              placeholder="Search Categories"
-              class="form-control bg-white"
-            />
-          </div>
+          
         </div>
 
         <!-- Category creation form -->
@@ -340,7 +334,7 @@
                 <%= category.description %>
               </div>
               <div class="col-lg-2 col-sm-2 col-4 col-status">
-                <% if (category.is_blocked===0) { %>
+                <% if (category.isBlocked===0) { %>
                 <span class="badge rounded-pill alert-success">List</span>
                 <% } else { %>
                 <span class="badge rounded-pill alert-danger">Unlist</span>
@@ -485,7 +479,7 @@ async function makeAsyncRequest(name, description) {
             body: JSON.stringify({
                 name: name,
                 description: description,
-                is_blocked: 0,
+                isBlocked: 0,
             }),
         });
 

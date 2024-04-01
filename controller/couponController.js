@@ -3,10 +3,7 @@ const Cart = require("../model/cartModel");
 const User = require("../model/userModel");
 const Wishlist = require("../model/wishlistModel");
 
-
-
-
-
+//coupon in cart
 const couponInCart = async (req, res) => {
     try {
         const code = req.query.code;
@@ -86,17 +83,10 @@ const removeCoupon = async (req, res) => {
 
         const userIndex = coupon.usersUsed.indexOf(user._id);
 
-        console.log('User ID:', user._id);
-        console.log('User Index before removal:', userIndex);
-        console.log('Coupon before removal:', coupon);
-
         if (userIndex !== -1) {
             coupon.usersUsed.splice(userIndex, 1)
         }
         coupon.maxUsers++;
-
-        console.log('User Index after removal:', userIndex);
-        console.log('Coupon after removal:', coupon);
 
         await coupon.save();
 
@@ -107,11 +97,6 @@ const removeCoupon = async (req, res) => {
         res.status(500).json({ message: "Internal Server Error" });
     }
 }
-
-
-
-
-
 
 
 module.exports = {

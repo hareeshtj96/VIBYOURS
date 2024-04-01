@@ -30,6 +30,8 @@
 
                     <% } %>
 
+     
+
 
 
                         <form method="post" onsubmit="return validateForm(event)">
@@ -82,7 +84,7 @@
                                     name="register">Submit</button>
 
                                 <% if (locals.message) { %>
-                                    <p id="localsmessage" class="error text-danger">
+                                    <p id="localsmessage" class="error text-success">
                                         <%=message %>
                                     </p>
                                     <% } %>
@@ -92,7 +94,7 @@
                                                 // Show IziToast success message
                                                 iziToast.success({
                                                     title: 'Success!',
-                                                    message: '<%= message %>',
+                                                    message: 'Registration successful. Please log in to continue.',
                                                     position: 'topRight',
                                                     timeout: 3000,
                                                     onClosed: function () {
@@ -110,7 +112,7 @@
                     <li><a href="#" class="btn btn-facebook hover-up mb-lg-0 mb-sm-4">Login With Facebook</a></li>
                     <li><a href="#" class="btn btn-google hover-up">Login With Google</a></li>
                 </ul> -->
-                        <div class="text-muted text-center">Already have an account? <a href="login">Sign in now</a>
+                        <div class="text-muted text-center">Already have an account? <a href="login">Go to Login</a>
                         </div>
             </div>
         </div>

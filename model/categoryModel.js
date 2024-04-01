@@ -13,7 +13,7 @@ const categorySchema = new mongoose.Schema({
        
     },
 
-    is_blocked:{
+    isBlocked:{
         type: Number,
         default: 0,
     }

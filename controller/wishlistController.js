@@ -7,15 +7,13 @@ const { json } = require("body-parser");
 const loadWishlist = async (req, res) => {
     try {
         const user = await User.findOne({ _id: req.session.user_id });
-        // console.log("user", user);
-
+       
         let wishlist = await Wishlist.findOne({ user: user._id }).populate('product');
 
         if (!wishlist) {
             wishlist = null
         }
 
-        // console.log("wishlist", wishlist);
         // Count the number of products in the wishlist
         const productCount = wishlist ? wishlist.product.length : 0;
 
@@ -85,7 +83,6 @@ const removeWishList = async (req, res) => {
             return res.status(404).send('Product not found in wishlist');
         }
 
-
         wishlist.product.splice(index, 1);
 
         await wishlist.save();
@@ -97,8 +94,6 @@ const removeWishList = async (req, res) => {
         res.status(500).json({ message: "Invalid Server Error" });
     }
 }
-
-
 
 
 module.exports = {

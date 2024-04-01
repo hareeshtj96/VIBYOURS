@@ -1031,7 +1031,7 @@
                                                         </a>
                                                     </div>
                                                     <h2><a href="/productDetails?id=<%= productItem._id  %>">
-                                                            <%= productItem.producttitle %>
+                                                            <%= productItem.productTitle %>
                                                         </a></h2>
 
                                                     <div class="product-price">
@@ -2335,7 +2335,7 @@
                 let resultHtml = '';
                 if (products.length > 0) {
                     products.forEach(function (product) {
-                        resultHtml += '<div class="product" data-id="' + product._id + '">' + product.producttitle + '</div>';
+                        resultHtml += '<div class="product" data-id="' + product._id + '">' + product.productTitle + '</div>';
                     });
                     $('#searchResult').html(resultHtml).fadeIn(300);
                 } else {
@@ -2427,7 +2427,7 @@
                 <div class="product-category">
                     <a href="#">${productItem.category}</a>
                 </div>
-                <h2><a href="#">${productItem.producttitle}</a></h2>
+                <h2><a href="#">${productItem.productTitle}</a></h2>
 
                 <div class="product-price">
                     <span>Rs. ${productItem.sellingPrice}</span>

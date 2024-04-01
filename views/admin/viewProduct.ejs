@@ -258,11 +258,11 @@
                                 <tr>
 
                                     <td>
-                                        <%= addProduct[i].producttitle %>
+                                        <%= addProduct[i].productTitle %>
                                     </td>
                                     <td>
                                         <img src="/uploads/<%= addProduct[i].images[0] %>" class="img-thumbnail"
-                                            alt="<%= addProduct[i].producttitle %>" style="width: 75px; height: 100px;">
+                                            alt="<%= addProduct[i].productTitle %>" style="width: 75px; height: 100px;">
                                     </td>
                                     <td>
                                         <% if (addProduct[i].size && addProduct[i].size.length> 0) { %>
@@ -278,7 +278,7 @@
                                     <td>Rs.<%= addProduct[i].sellingPrice %>
                                     </td>
                                     <td>
-                                        <% if (addProduct[i].is_listed===1) { %>
+                                        <% if (addProduct[i].isListed===1) { %>
                                             <span class="badge rounded-pill alert-success">Active</span>
                                             <% } else { %>
                                                 <span class="badge rounded-pill alert-danger">Blocked</span>
@@ -287,18 +287,18 @@
                                     <td>
                                         <div class="d-flex justify-content-center">
                                             <a href="/admin/editProduct?id=<%= addProduct[i]._id %>"
-                                                class="btn btn-sm font-sm rounded btn-brand <%= addProduct[i].is_listed === 0 ? 'd-none' : '' %> me-2">
+                                                class="btn btn-sm font-sm rounded btn-brand <%= addProduct[i].isListed === 0 ? 'd-none' : '' %> me-2">
                                                 <i class="material-icons md-edit"></i> Edit
                                             </a>
                                             <a href="#"
-                                                class="btn btn-sm font-sm rounded <%= addProduct[i].is_listed === 1 ? 'btn-warning' : 'btn-success' %> me-2"
-                                                onclick="confirmBlock('<%= addProduct[i]._id %>', '<%= addProduct[i].is_listed %>')">
+                                                class="btn btn-sm font-sm rounded <%= addProduct[i].isListed === 1 ? 'btn-warning' : 'btn-success' %> me-2"
+                                                onclick="confirmBlock('<%= addProduct[i]._id %>', '<%= addProduct[i].isListed %>')">
                                                 <i class="material-icons md-edit"></i>
-                                                <%= addProduct[i].is_listed===1 ? 'Block' : 'Unblock' %>
+                                                <%= addProduct[i].isListed===1 ? 'Block' : 'Unblock' %>
                                             </a>
 
                                             <a href="#"
-                                                class="btn btn-sm font-sm btn-danger rounded <%= addProduct[i].is_listed === 0 ? 'd-none' : '' %>"
+                                                class="btn btn-sm font-sm btn-danger rounded <%= addProduct[i].isListed === 0 ? 'd-none' : '' %>"
                                                 onclick="confirmDelete('<%= addProduct[i]._id %>')">
                                                 <i class="material-icons md-delete_forever"></i> Delete
                                             </a>

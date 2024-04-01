@@ -292,7 +292,7 @@
                           </div>
                           <figcaption class="info align-self-center">
                             <p class="title">
-                              <%=item.productId.producttitle %> <br />
+                              <%=item.productId.productTitle %> <br />
                                 Qty:<%=item.quantity %>
                             </p>
                             <span class="text-muted">Rs.<%=item.price %>.00 </span>
@@ -345,7 +345,7 @@
       async function cancelOrder() {
         try {
           const response = await fetch("/cancelOrder", {
-            method: "POST",
+            method: "PATCH",
             headers: {
               "Content-Type": "application/json",
             },

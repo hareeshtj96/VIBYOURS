@@ -57,15 +57,15 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    is_admin: {
+    isAdmin: {
         type: Number,
         required: true
     },
-    is_verified: {
+    isVerified: {
         type: Number,
         default: 0
     },
-    is_blocked: {
+    isBlocked: {
         type: Number,
         default: 0
     },

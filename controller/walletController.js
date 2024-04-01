@@ -6,8 +6,7 @@ const User = require("../model/userModel");
 const addToWallet = async(req, res) => {
     try {
         const {amount} = req.body;
-        console.log('req.body', req.body)
-    
+       
         const user = await User.findById({_id: req.session.user_id});
 
         if(!user) {
@@ -16,14 +15,11 @@ const addToWallet = async(req, res) => {
 
         const order = await Order.findOne({ user: user });
         
-
         if(!order) {
             return res.status(400).json({ success : false, message: 'order not found'});
         }
 
         let wallet = await Wallet.findOne({ user: user._id });
-
-        // console.log("wallet", wallet);
 
         if(!wallet) {
             wallet = new Wallet({

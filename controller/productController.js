@@ -32,11 +32,6 @@ const fileFilter = (req, file, cb) => {
 };
 
 // Multer instance
-// const upload = multer({
-//   storage: storage,
-//   fileFilter: fileFilter,
-// }).array("images", 5); // maximum of 5 images
-
 const upload = multer({
     storage: storage,
     fileFilter: fileFilter
@@ -45,7 +40,7 @@ const upload = multer({
 
 const loadProduct = async (req, res) => {
   try {
-    const categories = await addCategory.find({ is_blocked: 0 });
+    const categories = await addCategory.find({ isBlocked: 0 });
     res.render("addProduct", { categories });
   } catch (error) {
     console.log(error.message);
@@ -61,8 +56,7 @@ const verifyProduct = async (req, res) => {
     } else if (err) {
       return res.status(500).json({ error: err.message });
     }
-    console.log(req.body, "hhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
-
+    
     const {
       producttitle,
       description,
@@ -80,7 +74,7 @@ const verifyProduct = async (req, res) => {
     try {
       // Verify if product exists with the same title
       const existingProduct = await addProduct.findOne({
-        producttitle: producttitle,
+        productTitle: producttitle,
       });
 
       if (existingProduct) {
@@ -94,7 +88,7 @@ const verifyProduct = async (req, res) => {
 
       // Create a new product
       const newProduct = new addProduct({
-        producttitle,
+        productTitle:producttitle,
         description,
         brand,
         size: [
@@ -107,10 +101,8 @@ const verifyProduct = async (req, res) => {
         sellingPrice,
         category: categoryName,
         images: req.files.map((file) => file.filename),
-        is_listed: 1,
+        isListed: 1,
       });
-
-      console.log(newProduct);
 
       // Save the product to the database
       await newProduct.save();
@@ -151,9 +143,7 @@ const editProduct = async (req, res) => {
     const productId = req.query.id;
     const existingProduct = await addProduct.findById(productId);
 
-    // console.log("exisiting product", existingProduct);
-
-    const categories = await addCategory.find({ is_blocked: 0 });
+    const categories = await addCategory.find({ isBlocked: 0 });
     const categoryName = categories ? categories.name : null;
 
     if (!existingProduct) {
@@ -162,7 +152,6 @@ const editProduct = async (req, res) => {
 
     let existingImages = existingProduct.images || [];
 
-    // console.log("exisitingimages", existingImages);
     const formattedExistingImages = existingImages.map((filename, index) => ({
         _id: index, // Use the index as a temporary unique identifier
         previewUrl: `/uploads/${filename}`,
@@ -170,8 +159,6 @@ const editProduct = async (req, res) => {
       }));
 
     const newImages = req.files ? req.files.map((file) => file.filename) : [];
-
-    // console.log("newImags", newImages);
 
     for (
       let i = 0;
@@ -187,12 +174,10 @@ const editProduct = async (req, res) => {
 
     existingImages = existingImages.slice(0, 4);
 
-    // console.log('exisitnimage', existingImages);
-
     const { sizeS, sizeM, sizeL, sizeXL } = req.body;
 
     const updatedProduct = {
-      producttitle: req.body.producttitle,
+      productTitle: req.body.producttitle,
       description: req.body.description,
       brand: req.body.brand,
       size: [
@@ -205,7 +190,7 @@ const editProduct = async (req, res) => {
       sellingPrice: req.body.sellingPrice,
       category: categoryName,
       images: existingImages,
-      is_listed: 1,
+      isListed: 1,
     };
 
     const productData = await addProduct
@@ -214,8 +199,6 @@ const editProduct = async (req, res) => {
 
     // const id = req.query.id;
     // const productData = await addProduct.findById(id);
-
-    // console.log(productData);
 
     if (productId) {
       res.render("editProduct", { product: productData, categories, existingImages: formattedExistingImages });
@@ -228,86 +211,11 @@ const editProduct = async (req, res) => {
   }
 };
 
-//update products
-// const updateProduct = async (req, res) => {
-//     console.log("it is reached update product");
-//   try {
-//     console.log("Product ID:", req.query.id);
 
-//     console.log("Form Data:", req.body);
-
-//     upload(req, res, async function (err) {
-//       const productDataId = req.query.id;
-
-//       let existingImages = [];
-//       const existingProduct = await addProduct.findById(req.query.id);
-
-//       if (
-//         existingProduct &&
-//         existingProduct.images &&
-//         Array.isArray(existingProduct.images)
-//       ) {
-//         existingImages = existingProduct.images;
-//       }
-
-//       let newImages = [];
-//       if (req.files && Array.isArray(req.files)) {
-//         newImages = req.files.map((file) => file.filename);
-//       }
-
-//       const deletedImages = req.body.deletedImages ? req.body.deletedImages.split(',') : [];
-
-
-//       deletedImages.forEach((deletedImage)=> {
-//         const imagePath =path.join(__dirname, "../public/uploads/", deletedImage);
-//         fs.unlinkSync(imagePath);
-//       })
-
-//       existingImages = existingImages.filter(img => !deletedImages.includes(img));
-
-//       const allImages = existingImages.concat(newImages);
-
-//       const { sizeS, sizeM, sizeL, sizeXL } = req.body;
-
-//       const updatedCategory = req.body.category;
-//       const categoryObject = await addCategory.findById(updatedCategory);
-//       const categoryName = categoryObject ? categoryObject.name : null;
-
-//       const updateData = {
-//         producttitle: req.body.producttitle,
-//         description: req.body.description,
-//         brand: req.body.brand,
-//         size: [
-//           { size: "S", quantity: sizeS },
-//           { size: "M", quantity: sizeM },
-//           { size: "L", quantity: sizeL },
-//           { size: "XL", quantity: sizeXL },
-//         ],
-//         price: req.body.price,
-//         category: categoryName,
-//         images: allImages,
-//         is_listed: 1,
-//       };
-
-//       console.log('Update Data:', updateData);
-
-//       await addProduct.findByIdAndUpdate(productDataId, updateData);
-
-//       res.redirect("/admin/viewProduct");
-//     });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).send("Internal Server Error");
-//   }
-// };
-
-
+//updating product
 const updateProduct = async (req, res) => {
-    console.log("it is reached update product");
     try {
-      console.log("Product ID:", req.query.id);
-      console.log("Form Data:", req.body);
-  
+      
       upload(req, res, async function (err) {
         const productDataId = req.query.id;
   
@@ -330,7 +238,6 @@ const updateProduct = async (req, res) => {
         const deletedImages = req.body.deletedImages || [] ;
         const remainingImages = existingImages.filter(image =>!deletedImages.includes(image));
 
-
         const allImages = remainingImages.concat(newImages);
   
         const { sizeS, sizeM, sizeL, sizeXL } = req.body;
@@ -340,7 +247,7 @@ const updateProduct = async (req, res) => {
         const categoryName = categoryObject ? categoryObject.name : null;
   
         const updateData = {
-          producttitle: req.body.producttitle,
+          productTitle: req.body.producttitle,
           description: req.body.description,
           brand: req.body.brand,
           size: [
@@ -353,10 +260,8 @@ const updateProduct = async (req, res) => {
           sellingPrice: req.body.sellingPrice,
           category: categoryName,
           images: allImages,
-          is_listed: 1,
+          isListed: 1,
         };
-  
-        console.log('Update Data:', updateData);
   
         // Update the product in the database with the modified data
         await addProduct.findByIdAndUpdate(productDataId, updateData);
@@ -398,7 +303,7 @@ const blockProduct = async (req, res) => {
       return res.status(404).json({ error: "Product not found" });
     }
 
-    product.is_listed = product.is_listed === 1 ? 0 : 1;
+    product.isListed = product.isListed === 1 ? 0 : 1;
 
     await product.save();
 

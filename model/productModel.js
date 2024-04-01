@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const productSchema = new mongoose.Schema({
 
 
-    producttitle :{
+    productTitle :{
         type: String,
         required: true,
 
@@ -42,7 +42,7 @@ const productSchema = new mongoose.Schema({
         type:String
     }],
 
-    is_listed: {
+    isListed: {
         type: Number,
         default: 1
     },

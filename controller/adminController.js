@@ -13,7 +13,6 @@ const mongoose = require('mongoose');
 
 //login page rendering
 const loadLogin = async (req, res) => {
-    // console.log("loadlogin is working")
     try {
         res.render('adminLogin')
     } catch (error) {
@@ -24,7 +23,6 @@ const loadLogin = async (req, res) => {
 
 //verifying login
 const verfiyLogin = async (req, res) => {
-    // console.log("verify login working")
     try {
         const email = req.body.email;
         const password = req.body.password;
@@ -34,10 +32,9 @@ const verfiyLogin = async (req, res) => {
         if (userData) {
             const passwordMatch = await bcrypt.compare(password, userData.password);
 
-
             if (passwordMatch) {
 
-                if (userData.is_admin === 0) {
+                if (userData.isAdmin === 0) {
                     res.render('adminLogin', { message: "You are not an admin" });
 
                 } else {
@@ -53,7 +50,6 @@ const verfiyLogin = async (req, res) => {
             res.render('adminLogin', { message: "Email and Password are incorrect" })
         }
     } catch (error) {
-
         console.log('verify login', error.message);
         res.status(500).json({ message: "Internal Server Error" });
     }
@@ -72,8 +68,6 @@ const loadHome = async (req, res) => {
             },
             { $group: { _id: null, total: { $sum: "$billTotal" } } },
         ]);
-
-        console.log("totalSales", totalSales)
 
         const startOfMonth = new Date();
         startOfMonth.setDate(1);
@@ -99,10 +93,7 @@ const loadHome = async (req, res) => {
             },
         ]);
 
-        console.log("monthly sales", monthlySales);
-
         const orderData = await Order.findOne({ user: req.session.user_id });
-
 
         let bestSellingProduct = [];
 
@@ -219,12 +210,11 @@ const adminDashboard = async (req, res) => {
 
         const skip = (page - 1) * pageSize;
 
-        const totalUsers = await User.countDocuments({ is_admin: 0 });
+        const totalUsers = await User.countDocuments({ isAdmin: 0 });
 
         const totalPages = Math.ceil(totalUsers / pageSize);
 
-        const usersData = await User.find({ is_admin: 0 }).skip(skip).limit(pageSize);
-        // console.log(usersData);
+        const usersData = await User.find({ isAdmin: 0 }).skip(skip).limit(pageSize);
         res.render('adminDashboard', { users: usersData, currentPage: page, totalPages: totalPages });
 
     } catch (error) {
@@ -263,7 +253,7 @@ const addUser = async (req, res) => {
             email: email,
             mobile: mobile,
             password: password,
-            is_admin: 0
+            isAdmin: 0
         });
 
         const userData = await user.save();
@@ -303,7 +293,7 @@ const editUserLoad = async (req, res) => {
 //updating users
 const updateUsers = async (req, res) => {
     try {
-        const userData = await User.findByIdAndUpdate({ _id: req.body.id }, { $set: { name: req.body.name, email: req.body.email, mobile: req.body.mobile, is_verified: req.body.verify, is_blocked: req.body.status } });
+        const userData = await User.findByIdAndUpdate({ _id: req.body.id }, { $set: { name: req.body.name, email: req.body.email, mobile: req.body.mobile, isVerified: req.body.verify, isBlocked: req.body.status } });
 
 
         res.redirect('/admin/adminDashboard');
@@ -343,8 +333,7 @@ const getOrderList = async (req, res) => {
         const totalPages = Math.ceil(totalOrders / pageSize);
 
         const orderData = await Order.find({}).sort({ orderDate: -1 }).skip(skip).limit(pageSize);
-        // console.log(orderData, "orderData");
-
+       
         res.render('orderList', { orderData, currentPage: page, totalPages });
     } catch (error) {
         console.log(error.message);
@@ -358,38 +347,26 @@ const getOrderList = async (req, res) => {
 const orderDetails = async (req, res) => {
 
     try {
-
-
         const orderId = req.query.orderId;
-
-        // console.log("orderId", orderId);
 
         // Find the order data
         const orderData = await Order.findOne({ orderId }).populate({
             path: 'items.productId',
             model: 'addProduct',
-            select: 'producttitle'
+            select: 'productTitle'
         });
-
-        // console.log("orderData", orderData);
 
         const userId = req.session.user_id;
 
         // Find the user data
         const userData = await User.findById({ _id: userId });
 
-        // console.log("userData", userData);
-
         // Find the product data
         const productData = await addProduct.find({ _id: { $in: orderData.items.map(item => item.product) } });
-
-        // console.log("product", productData);
 
         // Find the category data
         const categoryIds = productData.map(product => product.categoryId);
         const categoryData = await addCategory.find({ _id: { $in: categoryIds } });
-
-        // console.log("category data", categoryData);
 
         // Assemble the data
         const assembledOrderData = {
@@ -399,11 +376,7 @@ const orderDetails = async (req, res) => {
             categoryData: categoryData
         };
 
-        // console.log("assembledOrderData", assembledOrderData);
-
         res.render("orderDetails", assembledOrderData);
-
-
     } catch (error) {
         // Handle the error appropriately
         console.error(error);
@@ -463,8 +436,6 @@ const createCoupon = async (req, res) => {
             maxUsers
         } = req.body;
 
-        console.log(code, description, discountPercentage, maxDiscountAmount, minimumAmount, maximumAmount, maxUsers);
-
         const coupon = new Coupon({
             code,
             description,
@@ -512,11 +483,9 @@ const adminsalesReport = async (req, res) => {
             .populate("user")
             .populate({
                 path: 'items.productId',
-                select: 'producttitle',
+                select: 'productTitle',
             })
             .lean();
-
-        // console.log("salesReport", salesReport);
 
         res.render('salesReport', { salesReport });
     } catch (error) {
@@ -527,7 +496,6 @@ const adminsalesReport = async (req, res) => {
 
 //sort sales report
 const filterSalesReport = async (req, res) => {
-    // console.log('hi........... it is in filter sales')
     try {
         const { sortBy, date } = req.query;
 
@@ -603,7 +571,7 @@ const filterSalesReport = async (req, res) => {
             default:
                 return res.status(400).json({ message: "Invalid paramater" })
         }
-        console.log('filter data', filterData);
+     
         res.json({ filterData: filterData });
 
     } catch (error) {
@@ -666,8 +634,6 @@ const chartStatistics = async (req, res) => {
 
         const countOrdersByDay = ordersByDay(loadOrders);
 
-        console.log("count orders by day", countOrdersByDay);
-
         function countOrdersByMonth(orders) {
             const monthNames = [
                 "January", "February", "March", "April",
@@ -691,8 +657,6 @@ const chartStatistics = async (req, res) => {
         }
 
         const ordersForYearByMonth = countOrdersByMonth(loadOrders);
-
-        console.log("orders for year by month", ordersForYearByMonth);
 
         function calculateRevenueByMonth(orders) {
             const monthNames = [
@@ -720,8 +684,6 @@ const chartStatistics = async (req, res) => {
         }
 
         const revenueForYearByMonth = calculateRevenueByMonth(loadOrders);
-
-        console.log("revenue for year by month", revenueForYearByMonth);
 
         res.status(200).json({
             dataCurrentWeek: countOrdersByDay,
@@ -761,12 +723,8 @@ const productOffers = async(req, res) => {
 
 //update product offer
 const updateProductSellingPrice = async (req, res) => {
-    console.log("hi//////");
     try {
         const { productId, sellingPrice } = req.body;
-
-        console.log("Received productId:", productId);
-        console.log("Received sellingPrice:", sellingPrice);
 
         // Validate productId as a valid ObjectId
         if (!mongoose.Types.ObjectId.isValid(productId)) {
@@ -774,8 +732,6 @@ const updateProductSellingPrice = async (req, res) => {
         }
 
         const updatedProduct = await addProduct.findByIdAndUpdate(productId, { sellingPrice });
-
-        console.log("Updated product:", updatedProduct);
 
         if (!updatedProduct) {
             return res.status(404).json({ message: 'Product not found' });
@@ -811,8 +767,6 @@ const updateCategoryOffer = async(req, res) => {
     try {
         const { category, offerPrice } = req.body;
 
-        console.log("request body", req.body)
-
         const productsToUpdate = await addProduct.find({ category: category});
         if(!productsToUpdate) {
             return res.status(404).json({ message: "Category not found" });
@@ -820,16 +774,13 @@ const updateCategoryOffer = async(req, res) => {
         }
 
          const offerAmount = parseFloat(offerPrice);
-         console.log("offerAmount", offerAmount);
-
+        
          // Iterate through each product to update sellingPrice
          for (const product of productsToUpdate) {
           
              const productPrice = parseFloat(product.price);
 
              const newSellingPrice = productPrice - offerAmount;
-
-             console.log("new sellingprice", newSellingPrice);
  
              if (newSellingPrice < product.sellingPrice) {
                  product.sellingPrice = newSellingPrice;

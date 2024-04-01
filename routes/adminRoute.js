@@ -51,13 +51,13 @@ admin_route.get('/orderList', isLogin, adminController.getOrderList)
 
 admin_route.get('/orderDetails', isLogin, adminController.orderDetails);
 
-admin_route.post('/orderStatusChanged', isLogin, adminController.orderStatusChanging)
+admin_route.patch('/orderStatusChanged', isLogin, adminController.orderStatusChanging)
 
 admin_route.get('/couponManagement', isLogin, adminController.couponManagement);
 
 admin_route.post('/couponManagement', isLogin, adminController.createCoupon);
 
-admin_route.post('/couponListUnlist', isLogin, adminController.couponListUnlist);
+admin_route.patch('/couponListUnlist', isLogin, adminController.couponListUnlist);
 
 admin_route.get('/salesReport', isLogin, adminController.adminsalesReport);
 
@@ -67,11 +67,11 @@ admin_route.post('/chartStatistics', isLogin, adminController.chartStatistics);
 
 admin_route.get('/productOffer', isLogin, adminController.productOffers);
 
-admin_route.post('/updateSellingPrice', isLogin, adminController.updateProductSellingPrice);
+admin_route.patch('/updateSellingPrice', isLogin, adminController.updateProductSellingPrice);
 
 admin_route.get('/categoryOffer', isLogin, adminController.categoryOffers);
 
-admin_route.post('/updateCategoryOffer', isLogin, adminController.updateCategoryOffer);
+admin_route.patch('/updateCategoryOffer', isLogin, adminController.updateCategoryOffer);
 
 
 
@@ -109,7 +109,7 @@ admin_route.post('/category', isLogin, categoryController.createCategory);
 
 admin_route.get('/editCategory', isLogin, categoryController.editCategory);
 
-admin_route.post('/editCategory', isLogin, categoryController.updateCategory);
+admin_route.put('/editCategory', isLogin, categoryController.updateCategory);
 
 admin_route.get('/deleteCategory/:categoryDataId', isLogin, categoryController.deleteCategory);
 

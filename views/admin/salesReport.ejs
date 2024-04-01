@@ -47,17 +47,17 @@
                                 </td>
                                 <% let groupedItems={}; %>
                                     <% order.items.forEach(item=> { %>
-                                        <% if (!groupedItems[item.productId.producttitle]) { %>
-                                            <% groupedItems[item.productId.producttitle]={ quantity: 0, price: 0,
+                                        <% if (!groupedItems[item.productId.productTitle]) { %>
+                                            <% groupedItems[item.productId.productTitle]={ quantity: 0, price: 0,
                                                 discountPrice:0 }; %>
                                                 <% } %>
-                                                    <% groupedItems[item.productId.producttitle].quantity
+                                                    <% groupedItems[item.productId.productTitle].quantity
                                                         +=item.quantity; %>
                                                         <% if (item.discountPrice) { %>
-                                                            <% groupedItems[item.productId.producttitle].discountPrice
+                                                            <% groupedItems[item.productId.productTitle].discountPrice
                                                                 +=item.discountPrice; %>
                                                                 <% } %>
-                                                                    <% groupedItems[item.productId.producttitle].price
+                                                                    <% groupedItems[item.productId.productTitle].price
                                                                         +=item.quantity * item.price; %>
                                                                         <% }); %>
                                                                             <%
@@ -378,7 +378,7 @@
                         <td>${new Date(order.orderDate).toLocaleDateString()}</td>
                         <td>${order.orderId}</td>
                         <td>${order.user.name}</td>
-                        <td>${item.productId.producttitle}</td>
+                        <td>${item.productId.productTitle}</td>
                         <td>${item.quantity}</td>
                         <td>${order.billTotal + order.discountPrice}</td>
                         <td>${order.discountPrice}</td>

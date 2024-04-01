@@ -300,10 +300,10 @@
           <div class="mb-4">
             <label class="form-label">Status</label>
             <select class="form-select" name="is_blocked">
-              <option value="false" <% if (!category.is_blocked) { %>
+              <option value="false" <% if (!category.isBlocked) { %>
                 selected<% } %>>List
               </option>
-              <option value="true" <% if (category.is_blocked) { %>
+              <option value="true" <% if (category.isBlocked) { %>
                 selected<% } %>>Unlist
               </option>
             </select>
@@ -376,7 +376,7 @@
     
       function checkExistingCategory(formData) {
         fetch(`/admin/editCategory?id=<%= category._id %>&name=${formData.name}`, {
-          method: "POST",
+          method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },

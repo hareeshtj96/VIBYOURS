@@ -30,15 +30,15 @@
             <input type="text"  name="mobile" placeholder="Enter Mobile" value="<%= user.mobile %>" readonly onkeydown="return/[0-9\b]/i.test(event.key) || event.keyCode === 8">
             <br><br>
             <label>Verified</label>
-            <input type="radio" name="verify" value="1" <% if(user.is_verified == 1){%> checked <%} %> >
+            <input type="radio" name="verify" value="1" <% if(user.isVerified == 1){%> checked <%} %> >
             <label>Unverified</label>
-            <input type="radio" name="verify" value="0" <% if(user.is_verified == 0){%> checked <%} %> >
+            <input type="radio" name="verify" value="0" <% if(user.isVerified == 0){%> checked <%} %> >
             <br><br>
             <label>Active</label>
-            <input type="radio" name="status" value="0" <% if(user.is_blocked == 0){%> checked <%} %> >
+            <input type="radio" name="status" value="0" <% if(user.isBlocked == 0){%> checked <%} %> >
             <br><br>
             <label>Blocked</label>
-            <input type="radio" name="status" value="1" <% if(user.is_blocked == 1){%> checked <%} %> >
+            <input type="radio" name="status" value="1" <% if(user.isBlocked == 1){%> checked <%} %> >
             <br><br>
             <input type="hidden" name="id" value="<%= user._id %>">
             <input type="submit"  value="Update User">

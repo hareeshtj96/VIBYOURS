@@ -6,7 +6,7 @@ const isBlocked = async (req, res, next) => {
 
         const userData = await User.findById(userId);
 
-        if (userData && userData.is_blocked) {
+        if (userData && userData.isBlocked) {
 
             req.session.destroy();
             return res.redirect('/login');

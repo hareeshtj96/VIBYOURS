@@ -131,7 +131,7 @@
                 <td class="text-center">
                   <img src="/uploads/<%= item.image %>" width="80px" alt="Product Image" />
                 </td>
-                <td class="text-center"><%= item.productId.producttitle %></td>
+                <td class="text-center"><%= item.productId.productTitle %></td>
                 <td class="text-center"><%= item.price %></td>
                 <td class="text-center"><%= item.quantity %></td>
                 <td class="text-center"><%= item.size %></td>
@@ -169,7 +169,7 @@
     console.log(selectedStatus);
     $.ajax({
       url: "/admin/orderStatusChanged",
-      method: "POST",
+      method: "PATCH",
       data: {
         status: selectedStatus,
         orderId: orderId,

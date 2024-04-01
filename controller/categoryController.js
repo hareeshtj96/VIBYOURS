@@ -28,7 +28,7 @@ const createCategory = async (req, res) => {
     const newCategory = new addCategory({
       name,
       description,
-      is_blocked,
+      isBlocked: is_blocked,
     });
 
     const savedCategory = await newCategory.save();
@@ -75,7 +75,6 @@ const editCategory = async (req, res) => {
 const updateCategory = async (req, res) => {
   try {
     const categoryDataId = req.query.id;
-    console.log("categoryid", categoryDataId);
     const categoryData = await addCategory.findById(categoryDataId);
 
     if (!categoryData) {
@@ -85,16 +84,13 @@ const updateCategory = async (req, res) => {
     }
 
     const { name, description } = req.body;
-    console.log("req body", req.body);
-
     
-      const existingCategory = await addCategory.findOne({
+    const existingCategory = await addCategory.findOne({
         name: { $regex: new RegExp(`^${name}$`, 'i') },
         _id: { $ne: categoryDataId },
       });
 
-      console.log("exisitg category", existingCategory)
-
+    
       if (existingCategory) {
         return res
           .status(400)
@@ -102,25 +98,19 @@ const updateCategory = async (req, res) => {
       }
     
 
-    const updatedIsBlocked = categoryData.is_blocked === 0 ? 1 : 0;
+    const updatedIsBlocked = categoryData.isBlocked === 0 ? 1 : 0;
 
     const updateCategoryData = {
       name: name, // Use the new name if provided, otherwise use the existing name
       description: description, // Similar to name
-      is_blocked: updatedIsBlocked,
+      isBlocked: updatedIsBlocked,
     };
-
-    console.log("Before Update - Existing Category:", categoryData.toObject());
-
-    console.log("Update Data:", updateCategoryData);
 
     const updatedCategory = await addCategory.findByIdAndUpdate(
       categoryDataId,
       updateCategoryData,
       { new: true }
     );
-
-    console.log("After Update - Updated Category:", updatedCategory.toObject());
 
     if (!updatedCategory) {
       return res

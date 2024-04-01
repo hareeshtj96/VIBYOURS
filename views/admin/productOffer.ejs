@@ -103,7 +103,7 @@
             const sellingPrice = document.getElementById("sellingPrice" + productId).value;
             try {
                 const response = await fetch('/admin/updateSellingPrice', {
-                    method: 'POST',
+                    method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json'
                     },

@@ -11,11 +11,11 @@ const reviewSchema = new mongoose.Schema({
         ref: 'User',
         required: true,
     },
-    name: {
+    userName: {
         type: String,
         required: true
     },
-    email: {
+    userEmail: {
         type: String,
         required: true
     },

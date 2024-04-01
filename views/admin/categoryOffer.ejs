@@ -39,8 +39,8 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="card-text">
-                                        <form id="form">
-                                            <p id="price" class="m-0">
+                                        <form id="form_<%= categoryData[i].name %>">
+                                            <p id="price_<%= categoryData[i].name%>" class="m-0">
                                             </p>
                                             <br>
 
@@ -52,14 +52,14 @@
                                             <p><strong>Apply offer </strong></p>
 
                                             <input type="number" class="form-control" placeholder="Enter offer amount"
-                                                name="offerPrice" id="offerPrice" value=""
-                                                onchange="validateOfferPrice()"
+                                                name="offerPrice" id="offerPrice_<%= categoryData[i].name %>" value=""
+                                                onchange="validateOfferPrice('<%= categoryData[i].name %>')"
                                                 onkeydown="return /[0-9\b]/i.test(event.key) || event.keyCode === 8">
-                                            <p id="offerpriceError" class="error"></p>
+                                            <p id="offerpriceError_<%= categoryData[i].name %>" class="error"></p>
 
 
                                             <button class="btn btn-sm btn-brand rounded font-sm mt-15"
-                                                onclick="updateofferPrice(event, '<%= categoryData[i].name %>')"
+                                                onclick="updateofferPrice(event, '<%= categoryData[i].name%>')"
                                                 type="submit">Update</button>
                                         </form>
                                     </div>
@@ -86,17 +86,17 @@
 
     <script>
         async function updateofferPrice(event, category) {
-            event.preventDefault(); // Prevent the default form submission behavior
-            const offerPriceInput = document.getElementById("offerPrice");
+            event.preventDefault(); 
+            const offerPriceInput = document.getElementById(`offerPrice_${category}`);
             const offerPrice = offerPriceInput.value;
 
             try {
                 const response = await fetch('/admin/updateCategoryOffer', {
-                    method: 'POST',
+                    method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ category, offerPrice })
+                    body: JSON.stringify({ category: category, offerPrice })
                 });
 
                 if (!response.ok) {
@@ -132,9 +132,9 @@
 
 
     <script>
-        function validateOfferPrice() {
-            var offerPrice = parseFloat(document.getElementById('offerPrice').value);
-            var errorElement = document.getElementById('offerpriceError');
+        function validateOfferPrice(categoryId) {
+            var offerPrice = parseFloat(document.getElementById(`offerPrice_${categoryId}`).value);
+            var errorElement = document.getElementById(`offerpriceError_${categoryId}`);
             errorElement.innerHTML = '';
 
             if (isNaN(offerPrice) || offerPrice < 0) {
